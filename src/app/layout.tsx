@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, DM_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
 import MobileDock from "@/components/MobileDock";
@@ -101,6 +102,7 @@ export default function RootLayout({
         <main className="flex-1 pb-24 md:pb-0">{children}</main>
         <Footer />
         <MobileDock />
+        <Analytics />
       </body>
     </html>
   );
