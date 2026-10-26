@@ -23,6 +23,7 @@ export type Coach = {
   tags: string[];
   photo: string;
   photoPosition: string;
+  photoFit: "cover" | "contain";
   services: LessonService[];
   contact: string[];
 };
@@ -42,8 +43,9 @@ export const COACHES: Coach[] = [
     shortBio:
       "Hitting instruction for baseball and softball. Mechanics, consistency, and HitTrax in every lesson.",
     tags: ["Hitting", "HitTrax", "Mechanics"],
-    photo: "/images/flyers/hitting.jpg",
-    photoPosition: "center 20%",
+    photo: "/images/coaches/noochie.jpg",
+    photoPosition: "center top",
+    photoFit: "cover",
     services: ["hitting"],
     contact: ["(859) 421-4062", "noochie@noochievarnerbaseball.com"],
   },
@@ -53,8 +55,9 @@ export const COACHES: Coach[] = [
     specialty: "Pitching",
     shortBio: "Pitching instruction on mechanics, velocity, command, and mound confidence.",
     tags: ["Pitching", "Velocity", "Command"],
-    photo: "/images/flyers/pitching.jpg",
-    photoPosition: "center 18%",
+    photo: "/images/coaches/jordan.jpg",
+    photoPosition: "center top",
+    photoFit: "cover",
     services: ["pitching"],
     contact: ["(859) 559-1125", "Jordanfox2828@gmail.com"],
   },
@@ -64,8 +67,9 @@ export const COACHES: Coach[] = [
     specialty: "Fielding",
     shortBio: "Fielding fundamentals: footwork, glove work, positioning, and game situations.",
     tags: ["Fielding", "Footwork", "Glove work"],
-    photo: "/images/flyers/fielding.jpg",
-    photoPosition: "center 18%",
+    photo: "/images/coaches/corey.jpg",
+    photoPosition: "center top",
+    photoFit: "cover",
     services: ["fielding"],
     contact: ["(859) 797-3778", "coreyalsop@gmail.com"],
   },
@@ -75,8 +79,9 @@ export const COACHES: Coach[] = [
     specialty: "Catching",
     shortBio: "Position-specific catching and defensive workouts with the academy staff.",
     tags: ["Catching", "Defense"],
-    photo: "/images/brand/mark.jpg",
+    photo: "/images/coaches/nvba.jpg",
     photoPosition: "center",
+    photoFit: "contain",
     services: ["catching"],
     contact: [SITE.phone],
   },

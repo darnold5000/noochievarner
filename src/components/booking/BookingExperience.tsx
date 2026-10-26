@@ -363,7 +363,7 @@ export default function BookingExperience() {
         <div className="mt-6 space-y-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">Coach</p>
-            <div className="mt-2 grid grid-cols-2 gap-3 lg:grid-cols-4">
+            <div className="mt-2 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {COACHES.map((coach) => {
                 const active = lesson.coach.id === coach.id;
                 return (
@@ -371,21 +371,21 @@ export default function BookingExperience() {
                     key={coach.id}
                     type="button"
                     onClick={() => selectCoach(coach.id)}
-                    className={`overflow-hidden rounded-2xl border text-left ${
-                      active ? "border-nv-blue ring-2 ring-nv-blue/30" : "border-nv-navy/10 bg-white"
+                    className={`flex items-center gap-3 rounded-2xl border p-3 text-left ${
+                      active ? "border-nv-blue bg-white ring-2 ring-nv-blue/30" : "border-nv-navy/10 bg-white"
                     }`}
                   >
-                    <span className="relative block h-28 overflow-hidden bg-nv-ice">
+                    <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-nv-ice">
                       <Image
                         src={coach.photo}
                         alt=""
                         fill
-                        className="object-cover"
+                        className={coach.photoFit === "contain" ? "object-contain p-1" : "object-cover"}
                         style={{ objectPosition: coach.photoPosition }}
-                        sizes="160px"
+                        sizes="64px"
                       />
                     </span>
-                    <span className="block p-3">
+                    <span className="min-w-0">
                       <span className="block font-display text-lg font-bold tracking-wide text-nv-navy">{coach.name}</span>
                       <span className="block text-xs font-bold uppercase tracking-wide text-nv-blue">{coach.specialty}</span>
                     </span>
@@ -515,12 +515,12 @@ export default function BookingExperience() {
         <aside className="rounded-2xl border border-nv-navy/10 bg-white p-5 shadow-sm lg:sticky lg:top-24">
           {category === "lessons" ? (
             <div className="flex gap-3 border-b border-zinc-100 pb-4">
-              <div className="relative h-16 w-16 overflow-hidden rounded-xl bg-nv-ice">
+              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-nv-ice">
                 <Image
                   src={lesson.coach.photo}
                   alt=""
                   fill
-                  className="object-cover"
+                  className={lesson.coach.photoFit === "contain" ? "object-contain p-1" : "object-cover"}
                   style={{ objectPosition: lesson.coach.photoPosition }}
                   sizes="64px"
                 />

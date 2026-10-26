@@ -26,29 +26,33 @@ export default function LessonsPage() {
           Book Training
         </Link>
       </PageIntro>
-      <section className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:px-6 lg:grid-cols-2">
+      <section className="mx-auto grid max-w-7xl gap-4 px-4 py-10 sm:px-6 lg:grid-cols-2">
         {COACHES.map((coach) => (
-          <article key={coach.id} className="overflow-hidden rounded-2xl border border-nv-navy/10 bg-white">
-            <div className="relative h-56 bg-nv-ice sm:h-64">
-              <Image
-                src={coach.photo}
-                alt={`${coach.name}, ${coach.specialty} instructor`}
-                fill
-                className="object-cover"
-                style={{ objectPosition: coach.photoPosition }}
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+          <article key={coach.id} className="rounded-2xl border border-nv-navy/10 bg-white p-4 sm:p-5">
+            <div className="flex items-start gap-4">
+              <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-nv-ice sm:h-28 sm:w-28">
+                <Image
+                  src={coach.photo}
+                  alt={`${coach.name}, ${coach.specialty} instructor`}
+                  fill
+                  className={coach.photoFit === "contain" ? "object-contain p-1" : "object-cover"}
+                  style={{ objectPosition: coach.photoPosition }}
+                  sizes="112px"
+                />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{coach.specialty}</p>
+                <h2 className="mt-1 font-display text-2xl font-bold tracking-wide text-nv-navy sm:text-3xl">
+                  {coach.name}
+                </h2>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-600">{coach.shortBio}</p>
+                <p className="mt-2 text-sm text-zinc-500">{coach.tags.join(" · ")}</p>
+                <p className="mt-1 break-words text-sm text-zinc-700">{coach.contact.join(" · ")}</p>
+              </div>
             </div>
-            <div className="p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{coach.specialty}</p>
-              <h2 className="mt-1 font-display text-3xl font-bold tracking-wide text-nv-navy">{coach.name}</h2>
-              <p className="mt-2 text-sm leading-relaxed text-zinc-600">{coach.shortBio}</p>
-              <p className="mt-3 text-sm text-zinc-500">{coach.tags.join(" · ")}</p>
-              <p className="mt-2 text-sm text-zinc-700">{coach.contact.join(" · ")}</p>
-              <Link href={LESSON_BOOKING_HREFS[coach.services[0]]} className={`${btnPrimary} mt-5 w-full`}>
-                Book Private Lesson
-              </Link>
-            </div>
+            <Link href={LESSON_BOOKING_HREFS[coach.services[0]]} className={`${btnPrimary} mt-4 w-full`}>
+              Book Private Lesson
+            </Link>
           </article>
         ))}
       </section>
