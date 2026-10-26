@@ -104,6 +104,7 @@ export default function BookingExperience() {
   });
   const [confirmation, setConfirmation] = useState("");
   const [formError, setFormError] = useState("");
+  const [coachBioOpen, setCoachBioOpen] = useState(false);
 
   useEffect(() => {
     sessionStorage.setItem(FORM_KEY, JSON.stringify(customer));
@@ -180,6 +181,7 @@ export default function BookingExperience() {
 
   function selectCoach(id: CoachId) {
     clearSchedule();
+    setCoachBioOpen(false);
     const coach = COACHES.find((item) => item.id === id)!;
     const service = coach.services.includes(lesson.service) ? lesson.service : coach.services[0];
     setParams({ category: "lessons", coach: id, service, duration: String(lesson.duration) });
@@ -272,7 +274,7 @@ export default function BookingExperience() {
 
   if (step === "details" || step === "review") {
     return (
-      <section className="mx-auto max-w-2xl px-4 py-8 sm:px-6">
+      <section className="mx-auto max-w-2xl px-4 py-8 pb-32 sm:px-6 lg:pb-8">
         <button type="button" className="text-sm font-semibold text-nv-blue" onClick={() => setStep("schedule")}>
           ← Change coach, date, or time
         </button>
@@ -339,35 +341,48 @@ export default function BookingExperience() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-      <p className="rounded-xl bg-nv-navy px-4 py-3 text-sm text-nv-silver">{DEMO_AVAILABILITY_NOTICE}</p>
+    <div className="mx-auto max-w-7xl px-4 py-6 pb-32 sm:px-6 lg:py-8 lg:pb-8">
+      <p className="rounded-xl bg-nv-navy px-3 py-2.5 text-xs text-nv-silver lg:px-4 lg:py-3 lg:text-sm">
+        {DEMO_AVAILABILITY_NOTICE}
+      </p>
 
-      <div className="mt-6 grid grid-cols-1 gap-2 sm:grid-cols-3">
+      <div
+        className="mt-4 grid grid-cols-3 overflow-hidden rounded-xl border border-nv-navy/10 bg-white lg:mt-6 lg:grid-cols-3 lg:gap-2 lg:overflow-visible lg:rounded-none lg:border-0 lg:bg-transparent"
+        role="tablist"
+        aria-label="Booking category"
+      >
         {(
           [
-            ["lessons", "Private Lessons"],
-            ["camps", "Camps & Clinics"],
-            ["rentals", "Rentals"],
+            ["lessons", "Private Lessons", "Lessons"],
+            ["camps", "Camps & Clinics", "Camps"],
+            ["rentals", "Rentals", "Rentals"],
           ] as const
-        ).map(([id, label]) => (
+        ).map(([id, label, shortLabel], index) => (
           <button
             key={id}
             type="button"
+            role="tab"
+            aria-selected={category === id}
             onClick={() => selectCategory(id)}
-            className={`min-h-12 rounded-xl border text-sm font-bold uppercase tracking-wide ${
-              category === id ? "border-nv-blue bg-nv-blue text-white" : "border-nv-navy/10 bg-white text-nv-navy"
+            className={`min-h-10 px-1 py-2 text-[10px] font-bold uppercase leading-tight tracking-wide sm:text-xs lg:min-h-12 lg:rounded-xl lg:border lg:px-3 lg:py-3 lg:text-sm ${
+              index > 0 ? "border-l border-nv-navy/10 lg:border-l-0" : ""
+            } ${
+              category === id
+                ? "bg-nv-blue text-white lg:border-nv-blue"
+                : "bg-white text-nv-navy lg:border-nv-navy/10"
             }`}
           >
-            {label}
+            <span className="lg:hidden">{shortLabel}</span>
+            <span className="hidden lg:inline">{label}</span>
           </button>
         ))}
       </div>
 
       {category === "lessons" ? (
-        <div className="mt-6 space-y-4">
+        <div className="mt-4 space-y-3 lg:mt-6 lg:space-y-4">
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">Coach</p>
-            <div className="mt-2 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-1.5 grid grid-cols-2 gap-2 lg:mt-2 lg:grid-cols-2 lg:gap-3 xl:grid-cols-4">
               {COACHES.map((coach) => {
                 const active = lesson.coach.id === coach.id;
                 return (
@@ -375,30 +390,36 @@ export default function BookingExperience() {
                     key={coach.id}
                     type="button"
                     onClick={() => selectCoach(coach.id)}
-                    className={`flex items-center gap-3 rounded-2xl border p-3 text-left ${
-                      active ? "border-nv-blue bg-white ring-2 ring-nv-blue/30" : "border-nv-navy/10 bg-white"
+                    className={`flex min-h-[5.5rem] items-start gap-2 rounded-xl border p-2 text-left lg:min-h-0 lg:items-center lg:gap-3 lg:rounded-2xl lg:p-3 ${
+                      active
+                        ? "border-nv-blue bg-white ring-2 ring-nv-blue/30"
+                        : "border-nv-navy/10 bg-white"
                     }`}
                   >
-                    <span className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-nv-ice">
+                    <span className="relative h-11 w-11 shrink-0 overflow-hidden rounded-lg bg-nv-ice lg:h-16 lg:w-16 lg:rounded-xl">
                       <Image
                         src={coach.photo}
                         alt=""
                         fill
-                        className={coach.photoFit === "contain" ? "object-contain p-1" : "object-cover"}
+                        className={coach.photoFit === "contain" ? "object-contain p-0.5 lg:p-1" : "object-cover"}
                         style={{ objectPosition: coach.photoPosition }}
-                        sizes="64px"
+                        sizes="(max-width: 1023px) 44px, 64px"
                       />
                     </span>
-                    <span className="min-w-0">
-                      <span className="block font-display text-lg font-bold tracking-wide text-nv-navy">{coach.name}</span>
-                      <span className="block text-xs font-bold uppercase tracking-wide text-nv-blue">{coach.specialty}</span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block font-display text-sm font-bold leading-snug tracking-wide text-nv-navy lg:text-lg">
+                        {coach.name}
+                      </span>
+                      <span className="mt-0.5 block text-[10px] font-bold uppercase leading-tight tracking-wide text-nv-blue lg:text-xs">
+                        {coach.specialty}
+                      </span>
                     </span>
                   </button>
                 );
               })}
             </div>
           </div>
-          <div className="flex flex-col gap-4 lg:flex-row">
+          <div className="flex flex-col gap-3 lg:flex-row lg:gap-4">
             <FilterGroup label="Lesson type">
               {LESSON_TYPES.map((type) => (
                 <Chip
@@ -427,7 +448,7 @@ export default function BookingExperience() {
       ) : null}
 
       {category === "camps" ? (
-        <div className="mt-6 grid gap-3 md:grid-cols-3">
+        <div className="mt-4 grid gap-3 md:grid-cols-3 lg:mt-6">
           {PROGRAMS_FOR_BOOKING.map((item) => (
             <button
               key={item.id}
@@ -449,7 +470,7 @@ export default function BookingExperience() {
       ) : null}
 
       {category === "rentals" ? (
-        <div className="mt-6 space-y-4">
+        <div className="mt-4 space-y-3 lg:mt-6 lg:space-y-4">
           <div className="grid gap-3 md:grid-cols-3">
             {RENTALS.map((item) => (
               <button
@@ -484,8 +505,8 @@ export default function BookingExperience() {
         </div>
       ) : null}
 
-      <div className="mt-8 grid min-w-0 gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
-        <div className="min-w-0 space-y-4">
+      <div className="mt-4 grid min-w-0 gap-4 lg:mt-8 lg:gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:items-start">
+        <div className="min-w-0 space-y-3 lg:space-y-4">
           <div className="min-w-0 lg:hidden">
             <DateStrip
               weekStart={weekISO}
@@ -516,31 +537,41 @@ export default function BookingExperience() {
           </div>
         </div>
 
-        <aside className="rounded-2xl border border-nv-navy/10 bg-white p-5 shadow-sm lg:sticky lg:top-24">
+        <aside className="rounded-2xl border border-nv-navy/10 bg-white p-4 shadow-sm lg:sticky lg:top-24 lg:p-5">
           {category === "lessons" ? (
-            <div className="flex gap-3 border-b border-zinc-100 pb-4">
-              <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-nv-ice">
+            <div className="flex gap-2.5 border-b border-zinc-100 pb-3 lg:gap-3 lg:pb-4">
+              <div className="relative h-12 w-12 shrink-0 overflow-hidden rounded-lg bg-nv-ice lg:h-16 lg:w-16 lg:rounded-xl">
                 <Image
                   src={lesson.coach.photo}
                   alt=""
                   fill
-                  className={lesson.coach.photoFit === "contain" ? "object-contain p-1" : "object-cover"}
+                  className={lesson.coach.photoFit === "contain" ? "object-contain p-0.5 lg:p-1" : "object-cover"}
                   style={{ objectPosition: lesson.coach.photoPosition }}
-                  sizes="64px"
+                  sizes="(max-width: 1023px) 48px, 64px"
                 />
               </div>
-              <div className="min-w-0">
-                <p className="text-xs font-bold uppercase tracking-wide text-nv-blue">Selected coach</p>
-                <p className="font-display text-2xl font-bold tracking-wide text-nv-navy">{lesson.coach.name}</p>
+              <div className="min-w-0 flex-1">
+                <p className="text-[10px] font-bold uppercase tracking-wide text-nv-blue lg:text-xs">Selected coach</p>
+                <p className="font-display text-xl font-bold leading-tight tracking-wide text-nv-navy lg:text-2xl">
+                  {lesson.coach.name}
+                </p>
                 <p className="text-sm text-zinc-600">{lesson.coach.specialty}</p>
+                <button
+                  type="button"
+                  className="mt-1 text-left text-xs font-semibold text-nv-blue lg:hidden"
+                  aria-expanded={coachBioOpen}
+                  onClick={() => setCoachBioOpen((open) => !open)}
+                >
+                  {coachBioOpen ? "Hide coach details" : "About this coach"}
+                </button>
               </div>
             </div>
           ) : (
-            <div className="border-b border-zinc-100 pb-4">
+            <div className="border-b border-zinc-100 pb-3 lg:pb-4">
               <p className="text-xs font-bold uppercase tracking-wide text-nv-blue">
                 {category === "camps" ? "Selected program" : "Selected rental"}
               </p>
-              <p className="font-display text-2xl font-bold tracking-wide text-nv-navy">
+              <p className="font-display text-xl font-bold tracking-wide text-nv-navy lg:text-2xl">
                 {category === "camps" ? program.name : rental.name}
               </p>
             </div>
@@ -548,25 +579,37 @@ export default function BookingExperience() {
 
           {category === "lessons" ? (
             <>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-600">{lesson.coach.shortBio}</p>
-              <div className="mt-2 flex flex-wrap gap-1">
-                {lesson.coach.tags.map((tag) => (
-                  <span key={tag} className="rounded-full bg-nv-ice px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-nv-navy">
-                    {tag}
-                  </span>
-                ))}
+              {coachBioOpen ? (
+                <p className="mt-2 text-sm leading-relaxed text-zinc-600 lg:hidden">{lesson.coach.shortBio}</p>
+              ) : null}
+              <div className="mt-3 hidden lg:block">
+                <p className="text-sm leading-relaxed text-zinc-600">{lesson.coach.shortBio}</p>
+                <div className="mt-2 flex flex-wrap gap-1">
+                  {lesson.coach.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-nv-ice px-2 py-1 text-[11px] font-semibold uppercase tracking-wide text-nv-navy"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <button
+                  type="button"
+                  className="mt-3 text-xs font-bold uppercase tracking-wide text-nv-blue"
+                  onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+                >
+                  Change coach
+                </button>
               </div>
-              <button type="button" className="mt-3 text-xs font-bold uppercase tracking-wide text-nv-blue" onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
-                Change coach
-              </button>
             </>
           ) : null}
 
-          <div className="mt-5">
+          <div className="mt-3 lg:mt-5">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
               {formatLongDate(selectedDate)}
             </p>
-            <div className="mt-3">
+            <div className="mt-2 lg:mt-3">
               {category === "camps" ? (
                 times.length ? (
                   <button
@@ -585,9 +628,9 @@ export default function BookingExperience() {
             </div>
           </div>
 
-          <div className="mt-5 border-t border-zinc-100 pt-4 text-sm">
+          <div className="mt-3 border-t border-zinc-100 pt-3 text-sm lg:mt-5 lg:pt-4">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">Lesson summary</p>
-            <dl className="mt-3 space-y-2">
+            <dl className="mt-2 space-y-1.5 lg:mt-3 lg:space-y-2">
               {category === "lessons" ? <Row label="Coach" value={lesson.coach.name} /> : null}
               <Row
                 label={category === "rentals" ? "Rental" : "Type"}
@@ -607,7 +650,7 @@ export default function BookingExperience() {
             type="button"
             disabled={!summaryReady}
             onClick={continueToDetails}
-            className={`${btnPrimary} mt-6 w-full disabled:cursor-not-allowed disabled:opacity-40`}
+            className={`${btnPrimary} mt-4 w-full disabled:cursor-not-allowed disabled:opacity-40 lg:mt-6`}
           >
             {category === "camps" ? "Continue to register →" : "Continue to book lesson →"}
           </button>
@@ -622,7 +665,7 @@ function Chip({ label, active, onClick }: { label: string; active: boolean; onCl
     <button
       type="button"
       onClick={onClick}
-      className={`min-h-10 rounded-full px-4 text-sm font-semibold ${
+      className={`min-h-9 rounded-full px-3 text-sm font-semibold lg:min-h-10 lg:px-4 ${
         active ? "bg-nv-blue text-white" : "bg-white text-nv-navy ring-1 ring-nv-navy/10"
       }`}
     >
@@ -635,7 +678,7 @@ function FilterGroup({ label, children }: { label: string; children: React.React
   return (
     <div>
       <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">{label}</p>
-      <div className="mt-2 flex flex-wrap gap-2">{children}</div>
+      <div className="mt-1.5 flex flex-wrap gap-1.5 lg:mt-2 lg:gap-2">{children}</div>
     </div>
   );
 }

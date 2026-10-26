@@ -18,7 +18,7 @@ export default function DateStrip({
 
   return (
     <div className="min-w-0">
-      <div className="mb-3 flex items-center justify-between gap-2">
+      <div className="mb-2 flex items-center justify-between gap-2 lg:mb-3">
         <button
           type="button"
           className="rounded-md px-3 py-2 text-sm font-semibold text-nv-blue"
