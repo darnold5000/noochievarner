@@ -1,9 +1,11 @@
 import Image from "next/image";
+import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
 import PageIntro from "@/components/PageIntro";
-import { BULK_PACKAGES, LESSON_RATES, LESSONS } from "@/content/site";
+import { COACHES, LESSON_BOOKING_HREFS } from "@/config/schedule";
+import { BULK_PACKAGES, LESSON_RATES } from "@/content/site";
 import { createPageMetadata } from "@/lib/seo";
-import { btnPrimary } from "@/lib/styles";
+import { btnOnDark, btnPrimary } from "@/lib/styles";
 
 export const metadata = createPageMetadata({
   title: "Lessons",
@@ -17,32 +19,35 @@ export default function LessonsPage() {
     <>
       <PageIntro eyebrow="Private instruction" title="Lessons">
         <p>
-          Hitting, pitching, and fielding are taught by named instructors. Catching is offered as position-specific
-          work. Baseball and softball players are both welcome.
+          Hitting, pitching, fielding, and catching with the academy staff. Baseball and softball players are both
+          welcome.
         </p>
+        <Link href="/book" className={`${btnOnDark} mt-6`}>
+          Book Training
+        </Link>
       </PageIntro>
       <section className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:px-6 lg:grid-cols-2">
-        {LESSONS.map((lesson) => (
-          <article key={lesson.slug} className="overflow-hidden rounded-2xl border border-nv-navy/10 bg-white">
-            {"image" in lesson && lesson.image ? (
+        {COACHES.map((coach) => (
+          <article key={coach.id} className="overflow-hidden rounded-2xl border border-nv-navy/10 bg-white">
+            <div className="relative h-56 bg-nv-ice sm:h-64">
               <Image
-                src={lesson.image}
-                alt={lesson.imageAlt}
-                width={1200}
-                height={900}
-                className="h-56 w-full object-cover object-top sm:h-72"
+                src={coach.photo}
+                alt={`${coach.name}, ${coach.specialty} instructor`}
+                fill
+                className="object-cover"
+                style={{ objectPosition: coach.photoPosition }}
+                sizes="(max-width: 1024px) 100vw, 50vw"
               />
-            ) : null}
+            </div>
             <div className="p-5">
-              <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{lesson.role}</p>
-              <h2 className="font-display text-3xl font-bold tracking-wide text-nv-navy">{lesson.coach}</h2>
-              <p className="text-sm font-semibold text-zinc-700">{lesson.name}</p>
-              <p className="mt-3 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>
-              <p className="mt-3 text-sm text-zinc-500">{lesson.focus.join(" · ")}</p>
-              <p className="mt-2 text-sm text-zinc-700">{lesson.contact.join(" · ")}</p>
-              <BookingLink destination={lesson.bookingKey} className={`${btnPrimary} mt-5`}>
-                Book Lesson
-              </BookingLink>
+              <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{coach.specialty}</p>
+              <h2 className="mt-1 font-display text-3xl font-bold tracking-wide text-nv-navy">{coach.name}</h2>
+              <p className="mt-2 text-sm leading-relaxed text-zinc-600">{coach.shortBio}</p>
+              <p className="mt-3 text-sm text-zinc-500">{coach.tags.join(" · ")}</p>
+              <p className="mt-2 text-sm text-zinc-700">{coach.contact.join(" · ")}</p>
+              <Link href={LESSON_BOOKING_HREFS[coach.services[0]]} className={`${btnPrimary} mt-5 w-full`}>
+                Book Private Lesson
+              </Link>
             </div>
           </article>
         ))}

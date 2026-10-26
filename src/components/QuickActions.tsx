@@ -2,7 +2,7 @@ import Link from "next/link";
 import { bookingUrl } from "@/config/booking";
 
 const actions = [
-  { label: "Book a Lesson", href: "/lessons", detail: "Hitting, pitching, fielding, catching" },
+  { label: "Book a Lesson", href: "/book", detail: "Hitting, pitching, fielding, catching" },
   { label: "Camps & Clinics", href: "/camps", detail: "Current dates, ages, and prices" },
   { label: "Memberships", href: "/memberships", detail: "Big League membership" },
   { label: "Programs", href: "/programs", detail: "Development, tee ball, NV Stars" },

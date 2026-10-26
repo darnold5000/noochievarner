@@ -1,17 +1,14 @@
 /**
- * EZFacility is the booking backend for this phase.
- * Pages should call `bookingUrl()` instead of embedding provider links.
- * Replacing the provider later means updating this file, not the page layout.
+ * EZFacility remains the live account/membership backend during this phase.
+ * Private lesson booking now uses the internal /book experience.
+ * Keep these destinations for a future transition, login, memberships, and packages.
  */
 export const booking = {
   provider: "ezfacility" as const,
   loginUrl: "https://12331.ezfacility.com/login",
   registrationUrl: "https://12331.ezfacility.com/Sessions",
-  privateLessonsUrl: "https://12331.ezfacility.com/Sessions",
+  privateLessonsUrl: "/book",
   lessonPackagesUrl: "https://12331.ezfacility.com/Package",
-  /**
-   * The current academy site sends "Purchase A Membership Here" to account login.
-   */
   membershipsUrl: "https://12331.ezfacility.com/login",
   destinations: {
     login: "https://12331.ezfacility.com/login",
@@ -19,7 +16,6 @@ export const booking = {
     packages: "https://12331.ezfacility.com/Package",
     memberships: "https://12331.ezfacility.com/login",
     noochieHitting: "https://12331.ezfacility.com/Sessions",
-    /** Jordan Fox's published lesson image links to account login. */
     jordanFox: "https://12331.ezfacility.com/login",
     coreyAlsop: "https://12331.ezfacility.com/Sessions",
     catching: "https://12331.ezfacility.com/Sessions",

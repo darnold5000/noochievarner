@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import BookingLink from "@/components/BookingLink";
+import { campRegisterHref } from "@/config/schedule";
 import type { Offering } from "@/content/site";
 import { btnOutline, btnPrimary } from "@/lib/styles";
 
@@ -11,6 +11,7 @@ export default function OfferingCard({
   offering: Offering;
   href: string;
 }) {
+  const registerHref = campRegisterHref(offering.bookingKey);
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-nv-navy/10 bg-white shadow-sm">
       {offering.image ? (
@@ -52,10 +53,10 @@ export default function OfferingCard({
           <Link href={href} className={btnOutline}>
             View Details
           </Link>
-          {offering.bookingKey ? (
-            <BookingLink destination={offering.bookingKey} className={btnPrimary}>
+          {registerHref ? (
+            <Link href={registerHref} className={btnPrimary}>
               {offering.cta}
-            </BookingLink>
+            </Link>
           ) : (
             <Link href="/contact" className={btnPrimary}>
               {offering.cta}

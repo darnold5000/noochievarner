@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import BookingLink from "@/components/BookingLink";
 import PageIntro from "@/components/PageIntro";
+import { campRegisterHref } from "@/config/schedule";
 import type { Offering } from "@/content/site";
 import { btnOutline, btnPrimary } from "@/lib/styles";
 
@@ -14,6 +14,7 @@ export default function OfferingDetail({
   backHref: string;
   backLabel: string;
 }) {
+  const registerHref = campRegisterHref(offering.bookingKey);
   const facts = [
     ["Ages", offering.ages],
     ["Dates", offering.dates],
@@ -50,10 +51,10 @@ export default function OfferingDetail({
             <p className="mt-4 text-sm text-zinc-600">{offering.contactLines.join(" · ")}</p>
           ) : null}
           <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            {offering.bookingKey ? (
-              <BookingLink destination={offering.bookingKey} className={btnPrimary}>
+            {registerHref ? (
+              <Link href={registerHref} className={btnPrimary}>
                 {offering.cta}
-              </BookingLink>
+              </Link>
             ) : (
               <Link href="/contact" className={btnPrimary}>
                 {offering.cta}

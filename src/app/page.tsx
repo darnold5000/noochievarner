@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
-import BookingLink from "@/components/BookingLink";
 import Hero from "@/components/Hero";
 import OfferingCard from "@/components/OfferingCard";
 import QuickActions from "@/components/QuickActions";
+import { LESSON_BOOKING_HREFS } from "@/config/schedule";
 import { CAMPS, LESSONS, MEMBERSHIP, SITE, SPONSORS } from "@/content/site";
 import { btnOnDark, btnPrimary } from "@/lib/styles";
 
@@ -41,9 +41,9 @@ export default function HomePage() {
                 <h3 className="mt-1 font-display text-2xl font-bold tracking-wide">{lesson.name}</h3>
                 <p className="mt-1 text-sm font-semibold text-zinc-800">{lesson.coach}</p>
                 <p className="mt-3 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>
-                <BookingLink destination={lesson.bookingKey} className={`${btnPrimary} mt-5 w-full`}>
+                <Link href={LESSON_BOOKING_HREFS[lesson.slug]} className={`${btnPrimary} mt-5 w-full`}>
                   Book Lesson
-                </BookingLink>
+                </Link>
               </article>
             ))}
           </div>
