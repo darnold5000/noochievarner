@@ -176,6 +176,12 @@ export function datesWithRentalOpenings(
   return open;
 }
 
+/** Prefer today when it has openings; otherwise the next open day. */
+export function defaultOpenDate(available: Set<string>, today = todayISO()) {
+  if (available.has(today)) return today;
+  return Array.from(available).sort()[0] ?? today;
+}
+
 export function resolvedLessonSelection(params: {
   coach?: string | null;
   service?: string | null;

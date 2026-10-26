@@ -27,6 +27,7 @@ import {
 import {
   datesWithLessonOpenings,
   datesWithRentalOpenings,
+  defaultOpenDate,
   durationLabel,
   formatLongDate,
   formatTime,
@@ -124,12 +125,15 @@ export default function BookingExperience() {
     return datesWithRentalOpenings(rental.id, duration, today, 90, today);
   }, [category, duration, lesson.coach.id, lesson.duration, program.id, rental.id, today]);
 
+  const selectedDate = date && availableDates.has(date) ? date : defaultOpenDate(availableDates, today);
+
   const times = useMemo(() => {
-    if (!date) return [];
-    if (category === "lessons") return lessonStartTimes(lesson.coach.id, lesson.duration, date, today);
-    if (category === "camps") return program.dates.includes(date) && date >= today ? ["19:00"] : [];
-    return rentalStartTimes(rental.id, duration, date, today);
-  }, [category, date, duration, lesson.coach.id, lesson.duration, program.dates, rental.id, today]);
+    if (category === "lessons") return lessonStartTimes(lesson.coach.id, lesson.duration, selectedDate, today);
+    if (category === "camps") {
+      return program.dates.includes(selectedDate) && selectedDate >= today ? ["19:00"] : [];
+    }
+    return rentalStartTimes(rental.id, duration, selectedDate, today);
+  }, [category, duration, lesson.coach.id, lesson.duration, program.dates, rental.id, selectedDate, today]);
 
   function setParams(next: Record<string, string | null>) {
     const params = new URLSearchParams(searchParams.toString());
@@ -203,9 +207,9 @@ export default function BookingExperience() {
         : priceForRental(rental.id, duration);
 
   const timeLabel =
-    category === "camps" && date ? program.timeLabel : time ? formatTime(time) : null;
+    category === "camps" && selectedDate ? program.timeLabel : time ? formatTime(time) : null;
 
-  const summaryReady = Boolean(date && (category === "camps" || time));
+  const summaryReady = Boolean(selectedDate && (category === "camps" || time));
 
   function continueToDetails() {
     if (!summaryReady) return;
@@ -248,11 +252,11 @@ export default function BookingExperience() {
               <dt className="text-zinc-500">Player</dt>
               <dd>{customer.playerName}</dd>
             </div>
-            {date ? (
+            {selectedDate ? (
               <div className="flex justify-between gap-4">
                 <dt className="text-zinc-500">When</dt>
                 <dd>
-                  {formatLongDate(date)}
+                  {formatLongDate(selectedDate)}
                   {timeLabel ? ` · ${timeLabel}` : ""}
                 </dd>
               </div>
@@ -282,7 +286,7 @@ export default function BookingExperience() {
                 ? program.name
                 : rental.name
           }
-          date={date}
+          date={selectedDate}
           timeLabel={timeLabel}
           duration={category === "camps" ? program.timeLabel : durationLabel(category === "lessons" ? lesson.duration : duration)}
           price={price}
@@ -485,7 +489,7 @@ export default function BookingExperience() {
           <div className="min-w-0 lg:hidden">
             <DateStrip
               weekStart={weekISO}
-              selected={date}
+              selected={selectedDate}
               available={availableDates}
               onSelect={(iso) => {
                 setDate(iso);
@@ -497,7 +501,7 @@ export default function BookingExperience() {
           <div className="hidden lg:block">
             <CalendarMonth
               monthISO={monthISO}
-              selected={date}
+              selected={selectedDate}
               available={availableDates}
               onSelect={(iso) => {
                 setDate(iso);
@@ -560,27 +564,23 @@ export default function BookingExperience() {
 
           <div className="mt-5">
             <p className="text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">
-              {date ? formatLongDate(date) : "Available times"}
+              {formatLongDate(selectedDate)}
             </p>
             <div className="mt-3">
-              {date ? (
-                category === "camps" ? (
-                  times.length ? (
-                    <button
-                      type="button"
-                      className="min-h-12 w-full rounded-lg bg-nv-blue text-sm font-bold uppercase tracking-wide text-white"
-                      onClick={() => setTime("19:00")}
-                    >
-                      {program.timeLabel}
-                    </button>
-                  ) : (
-                    <p className="text-sm text-zinc-600">No openings on this date. Try another day.</p>
-                  )
+              {category === "camps" ? (
+                times.length ? (
+                  <button
+                    type="button"
+                    className="min-h-12 w-full rounded-lg bg-nv-blue text-sm font-bold uppercase tracking-wide text-white"
+                    onClick={() => setTime("19:00")}
+                  >
+                    {program.timeLabel}
+                  </button>
                 ) : (
-                  <TimeGrid times={times} selected={time} onSelect={setTime} />
+                  <p className="text-sm text-zinc-600">No openings on this date. Try another day.</p>
                 )
               ) : (
-                <p className="text-sm text-zinc-600">Select a date to see sample times.</p>
+                <TimeGrid times={times} selected={time} onSelect={setTime} />
               )}
             </div>
           </div>
@@ -593,7 +593,7 @@ export default function BookingExperience() {
                 label={category === "rentals" ? "Rental" : "Type"}
                 value={category === "lessons" ? lesson.lesson.label : category === "camps" ? program.name : rental.name}
               />
-              <Row label="Date" value={date ? formatLongDate(date) : "Choose a date"} />
+              <Row label="Date" value={formatLongDate(selectedDate)} />
               <Row label="Time" value={timeLabel ?? "Choose a time"} />
               {category !== "camps" ? (
                 <Row label="Duration" value={durationLabel(category === "lessons" ? lesson.duration : duration)} />
@@ -691,7 +691,7 @@ function SummaryBlock({
   category: BookingCategory;
   coachName: string;
   serviceLabel: string;
-  date: string | null;
+  date: string;
   timeLabel: string | null;
   duration: string;
   price?: string;
@@ -702,7 +702,7 @@ function SummaryBlock({
       <dl className="mt-3 space-y-2 text-sm">
         {category === "lessons" ? <Row label="Coach" value={coachName} /> : null}
         <Row label="Type" value={serviceLabel} />
-        <Row label="Date" value={date ? formatLongDate(date) : "—"} />
+        <Row label="Date" value={formatLongDate(date)} />
         <Row label="Time" value={timeLabel ?? "—"} />
         <Row label="Duration" value={duration} />
         <Row label="Location" value={FACILITY_LOCATION} />
