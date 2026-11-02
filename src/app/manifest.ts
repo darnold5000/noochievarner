@@ -1,4 +1,5 @@
 import type { MetadataRoute } from "next";
+import { bookTrainingHref } from "@/config/booking";
 import { SITE } from "@/content/site";
 
 export default function manifest(): MetadataRoute.Manifest {
@@ -14,7 +15,7 @@ export default function manifest(): MetadataRoute.Manifest {
       { src: "/images/brand/icon.png", sizes: "512x512", type: "image/png" },
     ],
     shortcuts: [
-      { name: "Book", short_name: "Book", url: "/book" },
+      { name: "Book", short_name: "Book", url: bookTrainingHref() },
       { name: "Programs", short_name: "Programs", url: "/programs" },
       { name: "Lessons", short_name: "Lessons", url: "/lessons" },
       { name: "Memberships", short_name: "Memberships", url: "/memberships" },

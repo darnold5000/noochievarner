@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
-import { bookingUrl } from "@/config/booking";
+import SiteLink from "@/components/SiteLink";
+import { bookTrainingHref, bookingUrl } from "@/config/booking";
 import { SITE } from "@/content/site";
 import { btnGhost, btnOnDark } from "@/lib/styles";
 
@@ -23,9 +24,9 @@ export default function Hero() {
           <p className="mt-6 max-w-xl text-lg leading-relaxed text-zinc-100">{SITE.tagline}</p>
           <p className="mt-3 text-sm text-nv-silver">{SITE.address.full}</p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <Link href="/book" className={btnOnDark}>
+            <SiteLink href={bookTrainingHref()} className={btnOnDark}>
               Book a Lesson
-            </Link>
+            </SiteLink>
             <Link href="/camps" className={btnGhost}>
               Camps & Clinics
             </Link>

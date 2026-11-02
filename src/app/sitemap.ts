@@ -1,9 +1,10 @@
 import type { MetadataRoute } from "next";
+import { useInternalBooking } from "@/config/booking";
 import { CAMPS, PROGRAMS, SITE } from "@/content/site";
 
 const paths = [
   "",
-  "/book",
+  ...(useInternalBooking ? ["/book"] : []),
   "/camps",
   "/lessons",
   "/programs",

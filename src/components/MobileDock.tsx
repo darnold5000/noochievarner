@@ -2,14 +2,14 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { bookingUrl } from "@/config/booking";
+import { bookTrainingHref, bookingUrl } from "@/config/booking";
 
 const items = [
-  { label: "Book", href: "/book" },
-  { label: "Programs", href: "/programs" },
-  { label: "Lessons", href: "/lessons" },
-  { label: "Members", href: "/memberships" },
-] as const;
+  { label: "Book", href: bookTrainingHref(), external: bookTrainingHref().startsWith("http") },
+  { label: "Programs", href: "/programs", external: false },
+  { label: "Lessons", href: "/lessons", external: false },
+  { label: "Members", href: "/memberships", external: false },
+];
 
 export default function MobileDock() {
   const pathname = usePathname();
@@ -21,17 +21,21 @@ export default function MobileDock() {
     >
       <ul className="grid grid-cols-5">
         {items.map((item) => {
-          const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const active = !item.external && (pathname === item.href || pathname.startsWith(`${item.href}/`));
+          const className = `flex min-h-16 items-center justify-center px-1 text-center text-[11px] font-bold uppercase tracking-wide ${
+            active ? "text-white" : "text-nv-silver"
+          }`;
           return (
-            <li key={item.href}>
-              <Link
-                href={item.href}
-                className={`flex min-h-16 items-center justify-center px-1 text-center text-[11px] font-bold uppercase tracking-wide ${
-                  active ? "text-white" : "text-nv-silver"
-                }`}
-              >
-                {item.label}
-              </Link>
+            <li key={item.label}>
+              {item.external ? (
+                <a href={item.href} className={className}>
+                  {item.label}
+                </a>
+              ) : (
+                <Link href={item.href} className={className}>
+                  {item.label}
+                </Link>
+              )}
             </li>
           );
         })}

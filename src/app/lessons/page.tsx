@@ -1,7 +1,8 @@
 import Image from "next/image";
-import Link from "next/link";
 import BookingLink from "@/components/BookingLink";
 import PageIntro from "@/components/PageIntro";
+import SiteLink from "@/components/SiteLink";
+import { bookTrainingHref } from "@/config/booking";
 import { COACHES, LESSON_BOOKING_HREFS } from "@/config/schedule";
 import { BULK_PACKAGES, LESSON_RATES } from "@/content/site";
 import { createPageMetadata } from "@/lib/seo";
@@ -22,9 +23,9 @@ export default function LessonsPage() {
           Hitting, pitching, fielding, and catching with the academy staff. Baseball and softball players are both
           welcome.
         </p>
-        <Link href="/book" className={`${btnOnDark} mt-6`}>
+        <SiteLink href={bookTrainingHref()} className={`${btnOnDark} mt-6`}>
           Book Training
-        </Link>
+        </SiteLink>
       </PageIntro>
       <section className="mx-auto grid max-w-7xl gap-4 px-4 py-10 sm:px-6 lg:grid-cols-2">
         {COACHES.map((coach) => (
@@ -50,9 +51,9 @@ export default function LessonsPage() {
                 <p className="mt-1 break-words text-sm text-zinc-700">{coach.contact.join(" · ")}</p>
               </div>
             </div>
-            <Link href={LESSON_BOOKING_HREFS[coach.services[0]]} className={`${btnPrimary} mt-4 w-full`}>
+            <SiteLink href={LESSON_BOOKING_HREFS[coach.services[0]]} className={`${btnPrimary} mt-4 w-full`}>
               Book Private Lesson
-            </Link>
+            </SiteLink>
           </article>
         ))}
       </section>

@@ -2,6 +2,8 @@
 
 Sales demo for the academy site. Booking and payments stay on the current EZFacility account. Destinations live in `src/config/booking.ts`.
 
+The in-site scheduler (`/book`) is kept in the repo and turned off with `useInternalBooking` in `src/config/booking.ts`. Set that constant to `true` to use it again.
+
 ```bash
 npm install
 npm run dev

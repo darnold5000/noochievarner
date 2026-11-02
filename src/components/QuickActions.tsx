@@ -1,26 +1,26 @@
-import Link from "next/link";
-import { bookingUrl } from "@/config/booking";
+import SiteLink from "@/components/SiteLink";
+import { bookTrainingHref, bookingUrl } from "@/config/booking";
 
 const actions = [
-  { label: "Book a Lesson", href: "/book", detail: "Hitting, pitching, fielding, catching" },
+  { label: "Book a Lesson", href: bookTrainingHref(), detail: "Hitting, pitching, fielding, catching" },
   { label: "Camps & Clinics", href: "/camps", detail: "Current dates, ages, and prices" },
   { label: "Memberships", href: "/memberships", detail: "Big League membership" },
   { label: "Programs", href: "/programs", detail: "Development, tee ball, NV Stars" },
-] as const;
+];
 
 export default function QuickActions() {
   return (
     <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
         {actions.map((action) => (
-          <Link
-            key={action.href}
+          <SiteLink
+            key={action.label}
             href={action.href}
             className="rounded-xl border border-nv-navy/10 bg-white p-4 shadow-sm transition hover:border-nv-blue"
           >
             <p className="font-display text-xl font-bold tracking-wide text-nv-navy">{action.label}</p>
             <p className="mt-1 text-sm text-zinc-600">{action.detail}</p>
-          </Link>
+          </SiteLink>
         ))}
         <a
           href={bookingUrl("login")}

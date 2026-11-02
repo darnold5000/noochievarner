@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import SiteLink from "@/components/SiteLink";
 import { campRegisterHref } from "@/config/schedule";
 import type { Offering } from "@/content/site";
 import { btnOutline, btnPrimary } from "@/lib/styles";
@@ -54,9 +55,9 @@ export default function OfferingCard({
             View Details
           </Link>
           {registerHref ? (
-            <Link href={registerHref} className={btnPrimary}>
+            <SiteLink href={registerHref} className={btnPrimary}>
               {offering.cta}
-            </Link>
+            </SiteLink>
           ) : (
             <Link href="/contact" className={btnPrimary}>
               {offering.cta}

@@ -1,6 +1,8 @@
+import { redirect } from "next/navigation";
 import { Suspense } from "react";
 import BookingExperience from "@/components/booking/BookingExperience";
 import PageIntro from "@/components/PageIntro";
+import { bookTrainingHref, useInternalBooking } from "@/config/booking";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -11,6 +13,8 @@ export const metadata = createPageMetadata({
 });
 
 export default function BookPage() {
+  if (!useInternalBooking) redirect(bookTrainingHref());
+
   return (
     <>
       <PageIntro eyebrow="Academy booking" title="Book Training">

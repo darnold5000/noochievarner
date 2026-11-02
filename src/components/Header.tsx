@@ -4,7 +4,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
-import { bookingUrl } from "@/config/booking";
+import { bookTrainingHref, bookingUrl } from "@/config/booking";
+import SiteLink from "@/components/SiteLink";
 import { MORE_LINKS, NAV, SITE } from "@/content/site";
 import { btnOnDark } from "@/lib/styles";
 
@@ -161,9 +162,9 @@ export default function Header() {
           >
             Sign In
           </a>
-          <Link href="/book" className={`${btnOnDark} px-4 py-2.5`}>
+          <SiteLink href={bookTrainingHref()} className={`${btnOnDark} px-4 py-2.5`}>
             Book Now
-          </Link>
+          </SiteLink>
           <button
             type="button"
             className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-white/10 xl:hidden"
@@ -199,9 +200,9 @@ export default function Header() {
             ))}
           </div>
           <div className="mt-4 grid gap-2">
-            <Link href="/book" onClick={close} className={btnOnDark}>
+            <SiteLink href={bookTrainingHref()} onClick={close} className={btnOnDark}>
               Book Now
-            </Link>
+            </SiteLink>
             <a
               href={bookingUrl("login")}
               className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/20 text-sm font-bold uppercase tracking-wide"

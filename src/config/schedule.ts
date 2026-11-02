@@ -1,3 +1,4 @@
+import { booking, useInternalBooking, type BookingKey } from "@/config/booking";
 import { SITE } from "@/content/site";
 
 /** Sample inventory for the sales demo. Not live EZFacility availability. */
@@ -241,8 +242,27 @@ export function coachesForService(service: LessonService) {
   return COACHES.filter((coach) => coach.services.includes(service));
 }
 
+const LESSON_EZ_KEYS: Record<LessonService, BookingKey> = {
+  hitting: "noochieHitting",
+  pitching: "jordanFox",
+  fielding: "coreyAlsop",
+  catching: "catching",
+};
+
+const LESSON_COACH: Record<LessonService, CoachId> = {
+  hitting: "noochie",
+  pitching: "jordan",
+  fielding: "corey",
+  catching: "nvba",
+};
+
 export function lessonHref(coachId: CoachId, service: LessonService) {
   return `/book?category=lessons&coach=${coachId}&service=${service}`;
+}
+
+export function lessonBookingHref(service: LessonService) {
+  if (useInternalBooking) return lessonHref(LESSON_COACH[service], service);
+  return booking.destinations[LESSON_EZ_KEYS[service]];
 }
 
 export function programHref(programId: ProgramId) {
@@ -250,10 +270,10 @@ export function programHref(programId: ProgramId) {
 }
 
 export const LESSON_BOOKING_HREFS: Record<string, string> = {
-  hitting: lessonHref("noochie", "hitting"),
-  pitching: lessonHref("jordan", "pitching"),
-  fielding: lessonHref("corey", "fielding"),
-  catching: lessonHref("nvba", "catching"),
+  hitting: lessonBookingHref("hitting"),
+  pitching: lessonBookingHref("pitching"),
+  fielding: lessonBookingHref("fielding"),
+  catching: lessonBookingHref("catching"),
 };
 
 const CAMP_BOOKING_KEYS: Partial<Record<string, ProgramId>> = {
@@ -263,8 +283,15 @@ const CAMP_BOOKING_KEYS: Partial<Record<string, ProgramId>> = {
 };
 
 export function campRegisterHref(bookingKey?: string) {
-  const programId = bookingKey ? CAMP_BOOKING_KEYS[bookingKey] : undefined;
-  return programId ? programHref(programId) : null;
+  if (!bookingKey) return null;
+  if (useInternalBooking) {
+    const programId = CAMP_BOOKING_KEYS[bookingKey];
+    return programId ? programHref(programId) : null;
+  }
+  if (bookingKey in booking.destinations) {
+    return booking.destinations[bookingKey as BookingKey];
+  }
+  return null;
 }
 
 function weeklyDates(start: string, end: string, weekday: number) {

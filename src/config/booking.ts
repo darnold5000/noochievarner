@@ -1,13 +1,17 @@
 /**
- * EZFacility remains the live account/membership backend during this phase.
- * Private lesson booking now uses the internal /book experience.
- * Keep these destinations for a future transition, login, memberships, and packages.
+ * Live booking stays on EZFacility while the in-site scheduler is parked.
+ * Flip `useInternalBooking` to true to restore /book (calendar, times, demo checkout).
+ * Do not delete that flow; it is only unlinked and redirected while this is false.
  */
+export const useInternalBooking = false;
+
+const ezSessions = "https://12331.ezfacility.com/Sessions";
+
 export const booking = {
   provider: "ezfacility" as const,
   loginUrl: "https://12331.ezfacility.com/login",
-  registrationUrl: "https://12331.ezfacility.com/Sessions",
-  privateLessonsUrl: "/book",
+  registrationUrl: ezSessions,
+  privateLessonsUrl: useInternalBooking ? "/book" : ezSessions,
   lessonPackagesUrl: "https://12331.ezfacility.com/Package",
   membershipsUrl: "https://12331.ezfacility.com/login",
   destinations: {
@@ -32,4 +36,9 @@ export type BookingKey = keyof typeof booking.destinations;
 
 export function bookingUrl(key: BookingKey): string {
   return booking.destinations[key];
+}
+
+/** Header, footer, and dock “Book” actions. */
+export function bookTrainingHref() {
+  return useInternalBooking ? "/book" : booking.registrationUrl;
 }

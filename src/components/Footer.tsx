@@ -1,5 +1,6 @@
 import Link from "next/link";
-import { bookingUrl } from "@/config/booking";
+import SiteLink from "@/components/SiteLink";
+import { bookTrainingHref, bookingUrl } from "@/config/booking";
 import { MORE_LINKS, NAV, SITE } from "@/content/site";
 
 export default function Footer() {
@@ -38,9 +39,9 @@ export default function Footer() {
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-white">Get started</p>
           <ul className="mt-3 space-y-2 text-sm">
             <li>
-              <Link className="hover:text-white" href="/book">
+              <SiteLink className="hover:text-white" href={bookTrainingHref()}>
                 Book Now
-              </Link>
+              </SiteLink>
             </li>
             <li>
               <a className="hover:text-white" href={bookingUrl("login")}>
