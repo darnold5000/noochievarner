@@ -57,7 +57,7 @@ export default function Hero() {
             <div className="absolute bottom-3 left-3 right-3 sm:bottom-4 sm:left-4 sm:right-auto">
               <div className="flex items-center gap-3 rounded-xl border border-white/20 bg-nv-navy/90 px-3 py-2.5 shadow-lg backdrop-blur-sm sm:pr-5">
                 <div className="relative h-11 w-14 shrink-0 overflow-hidden rounded-md bg-white/95">
-                  <Image src="/images/brand/mark.jpg" alt="" fill className="object-contain p-0.5" sizes="56px" />
+                  <Image src="/images/brand/icon.png" alt="" fill className="object-contain p-0.5" sizes="56px" />
                 </div>
                 <div>
                   <p className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-nv-silver">Indoor facility</p>

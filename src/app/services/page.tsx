@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageIntro from "@/components/PageIntro";
-import { SERVICES, SERVICES_FACILITY_IMAGE, SERVICES_INTRO, SITE } from "@/content/site";
+import { SERVICES, SERVICES_FACILITY_IMAGE, SERVICES_INTRO } from "@/content/site";
 import { createPageMetadata } from "@/lib/seo";
-import { btnOnDark } from "@/lib/styles";
+import { btnGhost, btnOnDark } from "@/lib/styles";
 
 export const metadata = createPageMetadata({
   title: "NVBA Services",
@@ -51,35 +51,25 @@ export default function ServicesPage() {
               ) : null}
               {service.price ? <p className="mt-3 text-sm font-semibold text-nv-blue">{service.price}</p> : null}
               {service.contact ? (
-                <p className="mt-3 text-sm text-zinc-700">
-                  <a className="font-semibold text-nv-blue hover:underline" href={SITE.emailHref}>
-                    {SITE.email}
-                  </a>
-                  {" · "}
-                  <a className="font-semibold text-nv-blue hover:underline" href={SITE.phoneHref}>
-                    {SITE.phone}
-                  </a>
-                </p>
+                <Link href="/contact" className="mt-3 inline-block text-sm font-bold uppercase tracking-wide text-nv-blue hover:text-nv-royal">
+                  Contact us
+                </Link>
               ) : null}
             </article>
           ))}
           <div className="rounded-2xl bg-nv-navy p-5 text-white sm:p-6">
             <h2 className="font-display text-2xl font-bold tracking-wide">Reserve facility time</h2>
             <p className="mt-2 text-sm leading-relaxed text-zinc-200">
-              Call or email the academy to schedule cages, field time, team rentals, or parties.
+              Contact us to schedule cages, field time, team rentals, or parties.
             </p>
-            <p className="mt-3 text-sm">
-              <a className="font-semibold underline" href={SITE.phoneHref}>
-                {SITE.phone}
-              </a>
-              {" · "}
-              <a className="underline" href={SITE.emailHref}>
-                {SITE.email}
-              </a>
-            </p>
-            <Link href="/lessons" className={`${btnOnDark} mt-5`}>
-              Looking for lessons?
-            </Link>
+            <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
+              <Link href="/contact" className={btnOnDark}>
+                Contact us
+              </Link>
+              <Link href="/lessons" className={btnGhost}>
+                Looking for lessons?
+              </Link>
+            </div>
           </div>
         </div>
         <figure className="overflow-hidden rounded-2xl border border-nv-navy/10 bg-white lg:sticky lg:top-24">

@@ -98,11 +98,11 @@ export default function Header() {
       <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6">
         <Link href="/" className="flex min-w-0 items-center gap-3" onClick={close}>
           <Image
-            src="/images/brand/mark.jpg"
+            src="/images/brand/icon.png"
             alt="Noochie Varner Baseball Academy"
-            width={64}
+            width={48}
             height={48}
-            className="h-11 w-auto rounded-sm bg-white object-contain"
+            className="h-11 w-11 shrink-0 rounded-sm bg-white object-contain p-0.5"
             priority
           />
           <span className="hidden min-w-0 leading-none sm:block">
