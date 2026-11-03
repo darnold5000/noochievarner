@@ -3,10 +3,10 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { bookTrainingHref, bookingUrl } from "@/config/booking";
 import SiteLink from "@/components/SiteLink";
-import { MORE_LINKS, NAV, SITE } from "@/content/site";
+import { MOBILE_NAV, NAV, SITE } from "@/content/site";
 import { btnOnDark } from "@/lib/styles";
 
 function isActivePath(pathname: string, href: string) {
@@ -18,37 +18,31 @@ function MainNavLink({
   href,
   label,
   onClick,
-  suppressActive,
+  compact,
 }: {
   href: string;
   label: string;
   onClick?: () => void;
-  suppressActive?: boolean;
+  compact?: boolean;
 }) {
-  const pathname = usePathname();
-  const active = !suppressActive && isActivePath(pathname, href);
-  return (
-    <Link
-      href={href}
-      onClick={onClick}
-      className={`whitespace-nowrap rounded-md px-3 py-2 text-sm font-semibold tracking-wide ${
-        active ? "bg-white/10 text-white" : "text-nv-silver hover:bg-white/5 hover:text-white"
-      }`}
-    >
-      {label}
-    </Link>
-  );
-}
-
-function MoreMenuLink({ href, label, onNavigate }: { href: string; label: string; onNavigate: () => void }) {
   const pathname = usePathname();
   const active = isActivePath(pathname, href);
   return (
     <Link
       href={href}
-      onClick={onNavigate}
-      className={`block rounded-md px-3 py-2.5 text-sm font-semibold tracking-wide ${
-        active ? "bg-white/10 text-white" : "text-nv-silver hover:bg-white/5 hover:text-white"
+      onClick={onClick}
+      className={`whitespace-nowrap rounded-md font-semibold tracking-wide transition-colors ${
+        compact
+          ? "px-3 py-2.5 text-sm"
+          : "border-b-2 px-2 py-2 text-xs xl:px-2.5 xl:text-sm"
+      } ${
+        active
+          ? compact
+            ? "bg-white/10 text-white"
+            : "border-nv-blue text-white"
+          : compact
+            ? "text-nv-silver hover:bg-white/5 hover:text-white"
+            : "border-transparent text-nv-silver hover:border-white/20 hover:text-white"
       }`}
     >
       {label}
@@ -57,123 +51,53 @@ function MoreMenuLink({ href, label, onNavigate }: { href: string; label: string
 }
 
 export default function Header() {
-  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const [moreOpen, setMoreOpen] = useState(false);
-  const moreRef = useRef<HTMLDivElement>(null);
-
-  const moreSectionActive = MORE_LINKS.some((item) => isActivePath(pathname, item.href));
-
-  const close = () => {
-    setOpen(false);
-    setMoreOpen(false);
-  };
-
-  useEffect(() => {
-    if (!moreOpen) return;
-
-    const onPointerDown = (event: MouseEvent | TouchEvent) => {
-      const target = event.target;
-      if (!(target instanceof Node)) return;
-      if (moreRef.current?.contains(target)) return;
-      setMoreOpen(false);
-    };
-
-    const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setMoreOpen(false);
-    };
-
-    document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("touchstart", onPointerDown);
-    document.addEventListener("keydown", onKeyDown);
-    return () => {
-      document.removeEventListener("mousedown", onPointerDown);
-      document.removeEventListener("touchstart", onPointerDown);
-      document.removeEventListener("keydown", onKeyDown);
-    };
-  }, [moreOpen]);
+  const close = () => setOpen(false);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-nv-navy text-white">
-      <div className="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:px-6">
-        <Link href="/" className="flex min-w-0 items-center gap-3" onClick={close}>
-          <Image
-            src="/images/brand/icon.png"
-            alt="Noochie Varner Baseball Academy"
-            width={48}
-            height={48}
-            className="h-11 w-11 shrink-0 rounded-sm bg-white object-contain p-0.5"
-            priority
-          />
+      <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 py-2.5 sm:px-6">
+        <Link href="/" className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3" onClick={close}>
+          <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-white">
+            <Image
+              src="/images/brand/icon.png"
+              alt="Noochie Varner Baseball Academy"
+              fill
+              className="object-contain object-[center_52%] p-1.5"
+              sizes="44px"
+              priority
+            />
+          </span>
           <span className="hidden min-w-0 leading-none sm:block">
-            <span className="block font-display text-lg font-bold tracking-wide">NOOCHIE VARNER</span>
-            <span className="block text-[11px] font-semibold uppercase tracking-[0.18em] text-nv-silver">
+            <span className="block font-display text-base font-bold tracking-wide lg:text-lg">NOOCHIE VARNER</span>
+            <span className="block text-[10px] font-semibold uppercase tracking-[0.16em] text-nv-silver lg:text-[11px]">
               Baseball Academy
             </span>
           </span>
         </Link>
 
-        <nav className="ml-auto hidden items-center gap-0.5 xl:flex">
+        <nav className="hidden min-w-0 flex-1 items-center justify-end gap-0 xl:flex" aria-label="Primary">
           {NAV.map((item) => (
-            <MainNavLink
-              key={item.href}
-              href={item.href}
-              label={item.label}
-              suppressActive={moreOpen}
-              onClick={() => setMoreOpen(false)}
-            />
+            <MainNavLink key={item.href} href={item.href} label={item.label} />
           ))}
-          <div ref={moreRef} className="relative">
-            <button
-              type="button"
-              className={`rounded-md px-3 py-2 text-sm font-semibold tracking-wide ${
-                moreOpen || moreSectionActive
-                  ? "bg-white/10 text-white"
-                  : "text-nv-silver hover:bg-white/5 hover:text-white"
-              }`}
-              aria-expanded={moreOpen}
-              aria-haspopup="menu"
-              onClick={() => setMoreOpen((value) => !value)}
-            >
-              More
-            </button>
-            {moreOpen ? (
-              <div
-                role="menu"
-                className="absolute right-0 top-full z-50 mt-2 min-w-[11rem] rounded-lg border border-white/10 bg-nv-navy p-1.5 shadow-xl"
-              >
-                {MORE_LINKS.map((item) => (
-                  <MoreMenuLink
-                    key={item.href}
-                    href={item.href}
-                    label={item.label}
-                    onNavigate={() => setMoreOpen(false)}
-                  />
-                ))}
-              </div>
-            ) : null}
-          </div>
         </nav>
 
-        <div className="ml-auto flex items-center gap-2 xl:ml-4">
+        <div className="ml-auto flex shrink-0 items-center gap-2 xl:ml-3">
           <a
             href={bookingUrl("login")}
-            className="hidden text-sm font-bold uppercase tracking-wide text-nv-silver hover:text-white xl:inline"
+            className="hidden text-xs font-bold uppercase tracking-wide text-nv-silver transition hover:text-white sm:inline xl:text-sm"
           >
             Sign In
           </a>
-          <SiteLink href={bookTrainingHref()} className={`${btnOnDark} px-4 py-2.5`}>
+          <SiteLink href={bookTrainingHref()} className={`${btnOnDark} px-3 py-2 text-xs sm:px-4 sm:py-2.5 sm:text-sm`}>
             Book Now
           </SiteLink>
           <button
             type="button"
-            className="inline-flex h-11 w-11 items-center justify-center rounded-md hover:bg-white/10 xl:hidden"
+            className="inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-white/10 xl:hidden"
             aria-expanded={open}
             aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => {
-              setMoreOpen(false);
-              setOpen((value) => !value);
-            }}
+            onClick={() => setOpen((value) => !value)}
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {open ? (
@@ -187,16 +111,10 @@ export default function Header() {
       </div>
 
       {open ? (
-        <nav className="border-t border-white/10 bg-nv-navy px-4 py-4 xl:hidden">
+        <nav className="border-t border-white/10 bg-nv-navy px-4 py-4 xl:hidden" aria-label="Mobile">
           <div className="grid gap-1">
-            {NAV.map((item) => (
-              <MainNavLink key={item.href} href={item.href} label={item.label} onClick={close} />
-            ))}
-          </div>
-          <p className="mt-4 px-3 text-xs font-bold uppercase tracking-[0.16em] text-nv-silver">More</p>
-          <div className="mt-1 grid gap-1">
-            {MORE_LINKS.map((item) => (
-              <MainNavLink key={item.href} href={item.href} label={item.label} onClick={close} />
+            {MOBILE_NAV.map((item) => (
+              <MainNavLink key={item.href} href={item.href} label={item.label} onClick={close} compact />
             ))}
           </div>
           <div className="mt-4 grid gap-2">
@@ -205,7 +123,8 @@ export default function Header() {
             </SiteLink>
             <a
               href={bookingUrl("login")}
-              className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/20 text-sm font-bold uppercase tracking-wide"
+              onClick={close}
+              className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/20 text-sm font-bold uppercase tracking-wide text-nv-silver hover:text-white"
             >
               Sign In
             </a>

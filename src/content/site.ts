@@ -44,20 +44,26 @@ export const SITE = {
 } as const;
 
 export const NAV = [
-  { label: "Home", href: "/" },
   { label: "Camps & Clinics", href: "/camps" },
   { label: "Lessons", href: "/lessons" },
   { label: "Memberships", href: "/memberships" },
   { label: "Pro Shop", href: "/pro-shop" },
   { label: "NVBA Services", href: "/services" },
   { label: "About", href: "/about" },
+  { label: "Contact", href: "/contact" },
 ] as const;
 
-export const MORE_LINKS = [
-  { label: "Sponsors", href: "/sponsors" },
+/** Lower-priority pages linked from the footer (not in desktop header). */
+export const FOOTER_MORE_LINKS = [
   { label: "News", href: "/news" },
   { label: "Gallery", href: "/gallery" },
-  { label: "Contact", href: "/contact" },
+  { label: "Sponsors", href: "/sponsors" },
+] as const;
+
+export const MOBILE_NAV = [
+  { label: "Home", href: "/" },
+  ...NAV,
+  ...FOOTER_MORE_LINKS,
 ] as const;
 
 export type Offering = {

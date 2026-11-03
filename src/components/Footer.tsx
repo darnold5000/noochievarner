@@ -1,7 +1,7 @@
 import Link from "next/link";
 import SiteLink from "@/components/SiteLink";
 import { bookTrainingHref, bookingUrl } from "@/config/booking";
-import { MORE_LINKS, NAV, SITE } from "@/content/site";
+import { FOOTER_MORE_LINKS, NAV, SITE } from "@/content/site";
 
 export default function Footer() {
   return (
@@ -26,7 +26,17 @@ export default function Footer() {
         <div>
           <p className="text-xs font-bold uppercase tracking-[0.16em] text-white">Explore</p>
           <ul className="mt-3 space-y-2 text-sm">
-            {[...NAV, ...MORE_LINKS].map((item) => (
+            {NAV.map((item) => (
+              <li key={item.href}>
+                <Link className="hover:text-white" href={item.href}>
+                  {item.label}
+                </Link>
+              </li>
+            ))}
+          </ul>
+          <p className="mt-5 text-xs font-bold uppercase tracking-[0.16em] text-white">More</p>
+          <ul className="mt-3 space-y-2 text-sm">
+            {FOOTER_MORE_LINKS.map((item) => (
               <li key={item.href}>
                 <Link className="hover:text-white" href={item.href}>
                   {item.label}
