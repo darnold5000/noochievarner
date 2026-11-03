@@ -6,21 +6,23 @@
 export const useInternalBooking = false;
 
 const ezSessions = "https://12331.ezfacility.com/Sessions";
+const ezLogin = "https://12331.ezfacility.com/login";
+export const sportsEngineSignInUrl = "https://user.sportngin.com/users/sign_in";
 
 export const booking = {
   provider: "ezfacility" as const,
-  loginUrl: "https://12331.ezfacility.com/login",
+  loginUrl: sportsEngineSignInUrl,
   registrationUrl: ezSessions,
   privateLessonsUrl: useInternalBooking ? "/book" : ezSessions,
   lessonPackagesUrl: "https://12331.ezfacility.com/Package",
-  membershipsUrl: "https://12331.ezfacility.com/login",
+  membershipsUrl: ezLogin,
   destinations: {
-    login: "https://12331.ezfacility.com/login",
+    login: sportsEngineSignInUrl,
     sessions: "https://12331.ezfacility.com/Sessions",
     packages: "https://12331.ezfacility.com/Package",
-    memberships: "https://12331.ezfacility.com/login",
+    memberships: ezLogin,
     noochieHitting: "https://12331.ezfacility.com/Sessions",
-    jordanFox: "https://12331.ezfacility.com/login",
+    jordanFox: ezLogin,
     coreyAlsop: "https://12331.ezfacility.com/Sessions",
     catching: "https://12331.ezfacility.com/Sessions",
     rookie:

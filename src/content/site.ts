@@ -43,6 +43,7 @@ export const NAV = [
   { label: "Camps & Clinics", href: "/camps" },
   { label: "Lessons", href: "/lessons" },
   { label: "Memberships", href: "/memberships" },
+  { label: "Pro Shop", href: "/pro-shop" },
   { label: "NVBA Services", href: "/services" },
   { label: "About", href: "/about" },
 ] as const;
@@ -51,7 +52,6 @@ export const MORE_LINKS = [
   { label: "Sponsors", href: "/sponsors" },
   { label: "News", href: "/news" },
   { label: "Gallery", href: "/gallery" },
-  { label: "Team Store", href: "/store" },
   { label: "Contact", href: "/contact" },
 ] as const;
 
@@ -386,20 +386,28 @@ export const SERVICES: FacilityService[] = [
   },
 ];
 
-export const SPONSORS = [
+export type Sponsor = {
+  name: string;
+  note: string;
+  image: string;
+  imageAlt: string;
+  href: string;
+  cta: string;
+};
+
+export const SPONSORS: Sponsor[] = [
   {
-    name: "Just 4 You",
-    note: "Scott Porter is recognized on the academy site for his sponsorship.",
-    image: "/images/brand/just-4-you.png",
-    href: undefined as string | undefined,
+    name: "Just 4 You Home Loans",
+    note: "Scott Porter and the Just 4 You team proudly support NVBA athletes, families, and the Georgetown community.",
+    image: "/images/sponsors/just-4-you-home-loans.jpg",
+    imageAlt: "Just 4 You Home Loans logo",
+    href: "https://www.just4youhomeloans.com/",
+    cta: "Visit our sponsor",
   },
-  {
-    name: "Wilson",
-    note: "NVBA is a partner of Wilson for apparel and equipment orders.",
-    image: undefined as string | undefined,
-    href: "http://www.wilsonteamshop.com/join",
-  },
-] as const;
+];
+
+export const SPONSORS_INTRO =
+  "Thank you to the local partners who invest in youth baseball and softball at Noochie Varner Baseball Academy.";
 
 export const STORES = {
   teamShop: "https://www.team.shop/en-us",
@@ -409,8 +417,41 @@ export const STORES = {
     name: "Petey Reynolds",
     role: "Director of Equipment and Sales",
     email: "peteyreynolds@icloud.com",
+    emailHref: "mailto:peteyreynolds@icloud.com",
     phone: "(859) 298-0174",
+    phoneDisplay: "859-298-0174",
+    phoneHref: "tel:+18592980174",
   },
+} as const;
+
+export const PRO_SHOP = {
+  heroImage: "/images/gallery/hitting.jpg",
+  heroImageAlt: "Hitting practice at Noochie Varner Baseball Academy",
+  title: "Gear Up for the Season.",
+  subtitle:
+    "Browse NVBA catalog links for Wilson apparel and equipment, then place your order with our equipment team.",
+  highlights: ["Wilson partner pricing", "Apparel & equipment", "Local order support"] as const,
+  partner: {
+    name: "Wilson",
+    detail: "NVBA is a proud partner of Wilson for discounted apparel and equipment.",
+  },
+  orderProcess:
+    "NVBA is a proud partner of Wilson. All visitors to the NVBA website are welcome to browse the apparel and equipment catalog links below, and place an order. Orders can be placed by emailing the NVBA Director of Equipment and Sales, Petey Reynolds, or by calling him directly.",
+  catalogLinks: [
+    {
+      name: "Wilson Discounted Store",
+      detail: "Use the access code below when prompted to browse Wilson apparel and equipment at partner pricing.",
+      href: STORES.wilsonJoin,
+      accessCode: STORES.accessCode,
+      cta: "Open Wilson store",
+    },
+    {
+      name: "NVBA team apparel",
+      detail: "Spirit wear and NVBA-branded apparel through the team shop catalog.",
+      href: STORES.teamShop,
+      cta: "Visit team shop",
+    },
+  ] as const,
 } as const;
 
 export const GALLERY = [

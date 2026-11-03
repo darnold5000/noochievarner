@@ -5,6 +5,7 @@ import SiteLink from "@/components/SiteLink";
 import OfferingCard from "@/components/OfferingCard";
 import QuickActions from "@/components/QuickActions";
 import { COACHES, LESSON_BOOKING_HREFS } from "@/config/schedule";
+import SponsorCard from "@/components/SponsorCard";
 import { CAMPS, LESSONS, MEMBERSHIP, SITE, SPONSORS } from "@/content/site";
 import { btnOnDark, btnPrimary } from "@/lib/styles";
 
@@ -124,27 +125,21 @@ export default function HomePage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
-        <h2 className="text-center font-display text-3xl font-bold tracking-wide text-nv-navy">
-          Proudly supported by our partners
-        </h2>
-        <div className="mt-6 grid gap-4 sm:grid-cols-2">
+      <section className="mx-auto max-w-4xl px-4 py-12 sm:px-6">
+        <h2 className="text-center font-display text-3xl font-bold tracking-wide text-nv-navy">Our sponsors</h2>
+        <p className="mx-auto mt-2 max-w-2xl text-center text-sm text-zinc-600">
+          Local partners who support NVBA athletes and the Georgetown community.
+        </p>
+        <div className="mt-6 space-y-4">
           {SPONSORS.map((sponsor) => (
-            <div key={sponsor.name} className="flex items-center gap-4 rounded-2xl border border-nv-navy/10 bg-white p-5">
-              {sponsor.image ? (
-                <Image src={sponsor.image} alt="" width={96} height={96} className="h-16 w-16 object-contain" />
-              ) : (
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-nv-ice font-display text-xl font-bold text-nv-navy">
-                  W
-                </div>
-              )}
-              <div>
-                <p className="font-display text-2xl font-bold tracking-wide">{sponsor.name}</p>
-                <p className="text-sm text-zinc-600">{sponsor.note}</p>
-              </div>
-            </div>
+            <SponsorCard key={sponsor.name} sponsor={sponsor} featured />
           ))}
         </div>
+        <p className="mt-6 text-center">
+          <Link href="/sponsors" className="text-sm font-semibold text-nv-blue hover:underline">
+            Sponsor information
+          </Link>
+        </p>
       </section>
     </>
   );

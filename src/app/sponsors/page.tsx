@@ -1,46 +1,46 @@
-import Image from "next/image";
+import Link from "next/link";
 import PageIntro from "@/components/PageIntro";
-import { SPONSORS } from "@/content/site";
+import SponsorCard from "@/components/SponsorCard";
+import { SITE, SPONSORS, SPONSORS_INTRO } from "@/content/site";
 import { createPageMetadata } from "@/lib/seo";
+import { btnOutline } from "@/lib/styles";
 
 export const metadata = createPageMetadata({
   title: "Sponsors",
-  description: "Partners who support Noochie Varner Baseball Academy in Georgetown, Kentucky.",
+  description:
+    "Partners who support Noochie Varner Baseball Academy in Georgetown, Kentucky, including Just 4 You Home Loans.",
   path: "/sponsors",
 });
 
 export default function SponsorsPage() {
   return (
     <>
-      <PageIntro eyebrow="Partners" title="Proudly supported by our partners">
-        <p>Local partners who support NVBA athletes, families, and the Georgetown community.</p>
+      <PageIntro eyebrow="Partners" title="Our sponsors">
+        <p>{SPONSORS_INTRO}</p>
       </PageIntro>
-      <section className="mx-auto grid max-w-4xl gap-4 px-4 py-10 sm:px-6">
-        {SPONSORS.map((sponsor) => {
-          const body = (
-            <article className="flex items-center gap-5 rounded-2xl bg-white p-5">
-              {sponsor.image ? (
-                <Image src={sponsor.image} alt="" width={120} height={120} className="h-20 w-20 object-contain" />
-              ) : (
-                <div className="flex h-20 w-20 items-center justify-center rounded-full bg-nv-ice font-display text-3xl font-bold text-nv-navy">
-                  W
-                </div>
-              )}
-              <div>
-                <h2 className="font-display text-3xl font-bold tracking-wide text-nv-navy">{sponsor.name}</h2>
-                <p className="mt-1 text-sm text-zinc-600">{sponsor.note}</p>
-                {sponsor.href ? <p className="mt-2 text-sm font-semibold text-nv-blue">Visit website</p> : null}
-              </div>
-            </article>
-          );
-          return sponsor.href ? (
-            <a key={sponsor.name} href={sponsor.href} target="_blank" rel="noreferrer">
-              {body}
+      <section className="mx-auto max-w-4xl space-y-6 px-4 py-10 sm:px-6">
+        {SPONSORS.map((sponsor) => (
+          <SponsorCard key={sponsor.name} sponsor={sponsor} featured />
+        ))}
+        <article className="rounded-2xl bg-nv-ice p-6 sm:p-8">
+          <h2 className="font-display text-2xl font-bold tracking-wide text-nv-navy">Become a sponsor</h2>
+          <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+            Interested in supporting NVBA athletes and families in Georgetown? Contact the academy to learn about
+            sponsorship opportunities.
+          </p>
+          <Link href="/contact" className={`${btnOutline} mt-5`}>
+            Contact NVBA
+          </Link>
+          <p className="mt-4 text-sm text-zinc-600">
+            <a className="font-semibold text-nv-blue hover:underline" href={SITE.emailHref}>
+              {SITE.email}
             </a>
-          ) : (
-            <div key={sponsor.name}>{body}</div>
-          );
-        })}
+            {" · "}
+            <a className="font-semibold text-nv-blue hover:underline" href={SITE.phoneHref}>
+              {SITE.phone}
+            </a>
+          </p>
+        </article>
       </section>
     </>
   );
