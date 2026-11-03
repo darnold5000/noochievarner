@@ -398,7 +398,7 @@ export const GALLERY = [
 export const NV_STARS_GALLERY = [
   { slug: "nv-stars-01", src: "/images/nv-stars/nv-stars-01.jpg", caption: "", category: "nv-stars-team", featuredOnHomepage: true, sort: 101 },
   { slug: "nv-stars-02", src: "/images/nv-stars/nv-stars-02.jpg", caption: "NV Stars organization update", category: "nv-stars-news", sort: 201 },
-  { slug: "nv-stars-03", src: "/images/nv-stars/nv-stars-03.jpg", caption: "", category: "nv-stars-news", sort: 202 },
+  { slug: "nv-stars-03", src: "/images/nv-stars/nv-stars-03.jpg", caption: "", category: "nv-stars-team", sort: 100 },
   { slug: "nv-stars-04", src: "/images/nv-stars/nv-stars-04.jpg", caption: "", category: "nv-stars-team", sort: 102 },
   { slug: "nv-stars-05", src: "/images/nv-stars/nv-stars-05.jpg", caption: "", category: "nv-stars-team", sort: 103 },
   { slug: "nv-stars-06", src: "/images/nv-stars/nv-stars-06.jpg", caption: "", category: "nv-stars-team", sort: 104 },
@@ -408,7 +408,7 @@ export const NV_STARS_GALLERY = [
   { slug: "nv-stars-10", src: "/images/nv-stars/nv-stars-10.jpg", caption: "", category: "nv-stars-team", featuredOnHomepage: true, sort: 107 },
   { slug: "nv-stars-11", src: "/images/nv-stars/nv-stars-11.jpg", caption: "", category: "nv-stars-team", sort: 108 },
   { slug: "nv-stars-12", src: "/images/nv-stars/nv-stars-12.jpg", caption: "", category: "nv-stars-team", sort: 109 },
-  { slug: "nv-stars-13", src: "/images/nv-stars/nv-stars-13.jpg", caption: "", category: "nv-stars-news", sort: 204 },
+  { slug: "nv-stars-13", src: "/images/nv-stars/nv-stars-13.jpg", caption: "", category: "nv-stars-team", sort: 101 },
 ];
 
 export const ABOUT = {

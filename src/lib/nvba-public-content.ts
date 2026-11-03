@@ -18,7 +18,7 @@ import {
   type Offering,
   type Sponsor,
 } from "@/content/site";
-import { NV_STARS_PHOTOS, NV_STARS_PINNED_HIGHLIGHT_SLUGS } from "@/content/nv-stars";
+import { NV_STARS_PHOTOS, NV_STARS_TEAM_GRID_SLUGS } from "@/content/nv-stars";
 import {
   dataString,
   dataStringList,
@@ -208,10 +208,26 @@ export type NvStarsPublicPhoto = {
   season?: string;
 };
 
+const NV_STARS_TEAM_GRID_SLUG_SET = new Set<string>(NV_STARS_TEAM_GRID_SLUGS);
+
+function isNvStarsTeamGridPhoto(item: { slug: string; category: string }) {
+  return item.category === "nv-stars-team" || NV_STARS_TEAM_GRID_SLUG_SET.has(item.slug);
+}
+
+function nvStarsTeamGridOrder(a: { slug: string; sort: number }, b: { slug: string; sort: number }) {
+  const aLead = NV_STARS_TEAM_GRID_SLUGS.indexOf(a.slug as (typeof NV_STARS_TEAM_GRID_SLUGS)[number]);
+  const bLead = NV_STARS_TEAM_GRID_SLUGS.indexOf(b.slug as (typeof NV_STARS_TEAM_GRID_SLUGS)[number]);
+  if (aLead >= 0 && bLead >= 0) return aLead - bLead;
+  if (aLead >= 0) return -1;
+  if (bLead >= 0) return 1;
+  return a.sort - b.sort;
+}
+
 export async function getPublicNvStarsTeams(): Promise<NvStarsPublicPhoto[]> {
   const records = await getNvStarsGalleryRecords();
   return records
-    .filter((item) => item.category === "nv-stars-team")
+    .filter(isNvStarsTeamGridPhoto)
+    .sort(nvStarsTeamGridOrder)
     .map(({ src, alt, caption, teamLabel, season }) => ({
       src,
       alt,
@@ -221,18 +237,10 @@ export async function getPublicNvStarsTeams(): Promise<NvStarsPublicPhoto[]> {
     }));
 }
 
-export async function getPublicNvStarsFeaturedHighlights(): Promise<NvStarsPublicPhoto[]> {
-  const records = await getNvStarsGalleryRecords();
-  return NV_STARS_PINNED_HIGHLIGHT_SLUGS.map((slug) => records.find((item) => item.slug === slug))
-    .filter((item): item is NonNullable<typeof item> => Boolean(item))
-    .map(({ src, alt, caption }) => ({ src, alt, caption }));
-}
-
 export async function getPublicNvStarsHighlights(): Promise<NvStarsPublicPhoto[]> {
-  const pinned = new Set<string>(NV_STARS_PINNED_HIGHLIGHT_SLUGS);
   const records = await getNvStarsGalleryRecords();
   return records
-    .filter((item) => item.category === "nv-stars-news" && !pinned.has(item.slug))
+    .filter((item) => item.category === "nv-stars-news" && !NV_STARS_TEAM_GRID_SLUG_SET.has(item.slug))
     .map(({ src, alt, caption }) => ({ src, alt, caption }));
 }
 

@@ -1,9 +1,5 @@
 import NvStarsPhotoGrid from "@/components/NvStarsPhotoGrid";
-import {
-  getPublicNvStarsFeaturedHighlights,
-  getPublicNvStarsHighlights,
-  getPublicNvStarsTeams,
-} from "@/lib/nvba-public-content";
+import { getPublicNvStarsHighlights, getPublicNvStarsTeams } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -16,11 +12,7 @@ export const metadata = createPageMetadata({
 export const revalidate = 60;
 
 export default async function NvStarsPage() {
-  const [featuredHighlights, teams, highlights] = await Promise.all([
-    getPublicNvStarsFeaturedHighlights(),
-    getPublicNvStarsTeams(),
-    getPublicNvStarsHighlights(),
-  ]);
+  const [teams, highlights] = await Promise.all([getPublicNvStarsTeams(), getPublicNvStarsHighlights()]);
 
   return (
     <>
@@ -34,14 +26,6 @@ export default async function NvStarsPage() {
         </div>
       </section>
 
-      {featuredHighlights.length ? (
-        <section className="border-b border-nv-navy/8 bg-white">
-          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
-            <NvStarsPhotoGrid images={featuredHighlights} variant="news" />
-          </div>
-        </section>
-      ) : null}
-
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
         {teams.length ? (
           <NvStarsPhotoGrid images={teams} variant="team" />
@@ -54,7 +38,7 @@ export default async function NvStarsPage() {
 
       {highlights.length ? (
         <section className="border-t border-nv-navy/8 bg-nv-ice/50">
-          <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
+          <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-10">
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">Updates</p>
             <h2 className="mt-2 font-display text-2xl font-bold tracking-wide text-nv-navy sm:text-3xl">
               NV Stars news &amp; highlights
