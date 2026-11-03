@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HomeCampProgramCard from "@/components/HomeCampProgramCard";
-import Hero, { DEFAULT_HERO_IMAGE, heroContentFromData } from "@/components/Hero";
+import Hero, { HOME_HERO_IMAGE, heroContentFromData } from "@/components/Hero";
 import HomeFeaturedLessonCard from "@/components/HomeFeaturedLessonCard";
 import HomeSectionHeader from "@/components/HomeSectionHeader";
 import QuickActions from "@/components/QuickActions";
@@ -55,7 +55,7 @@ export default async function HomePage() {
       <Hero
         content={{
           ...(heroContent ?? {}),
-          heroImageUrl: DEFAULT_HERO_IMAGE,
+          heroImageUrl: HOME_HERO_IMAGE,
         }}
       />
       <QuickActions />
