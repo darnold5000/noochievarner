@@ -4,6 +4,7 @@ import { revalidatePath } from "next/cache";
 import { notFound, redirect } from "next/navigation";
 import { DeleteContentButton } from "@/components/admin/delete-content-button";
 import { AdminForm as AdminFormShell, AdminSubmitButton } from "@/components/admin/admin-form";
+import { AdminPendingSubmitButton } from "@/components/admin/admin-pending-submit-button";
 import { LocationListField } from "@/components/admin/location-list-field";
 import { VisibilityToggle } from "@/components/admin/visibility-toggle";
 import { requireNvbaStaff } from "@/lib/nvba-admin-auth";
@@ -365,11 +366,17 @@ export default async function AdminSectionPage({ params, searchParams }: { param
                 <div className="mt-3 space-y-1 text-sm text-zinc-600">{itemDetails(item).slice(0, 4).map((detail) => <p key={detail} className="line-clamp-2 whitespace-pre-line">{detail}</p>)}</div>
                 <div className="mt-auto flex flex-wrap items-center gap-x-4 gap-y-3 border-t border-nv-navy/10 pt-5">
                   <Link href={`/admin/${section}?edit=${item.id}`} className="text-sm font-semibold text-nv-blue hover:underline">Edit</Link>
-                  <form action={toggleAction}><input type="hidden" name="id" value={item.id} /><input type="hidden" name="nextPublished" value={String(!item.published)} /><button type="submit" className="text-sm font-semibold text-zinc-600 hover:text-nv-navy">{item.published ? "Unpublish" : "Publish"}</button></form>
+                  <form action={toggleAction}>
+                    <input type="hidden" name="id" value={item.id} />
+                    <input type="hidden" name="nextPublished" value={String(!item.published)} />
+                    <AdminPendingSubmitButton pendingLabel="Updating…">
+                      {item.published ? "Unpublish" : "Publish"}
+                    </AdminPendingSubmitButton>
+                  </form>
                   {definition.allowDuplicate ? (
                     <form action={duplicateAction}>
                       <input type="hidden" name="id" value={item.id} />
-                      <button type="submit" className="text-sm font-semibold text-zinc-600 hover:text-nv-navy">Duplicate</button>
+                      <AdminPendingSubmitButton pendingLabel="Duplicating…">Duplicate</AdminPendingSubmitButton>
                     </form>
                   ) : null}
                   {!definition.singleton && dataString(item.data, "archiveOnly") !== "yes" ? (

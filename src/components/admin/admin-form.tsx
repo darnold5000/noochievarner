@@ -45,6 +45,7 @@ export function AdminSubmitButton() {
     <button
       type="submit"
       disabled={pending}
+      aria-busy={pending}
       className="inline-flex min-h-11 items-center justify-center gap-2 rounded-lg bg-nv-blue px-6 py-3 text-sm font-bold text-white disabled:cursor-wait disabled:opacity-70"
     >
       {pending ? <span className="size-4 animate-spin rounded-full border-2 border-white/30 border-t-white" aria-hidden /> : null}
