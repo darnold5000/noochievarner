@@ -117,7 +117,7 @@ export default function Header({ branding }: { branding?: SiteBranding }) {
     };
 
     document.addEventListener("mousedown", onPointerDown);
-    document.addEventListener("touchstart", onPointerDown);
+    document.addEventListener("touchstart", onPointerDown, { passive: true });
     document.addEventListener("keydown", onKeyDown);
     return () => {
       document.removeEventListener("mousedown", onPointerDown);
@@ -125,6 +125,10 @@ export default function Header({ branding }: { branding?: SiteBranding }) {
       document.removeEventListener("keydown", onKeyDown);
     };
   }, [academyOpen]);
+
+  const openAcademyMenu = () => setAcademyOpen(true);
+  const closeAcademyMenu = () => setAcademyOpen(false);
+  const toggleAcademyMenu = () => setAcademyOpen((value) => !value);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-nv-navy text-white">
@@ -160,8 +164,8 @@ export default function Header({ branding }: { branding?: SiteBranding }) {
           <div
             ref={academyRef}
             className="relative"
-            onMouseEnter={() => setAcademyOpen(true)}
-            onMouseLeave={() => setAcademyOpen(false)}
+            onMouseEnter={openAcademyMenu}
+            onMouseLeave={closeAcademyMenu}
           >
             <button
               type="button"
@@ -174,25 +178,27 @@ export default function Header({ branding }: { branding?: SiteBranding }) {
                   ? "border-nv-blue text-white"
                   : "border-transparent text-nv-silver hover:border-white/20 hover:text-white"
               }`}
-              onClick={() => setAcademyOpen((value) => !value)}
+              onClick={toggleAcademyMenu}
             >
               Academy
             </button>
             {academyOpen ? (
-              <div
-                id={`${academyMenuId}-menu`}
-                role="menu"
-                aria-labelledby={`${academyMenuId}-button`}
-                className="absolute right-0 top-full z-50 mt-2 min-w-[13rem] rounded-lg border border-white/10 bg-nv-navy p-1.5 shadow-xl"
-              >
-                {ACADEMY_LINKS.map((item) => (
-                  <AcademyMenuLink
-                    key={item.href}
-                    href={item.href}
-                    label={item.label}
-                    onNavigate={() => setAcademyOpen(false)}
-                  />
-                ))}
+              <div className="absolute right-0 top-full z-[60] min-w-[13rem] pt-2">
+                <div
+                  id={`${academyMenuId}-menu`}
+                  role="menu"
+                  aria-labelledby={`${academyMenuId}-button`}
+                  className="rounded-lg border border-white/10 bg-nv-navy p-1.5 shadow-xl"
+                >
+                  {ACADEMY_LINKS.map((item) => (
+                    <AcademyMenuLink
+                      key={item.href}
+                      href={item.href}
+                      label={item.label}
+                      onNavigate={closeAcademyMenu}
+                    />
+                  ))}
+                </div>
               </div>
             ) : null}
           </div>

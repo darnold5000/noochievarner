@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import CampProgramCard from "@/components/CampProgramCard";
+import HomeCampProgramCard from "@/components/HomeCampProgramCard";
 import Hero, { heroContentFromData } from "@/components/Hero";
 import HomeFeaturedLessonCard from "@/components/HomeFeaturedLessonCard";
 import HomeSectionHeader from "@/components/HomeSectionHeader";
@@ -65,9 +65,9 @@ export default async function HomePage() {
             }
             actionHref="/camps"
           />
-          <div className="mt-6 grid gap-4 lg:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
             {sortedCamps.map((camp) => (
-              <CampProgramCard key={camp.slug} offering={camp} href={`/camps/${camp.slug}`} />
+              <HomeCampProgramCard key={camp.slug} offering={camp} href={`/camps/${camp.slug}`} />
             ))}
           </div>
         </div>
