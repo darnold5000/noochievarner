@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HomeNvStarsFeature from "@/components/HomeNvStarsFeature";
 import HomeCampProgramCard from "@/components/HomeCampProgramCard";
 import Hero, { HOME_HERO_IMAGE, heroContentFromData } from "@/components/Hero";
 import HomeFeaturedLessonCard from "@/components/HomeFeaturedLessonCard";
@@ -14,6 +15,7 @@ import {
   getFeaturedHomeCamps,
   getFeaturedHomeLessons,
   getFeaturedHomeSponsors,
+  getFeaturedNvStarsHomePhotos,
   getHomepageContent,
   getPublicMembership,
 } from "@/lib/nvba-public-content";
@@ -22,12 +24,13 @@ import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [homepageData, camps, featuredLessons, membership, sponsors] = await Promise.all([
+  const [homepageData, camps, featuredLessons, membership, sponsors, nvStarsFeatured] = await Promise.all([
     getHomepageContent(),
     getFeaturedHomeCamps(),
     getFeaturedHomeLessons(),
     getPublicMembership(),
     getFeaturedHomeSponsors(),
+    getFeaturedNvStarsHomePhotos(),
   ]);
 
   const sortedCamps = sortCampsByStartDate(camps);
@@ -162,6 +165,8 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      <HomeNvStarsFeature photos={nvStarsFeatured} />
 
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
         <p className="text-center text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">Our sponsors</p>

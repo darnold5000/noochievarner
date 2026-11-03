@@ -13,6 +13,7 @@ const paths = [
   "/sponsors",
   "/news",
   "/gallery",
+  "/nv-stars",
   "/contact",
   ...CAMPS.map((camp) => `/camps/${camp.slug}`),
 ];

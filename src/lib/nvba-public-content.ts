@@ -18,6 +18,7 @@ import {
   type Offering,
   type Sponsor,
 } from "@/content/site";
+import { NV_STARS_PHOTOS } from "@/content/nv-stars";
 import {
   dataString,
   dataStringList,
@@ -163,9 +164,87 @@ export async function getPublicSponsorsIntro() {
   return intro || SPONSORS_INTRO;
 }
 
+const NV_STARS_GALLERY_CATEGORIES = new Set(["nv-stars-team", "nv-stars-news"]);
+
+function isNvStarsGalleryCategory(category: string) {
+  return NV_STARS_GALLERY_CATEGORIES.has(category);
+}
+
+function mapNvStarsGalleryItem(item: { slug: string; title: string; data: Record<string, unknown>; sort_order: number }) {
+  const category = dataString(item.data, "category");
+  if (!isNvStarsGalleryCategory(category)) return null;
+  const src = dataString(item.data, "photoUrl");
+  if (!src) return null;
+  const teamLabel = dataString(item.data, "teamLabel");
+  const season = dataString(item.data, "season");
+  return {
+    slug: item.slug,
+    src,
+    alt: dataString(item.data, "caption") || item.title,
+    caption: dataString(item.data, "caption"),
+    category: category as "nv-stars-team" | "nv-stars-news",
+    teamLabel: teamLabel || undefined,
+    season: season || undefined,
+    featuredOnHomepage: dataString(item.data, "featured") === "yes",
+    sort: Number(dataString(item.data, "sortOrderDisplay")) || item.sort_order,
+  };
+}
+
+async function getNvStarsGalleryRecords() {
+  const state = await getPublicContentState("gallery_photo");
+  const fromCms = state.published
+    .map((item) => mapNvStarsGalleryItem(item))
+    .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    .sort((a, b) => a.sort - b.sort);
+  if (fromCms.length) return fromCms;
+  return [...NV_STARS_PHOTOS];
+}
+
+export type NvStarsPublicPhoto = {
+  src: string;
+  alt: string;
+  caption: string;
+  teamLabel?: string;
+  season?: string;
+};
+
+export async function getPublicNvStarsTeams(): Promise<NvStarsPublicPhoto[]> {
+  const records = await getNvStarsGalleryRecords();
+  return records
+    .filter((item) => item.category === "nv-stars-team")
+    .map(({ src, alt, caption, teamLabel, season }) => ({
+      src,
+      alt,
+      caption,
+      teamLabel,
+      season,
+    }));
+}
+
+export async function getPublicNvStarsHighlights(): Promise<NvStarsPublicPhoto[]> {
+  const records = await getNvStarsGalleryRecords();
+  return records
+    .filter((item) => item.category === "nv-stars-news")
+    .map(({ src, alt, caption }) => ({ src, alt, caption }));
+}
+
+export async function getFeaturedNvStarsHomePhotos(): Promise<NvStarsPublicPhoto[]> {
+  const records = await getNvStarsGalleryRecords();
+  const featured = records.filter((item) => item.category === "nv-stars-team" && item.featuredOnHomepage);
+  const pool = featured.length ? featured : records.filter((item) => item.category === "nv-stars-team");
+  return pool.slice(0, 3).map(({ src, alt, caption, teamLabel, season }) => ({
+    src,
+    alt,
+    caption,
+    teamLabel,
+    season,
+  }));
+}
+
 export async function getPublicGallery() {
   const state = await getPublicContentState("gallery_photo");
   const cms = state.published
+    .filter((item) => !isNvStarsGalleryCategory(dataString(item.data, "category")))
     .map((item) => ({
       src: dataString(item.data, "photoUrl"),
       alt: dataString(item.data, "caption") || item.title,

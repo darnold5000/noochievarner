@@ -50,6 +50,8 @@ const galleryCategoryOptions = [
   { label: "Training", value: "training" },
   { label: "Camps & Clinics", value: "camps" },
   { label: "Events", value: "events" },
+  { label: "NV Stars — Team photo", value: "nv-stars-team" },
+  { label: "NV Stars — News & highlight", value: "nv-stars-news" },
 ] as const;
 
 export const websiteContentNav = [
@@ -359,16 +361,18 @@ export const adminSections: Record<string, AdminSection> = {
     singular: "Photo",
     titleLabel: "Caption",
     deriveTitleFrom: "caption",
-    description: "Upload, caption, categorize, and reorder gallery photos.",
+    description: "Upload, caption, categorize, and reorder gallery photos. Use NV Stars categories for /nv-stars only; they do not appear on the public facility gallery.",
     emptyText: "No gallery photos yet.",
     fields: [
       { key: "caption", label: "Caption" },
       { key: "category", label: "Category", kind: "select", options: galleryCategoryOptions },
+      { key: "teamLabel", label: "Team name or age division (optional)", placeholder: "Only for NV Stars team photos" },
+      { key: "season", label: "Season (optional)", placeholder: "Fall 2026" },
       { key: "photoFile", targetKey: "photoUrl", label: "Photo", kind: "file", accept: "image/jpeg,image/png,image/webp" },
-      { key: "featured", label: "Featured photo", kind: "select", options: [
+      { key: "featured", label: "Featured on homepage (NV Stars)", kind: "select", options: [
         { label: "No", value: "no" },
         { label: "Yes", value: "yes" },
-      ] },
+      ], help: "Shows on homepage NV Stars feature when category is NV Stars — Team photo." },
       { key: "sortOrderDisplay", label: "Display order", kind: "number" },
       { key: "photoUrl", label: "External photo URL", kind: "url", advanced: true },
     ],
@@ -450,7 +454,7 @@ export function publicPathsForSection(section: string) {
     "facility-features": ["/about"],
     contact: ["/contact"],
     "contact-topics": ["/contact"],
-    gallery: ["/gallery", "/services"],
+    gallery: ["/gallery", "/services", "/nv-stars", "/"],
     news: ["/news"],
     sponsors: ["/sponsors", "/"],
     settings: ["/", "/contact"],

@@ -69,7 +69,10 @@ function itemDetails(item: ContentItem) {
   if (item.content_type === "site_settings") return [dataString(data, "phone"), dataString(data, "email"), dataString(data, "addressFull")].filter(Boolean);
   if (item.content_type === "contact_settings") return [dataString(data, "phone"), dataString(data, "email")].filter(Boolean);
   if (item.content_type === "news_article") return [displayDate(dataString(data, "publicationDate")), dataString(data, "summary")].filter(Boolean);
-  if (item.content_type === "gallery_photo") return [dataString(data, "category"), dataString(data, "caption")].filter(Boolean);
+  if (item.content_type === "gallery_photo") {
+    const parts = [dataString(data, "category"), dataString(data, "teamLabel"), dataString(data, "caption")].filter(Boolean);
+    return parts;
+  }
   if (item.content_type === "sponsor") return [dataString(data, "shortDescription")].filter(Boolean);
   if (item.content_type === "nvba_service") return [dataString(data, "shortDescription")].filter(Boolean);
   return [dataString(data, "description"), dataString(data, "shortDescription")].filter(Boolean);

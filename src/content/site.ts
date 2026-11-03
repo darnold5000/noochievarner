@@ -52,6 +52,7 @@ export const HEADER_NAV = [
 
 export const ACADEMY_LINKS = [
   { label: "About Us", href: "/about" },
+  { label: "NV Stars Teams", href: "/nv-stars" },
   { label: "Facility Gallery", href: "/gallery" },
   { label: "News & Updates", href: "/news" },
   { label: "Our Sponsors", href: "/sponsors" },

@@ -15,6 +15,7 @@ import {
   SITE,
   SPONSORS,
   SPONSORS_INTRO,
+  NV_STARS_GALLERY,
   slugify,
 } from "./nvba-cms-seed-data.mjs";
 
@@ -296,6 +297,23 @@ const rows = [
         sortOrderDisplay: String(index + 1),
       },
       index + 1,
+    ),
+  ),
+  ...NV_STARS_GALLERY.map((photo, index) =>
+    item(
+      "gallery_photo",
+      photo.slug,
+      photo.caption || photo.slug,
+      {
+        caption: photo.caption,
+        category: photo.category,
+        photoUrl: photo.src,
+        teamLabel: "",
+        season: "",
+        featured: photo.featuredOnHomepage ? "yes" : "no",
+        sortOrderDisplay: String(photo.sort),
+      },
+      photo.sort,
     ),
   ),
   item(
