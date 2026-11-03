@@ -3,7 +3,7 @@ import Link from "next/link";
 import PageIntro from "@/components/PageIntro";
 import { SERVICES, SERVICES_FACILITY_IMAGE, SERVICES_INTRO, SITE } from "@/content/site";
 import { createPageMetadata } from "@/lib/seo";
-import { btnPrimary } from "@/lib/styles";
+import { btnOnDark } from "@/lib/styles";
 
 export const metadata = createPageMetadata({
   title: "NVBA Services",
@@ -77,7 +77,7 @@ export default function ServicesPage() {
                 {SITE.email}
               </a>
             </p>
-            <Link href="/lessons" className={`${btnPrimary} mt-5 bg-white text-nv-navy hover:bg-nv-silver`}>
+            <Link href="/lessons" className={`${btnOnDark} mt-5`}>
               Looking for lessons?
             </Link>
           </div>

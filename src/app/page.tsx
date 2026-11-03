@@ -25,33 +25,35 @@ export default function HomePage() {
       <Hero />
       <QuickActions />
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
-        <HomeSectionHeader
-          eyebrow="Now registering"
-          title="Camps & Clinics"
-          description="Develop your skills with camps, clinics, and programs designed for every level."
-          actionHref="/camps"
-        />
-        <div className="mt-8 grid gap-5 lg:grid-cols-2">
-          {sortedCamps.map((camp) => (
-            <OfferingCard
-              key={camp.slug}
-              offering={camp}
-              href={`/camps/${camp.slug}`}
-              flyerContain
-            />
-          ))}
+      <section className="bg-white py-8 sm:py-10">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <HomeSectionHeader
+            eyebrow="Now registering"
+            title="Camps & Clinics"
+            description="Develop your skills with camps, clinics, and programs designed for every level."
+            actionHref="/camps"
+          />
+          <div className="mt-6 grid gap-4 lg:grid-cols-2">
+            {sortedCamps.map((camp) => (
+              <OfferingCard
+                key={camp.slug}
+                offering={camp}
+                href={`/camps/${camp.slug}`}
+                imagePresentation="promo"
+              />
+            ))}
+          </div>
         </div>
       </section>
 
-      <section className="border-y border-nv-navy/5 bg-white py-10 sm:py-12">
+      <section className="border-t border-nv-navy/8 bg-nv-ice/80 py-8 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <HomeSectionHeader
             eyebrow="Private instruction"
             title="Train with experienced coaches"
             description="Personalized baseball and softball instruction focused on skills, confidence, and development."
           />
-          <div className="mt-8 grid items-stretch gap-5 md:grid-cols-2">
+          <div className="mt-6 grid items-stretch gap-4 md:grid-cols-2">
             {featuredLessons.map((lesson) => (
               <HomeFeaturedLessonCard
                 key={lesson.slug}
@@ -60,7 +62,7 @@ export default function HomePage() {
               />
             ))}
           </div>
-          <p className="mt-8 text-center">
+          <p className="mt-6 text-center">
             <Link href="/lessons" className={`${btnOutline} inline-flex`}>
               View all lessons
             </Link>

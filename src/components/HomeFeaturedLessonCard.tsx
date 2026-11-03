@@ -28,13 +28,13 @@ export default function HomeFeaturedLessonCard({
 
   return (
     <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-nv-navy/10 bg-white shadow-md shadow-nv-navy/5">
-      <div className="relative aspect-[5/4] bg-nv-navy sm:aspect-[3/2]">
+      <div className="relative aspect-[3/2] w-full bg-nv-navy">
         {lesson.image ? (
           <Image
             src={lesson.image}
             alt={lesson.imageAlt ?? `${lesson.coach}, ${lesson.name}`}
             fill
-            className="object-contain p-1"
+            className="object-cover object-top"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
         ) : photo ? (
@@ -47,14 +47,12 @@ export default function HomeFeaturedLessonCard({
           />
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col p-5 sm:p-6">
+      <div className="flex flex-1 flex-col p-4 sm:p-5">
         <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{lesson.role}</p>
-        <h3 className="mt-1 font-display text-2xl font-bold tracking-wide text-nv-navy sm:text-[1.65rem]">
-          {lesson.name}
-        </h3>
+        <h3 className="mt-1 font-display text-2xl font-bold tracking-wide text-nv-navy">{lesson.name}</h3>
         <p className="mt-1 text-sm font-semibold text-zinc-800">{lesson.coach}</p>
-        <p className="mt-3 line-clamp-4 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>
-        <SiteLink href={bookHref} className={`${btnPrimary} mt-auto w-full pt-5`}>
+        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>
+        <SiteLink href={bookHref} className={`${btnPrimary} mt-auto w-full pt-4`}>
           Book Lesson
         </SiteLink>
       </div>
