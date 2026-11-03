@@ -450,7 +450,7 @@ export function publicPathsForSection(section: string) {
     "facility-features": ["/about"],
     contact: ["/contact"],
     "contact-topics": ["/contact"],
-    gallery: ["/gallery"],
+    gallery: ["/gallery", "/services"],
     news: ["/news"],
     sponsors: ["/sponsors", "/"],
     settings: ["/", "/contact"],

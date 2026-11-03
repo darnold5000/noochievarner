@@ -170,11 +170,69 @@ export async function getPublicGallery() {
       src: dataString(item.data, "photoUrl"),
       alt: dataString(item.data, "caption") || item.title,
       caption: dataString(item.data, "caption") || item.title,
+      category: dataString(item.data, "category"),
+      sort: Number(dataString(item.data, "sortOrderDisplay")) || item.sort_order,
     }))
     .filter((photo) => photo.src);
-  if (state.cmsManaged) return cms;
-  if (cms.length) return cms;
+  if (state.cmsManaged) return cms.map(({ src, alt, caption }) => ({ src, alt, caption }));
+  if (cms.length) return cms.map(({ src, alt, caption }) => ({ src, alt, caption }));
   return [...GALLERY];
+}
+
+const STATIC_FACILITY_GALLERY = [
+  {
+    src: SERVICES_FACILITY_IMAGE.src,
+    alt: SERVICES_FACILITY_IMAGE.alt,
+    caption: "Indoor turf and batting cages",
+  },
+  {
+    src: "/images/facility/about-1.jpg",
+    alt: "Noochie Varner with youth players",
+    caption: "Around the academy",
+  },
+  {
+    src: "/images/facility/about-2.jpg",
+    alt: "Ribbon cutting inside the Noochie Varner Baseball Academy",
+    caption: "Facility opening",
+  },
+  {
+    src: "/images/facility/about-3.jpg",
+    alt: "Coach working with a young player inside the academy",
+    caption: "Player instruction",
+  },
+] as const;
+
+/** Facility-category gallery photos for the services page sidebar. */
+export async function getPublicFacilityGalleryPhotos(introImage?: { src: string; alt: string }) {
+  const state = await getPublicContentState("gallery_photo");
+  const cmsFacility = state.published
+    .filter((item) => dataString(item.data, "category") === "facility")
+    .map((item) => ({
+      src: dataString(item.data, "photoUrl"),
+      alt: dataString(item.data, "caption") || item.title,
+      caption: dataString(item.data, "caption") || item.title,
+      sort: Number(dataString(item.data, "sortOrderDisplay")) || item.sort_order,
+    }))
+    .filter((photo) => photo.src)
+    .sort((a, b) => a.sort - b.sort);
+
+  let photos = cmsFacility.length
+    ? cmsFacility.map(({ src, alt, caption }) => ({ src, alt, caption }))
+    : [...STATIC_FACILITY_GALLERY];
+
+  if (introImage?.src && !photos.some((photo) => photo.src === introImage.src)) {
+    photos = [
+      { src: introImage.src, alt: introImage.alt, caption: introImage.alt },
+      ...photos,
+    ];
+  }
+
+  const seen = new Set<string>();
+  return photos.filter((photo) => {
+    if (seen.has(photo.src)) return false;
+    seen.add(photo.src);
+    return true;
+  });
 }
 
 export async function getPublicServices(): Promise<FacilityService[]> {

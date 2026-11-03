@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import PageIntro from "@/components/PageIntro";
-import { getPublicServices, getPublicServicesIntro } from "@/lib/nvba-public-content";
+import ServicesFacilityGallery from "@/components/ServicesFacilityGallery";
+import { getPublicFacilityGalleryPhotos, getPublicServices, getPublicServicesIntro } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 import { btnGhost, btnOnDark } from "@/lib/styles";
 
@@ -16,6 +16,7 @@ export const revalidate = 60;
 
 export default async function ServicesPage() {
   const [services, intro] = await Promise.all([getPublicServices(), getPublicServicesIntro()]);
+  const facilityPhotos = await getPublicFacilityGalleryPhotos(intro.image);
 
   return (
     <>
@@ -76,16 +77,7 @@ export default async function ServicesPage() {
             </div>
           </div>
         </div>
-        <figure className="overflow-hidden rounded-2xl border border-nv-navy/10 bg-white lg:sticky lg:top-24">
-          <Image
-            src={intro.image.src}
-            alt={intro.image.alt}
-            width={1024}
-            height={1008}
-            className="h-auto w-full object-cover"
-            sizes="(max-width: 1024px) 100vw, 42vw"
-          />
-        </figure>
+        <ServicesFacilityGallery images={facilityPhotos} />
       </section>
     </>
   );
