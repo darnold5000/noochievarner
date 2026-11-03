@@ -3,31 +3,33 @@ import { bookTrainingHref, bookingUrl } from "@/config/booking";
 
 const actions = [
   { label: "Book a Lesson", href: bookTrainingHref(), detail: "Hitting, pitching, fielding, catching" },
-  { label: "Camps & Clinics", href: "/camps", detail: "Current dates, ages, and prices" },
+  { label: "Camps & Clinics", href: "/camps", detail: "Programs, ages, and dates" },
   { label: "Memberships", href: "/memberships", detail: "Big League membership" },
+  { label: "Sign In", href: bookingUrl("login"), detail: "Academy account" },
 ];
+
+const cardClass =
+  "flex h-full min-h-[5.5rem] flex-col justify-center rounded-xl border border-nv-navy/8 bg-white/90 px-4 py-3.5 transition hover:border-nv-blue/35 hover:bg-white hover:shadow-sm";
 
 export default function QuickActions() {
   return (
-    <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6">
-      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
-        {actions.map((action) => (
-          <SiteLink
-            key={action.label}
-            href={action.href}
-            className="rounded-xl border border-nv-navy/10 bg-white p-4 shadow-sm transition hover:border-nv-blue"
-          >
-            <p className="font-display text-xl font-bold tracking-wide text-nv-navy">{action.label}</p>
-            <p className="mt-1 text-sm text-zinc-600">{action.detail}</p>
-          </SiteLink>
-        ))}
-        <a
-          href={bookingUrl("login")}
-          className="rounded-xl border border-nv-navy bg-nv-navy p-4 text-white shadow-sm"
-        >
-          <p className="font-display text-xl font-bold tracking-wide">Sign In</p>
-          <p className="mt-1 text-sm text-nv-silver">Open your academy account</p>
-        </a>
+    <section className="border-b border-nv-navy/5 bg-nv-ice/80">
+      <div className="mx-auto max-w-7xl px-4 py-6 sm:px-6 sm:py-7">
+        <div className="grid grid-cols-2 gap-2.5 sm:gap-3 lg:grid-cols-4">
+          {actions.map((action) =>
+            action.label === "Sign In" ? (
+              <a key={action.label} href={action.href} className={cardClass}>
+                <p className="font-display text-base font-bold tracking-wide text-nv-navy sm:text-lg">{action.label}</p>
+                <p className="mt-0.5 line-clamp-2 text-xs text-zinc-500 sm:text-sm">{action.detail}</p>
+              </a>
+            ) : (
+              <SiteLink key={action.label} href={action.href} className={cardClass}>
+                <p className="font-display text-base font-bold tracking-wide text-nv-navy sm:text-lg">{action.label}</p>
+                <p className="mt-0.5 line-clamp-2 text-xs text-zinc-500 sm:text-sm">{action.detail}</p>
+              </SiteLink>
+            ),
+          )}
+        </div>
       </div>
     </section>
   );

@@ -1,6 +1,9 @@
 export const btnPrimary =
   "inline-flex min-h-12 items-center justify-center rounded-md bg-nv-blue px-5 py-3 text-center text-sm font-bold uppercase tracking-wide text-white transition hover:bg-nv-royal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-nv-blue";
 
+export const btnHeroPrimary =
+  "inline-flex min-h-12 items-center justify-center rounded-md bg-nv-blue px-6 py-3.5 text-center text-sm font-bold uppercase tracking-[0.12em] text-white shadow-lg shadow-black/25 transition hover:bg-nv-royal focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
+
 export const btnOnDark =
   "inline-flex min-h-12 items-center justify-center rounded-md bg-white px-5 py-3 text-center text-sm font-bold uppercase tracking-wide text-nv-navy transition hover:bg-nv-silver focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white";
 
