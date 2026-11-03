@@ -13,9 +13,9 @@ import { dataString } from "@/lib/nvba-cms";
 import {
   getFeaturedHomeCamps,
   getFeaturedHomeLessons,
+  getFeaturedHomeSponsors,
   getHomepageContent,
   getPublicMembership,
-  getPublicSponsors,
 } from "@/lib/nvba-public-content";
 import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
 
@@ -27,7 +27,7 @@ export default async function HomePage() {
     getFeaturedHomeCamps(),
     getFeaturedHomeLessons(),
     getPublicMembership(),
-    getPublicSponsors(),
+    getFeaturedHomeSponsors(),
   ]);
 
   const sortedCamps = sortCampsByStartDate(camps);
@@ -48,7 +48,7 @@ export default async function HomePage() {
   const membershipDescription =
     homepageData ? dataString(homepageData, "membershipSectionDescription") : "Train year-round with HitTrax lessons, daily cage access, gym access, and priority scheduling. Choose a one-time payment or monthly installments — see membership details for full pricing.";
 
-  const homepageSponsors = sponsors.filter((_, index) => index === 0);
+  const homepageSponsors = sponsors;
 
   return (
     <>

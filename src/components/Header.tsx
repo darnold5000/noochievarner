@@ -13,6 +13,7 @@ import {
   MOBILE_NAV,
   SITE,
 } from "@/content/site";
+import type { SiteBranding } from "@/lib/nvba-public-content";
 import { btnOnDark } from "@/lib/styles";
 
 function isActivePath(pathname: string, href: string) {
@@ -83,7 +84,9 @@ function AcademyMenuLink({
   );
 }
 
-export default function Header() {
+export default function Header({ branding }: { branding?: SiteBranding }) {
+  const logoUrl = branding?.logoUrl || "/images/brand/icon.png";
+  const addressLine = branding?.address.full ?? SITE.address.full;
   const pathname = usePathname();
   const [open, setOpen] = useState(false);
   const [academyOpen, setAcademyOpen] = useState(false);
@@ -129,7 +132,7 @@ export default function Header() {
         <Link href="/" className="flex min-w-0 shrink-0 items-center gap-2.5 sm:gap-3" onClick={close}>
           <span className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-sm bg-white">
             <Image
-              src="/images/brand/icon.png"
+              src={logoUrl}
               alt="Noochie Varner Baseball Academy"
               fill
               className="object-contain object-[center_52%] p-1.5"
@@ -266,7 +269,7 @@ export default function Header() {
               Sign In
             </a>
           </div>
-          <p className="mt-4 px-1 text-xs text-nv-silver">{SITE.address.full}</p>
+          <p className="mt-4 px-1 text-xs text-nv-silver">{addressLine}</p>
         </nav>
       ) : null}
     </header>

@@ -68,7 +68,7 @@ export default async function ContactPage() {
             </div>
 
             <div>
-              <ContactMapEmbed />
+              <ContactMapEmbed embedUrl={contact.address.mapEmbedUrl} locationLabel={`${contact.name} at ${contact.address.full}`} />
               <address className="mt-4 not-italic text-sm leading-relaxed text-zinc-600">
                 <p className="font-semibold text-nv-navy">{contact.name}</p>
                 <p>{contact.address.street}</p>

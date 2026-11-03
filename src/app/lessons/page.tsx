@@ -3,8 +3,9 @@ import BookingLink from "@/components/BookingLink";
 import PageIntro from "@/components/PageIntro";
 import SiteLink from "@/components/SiteLink";
 import { bookTrainingHref } from "@/config/booking";
-import { COACHES, LESSON_BOOKING_HREFS } from "@/config/schedule";
+import { LESSON_BOOKING_HREFS } from "@/config/schedule";
 import { BULK_PACKAGES, LESSON_RATES } from "@/content/site";
+import { getLessonsPageCoaches } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 import { btnOnDark, btnPrimary } from "@/lib/styles";
 
@@ -15,7 +16,11 @@ export const metadata = createPageMetadata({
   path: "/lessons",
 });
 
-export default function LessonsPage() {
+export const revalidate = 60;
+
+export default async function LessonsPage() {
+  const coaches = await getLessonsPageCoaches();
+
   return (
     <>
       <PageIntro eyebrow="Private instruction" title="Lessons">
@@ -33,7 +38,7 @@ export default function LessonsPage() {
         </SiteLink>
       </PageIntro>
       <section className="mx-auto grid max-w-7xl gap-4 px-4 py-10 sm:px-6 lg:grid-cols-2">
-        {COACHES.map((coach) => (
+        {coaches.map((coach) => (
           <article key={coach.id} className="rounded-2xl border border-nv-navy/10 bg-white p-4 sm:p-5">
             <div className="flex items-start gap-4">
               <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-nv-ice sm:h-28 sm:w-28">

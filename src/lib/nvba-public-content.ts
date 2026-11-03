@@ -1,5 +1,6 @@
 import type { BookingKey } from "@/config/booking";
 import { bookingUrl } from "@/config/booking";
+import { COACHES, type Coach } from "@/config/schedule";
 import {
   CAMPS,
   CONTACT_TOPICS,
@@ -13,6 +14,7 @@ import {
   SITE,
   SPONSORS,
   SPONSORS_INTRO,
+  STORES,
   type ContactTopic,
   type FacilityService,
   type Offering,
@@ -30,6 +32,16 @@ function programToOffering(item: ContentItem): Offering {
   const data = item.data;
   const bookingKey = dataString(data, "bookingKey") as BookingKey;
   const registrationEnabled = dataString(data, "registrationEnabled") !== "no";
+  let sections: Offering["sections"];
+  const sectionsJson = dataString(data, "sectionsJson");
+  if (sectionsJson) {
+    try {
+      const parsed = JSON.parse(sectionsJson) as Offering["sections"];
+      if (Array.isArray(parsed)) sections = parsed;
+    } catch {
+      sections = undefined;
+    }
+  }
   return {
     slug: item.slug,
     name: item.title,
@@ -43,9 +55,7 @@ function programToOffering(item: ContentItem): Offering {
     instructor: dataString(data, "instructor") || undefined,
     limit: dataString(data, "capacity") || undefined,
     details: dataStringList(data, "details").length ? dataStringList(data, "details") : dataStringList(data, "trainingTopics"),
-    sections: dataStringList(data, "includedBenefits").length
-      ? [{ title: "Included", items: dataStringList(data, "includedBenefits") }]
-      : undefined,
+    sections,
     bookingKey: registrationEnabled && bookingKey ? bookingKey : undefined,
     cta: dataString(data, "cta") || "Register",
     image: dataString(data, "flyerUrl") || undefined,
@@ -74,26 +84,60 @@ export async function getPublicCampSlugs(): Promise<string[]> {
 
 export async function getPublicLessons(): Promise<(typeof LESSONS)[number][]> {
   const state = await getPublicContentState("lesson");
-  if (!state.published.length && !state.cmsManaged) return [...LESSONS];
+  const staticBySlug = new Map<string, (typeof LESSONS)[number]>(
+    LESSONS.map((lesson) => [lesson.slug, lesson]),
+  );
   const cms = state.published.map((item) => {
     const data = item.data;
-    const bookingKey = dataString(data, "bookingKey") as BookingKey;
+    const fallback = staticBySlug.get(item.slug);
+    const bookingKey = (dataString(data, "bookingKey") || fallback?.bookingKey) as BookingKey;
     return {
       slug: item.slug,
       name: item.title,
-      coach: dataString(data, "instructorName") || "NVBA instructor",
-      role: dataString(data, "category"),
-      bio: dataString(data, "description"),
-      focus: dataStringList(data, "focusAreas") as unknown as readonly string[],
+      coach: dataString(data, "instructorName") || fallback?.coach || "NVBA instructor",
+      role: dataString(data, "category") || fallback?.role || "",
+      bio: dataString(data, "description") || fallback?.bio || "",
+      focus: (dataStringList(data, "focusAreas").length
+        ? dataStringList(data, "focusAreas")
+        : fallback?.focus ?? []) as unknown as readonly string[],
       bookingKey,
-      image: dataString(data, "imageUrl") || undefined,
-      imageAlt: item.title,
-      contact: [] as readonly string[],
+      image:
+        dataString(data, "imageUrl") ||
+        ("image" in (fallback ?? {}) ? (fallback as { image?: string }).image : undefined),
+      imageAlt:
+        ("imageAlt" in (fallback ?? {})
+          ? (fallback as { imageAlt?: string }).imageAlt
+          : undefined) ?? item.title,
+      contact:
+        ("contact" in (fallback ?? {})
+          ? (fallback as { contact?: readonly string[] }).contact
+          : undefined) ?? ([] as readonly string[]),
     };
   }) as (typeof LESSONS)[number][];
   if (state.cmsManaged) return cms;
+  if (!state.published.length) return [...LESSONS];
   const managed = new Set(state.managedSlugs);
   return [...cms, ...LESSONS.filter((lesson) => !managed.has(lesson.slug))];
+}
+
+export async function getLessonsPageCoaches(): Promise<Coach[]> {
+  const instructorState = await getPublicContentState("instructor");
+  return COACHES.map((coach) => {
+    const cms = instructorState.published.find(
+      (item) => dataString(item.data, "coachId") === coach.id || item.slug === coach.id,
+    );
+    if (!cms) return coach;
+    const data = cms.data;
+    const contact = [dataString(data, "phone"), dataString(data, "email")].filter(Boolean);
+    return {
+      ...coach,
+      name: cms.title || coach.name,
+      specialty: dataString(data, "title") || coach.specialty,
+      shortBio: dataString(data, "shortBio") || dataString(data, "fullBio") || coach.shortBio,
+      photo: dataString(data, "photoUrl") || coach.photo,
+      contact: contact.length ? contact : coach.contact,
+    };
+  });
 }
 
 export async function getPublicSponsors(): Promise<Sponsor[]> {
@@ -260,7 +304,114 @@ export async function getResolvedSiteContact(): Promise<ResolvedSiteContact> {
   };
 }
 
-export async function getPublicProShop() {
+export type SiteBranding = ResolvedSiteContact & {
+  shortName: string;
+  footerDescription: string;
+  logoUrl: string;
+  headerTitle: string;
+  headerSubtitle: string;
+};
+
+export async function getSiteBranding(): Promise<SiteBranding> {
+  const contact = await getResolvedSiteContact();
+  const settings = await getPublishedSingleton("site_settings");
+  const settingsData = settings?.data ?? {};
+  return {
+    ...contact,
+    shortName: dataString(settingsData, "shortName") || SITE.shortName,
+    footerDescription: dataString(settingsData, "footerDescription") || contact.tagline,
+    logoUrl: dataString(settingsData, "logoUrl") || "/images/brand/icon.png",
+    headerTitle: "NOOCHIE VARNER",
+    headerSubtitle: "BASEBALL ACADEMY",
+  };
+}
+
+export type PublicAboutContent = {
+  introEyebrow: string;
+  introTitle: string;
+  introText: string;
+  storyParagraphs: string[];
+  mainImageUrl: string;
+  secondaryImageUrl: string;
+  facilityVideoUrl: string;
+  facilityDescription: string;
+  features: { label: string; description: string }[];
+  contact: ResolvedSiteContact;
+};
+
+export async function getPublicAboutContent(): Promise<PublicAboutContent | null> {
+  const [about, featuresState, contact] = await Promise.all([
+    getPublishedSingleton("about_settings"),
+    getPublicContentState("facility_feature"),
+    getResolvedSiteContact(),
+  ]);
+  if (!about) return null;
+  const data = about.data;
+  const storyParagraphs = dataStringList(data, "storyParagraphs");
+  return {
+    introEyebrow: dataString(data, "introEyebrow") || "Georgetown, Kentucky",
+    introTitle: dataString(data, "introTitle") || "About the Academy",
+    introText: dataString(data, "introText"),
+    storyParagraphs: storyParagraphs.length
+      ? storyParagraphs
+      : [dataString(data, "story"), dataString(data, "mission"), dataString(data, "ownerBio")].filter(Boolean),
+    mainImageUrl: dataString(data, "mainImageUrl") || "/images/facility/facility.jpg",
+    secondaryImageUrl: dataString(data, "secondaryImageUrl") || "/images/facility/about-2.jpg",
+    facilityVideoUrl: dataString(data, "facilityVideoUrl") || SITE.facilityVideo,
+    facilityDescription: dataString(data, "facilityDescription") || SITE.facility,
+    features: featuresState.published.map((item) => ({
+      label: dataString(item.data, "label") || item.title,
+      description: dataString(item.data, "description"),
+    })),
+    contact,
+  };
+}
+
+export type PublicProShopContent = {
+  hero: {
+    label: string;
+    lines: readonly [string, string];
+    subtitle: string;
+    highlights: readonly string[];
+    image: string;
+    imageAlt: string;
+  };
+  wilson: {
+    brand: string;
+    tagline: string;
+    heading: string;
+    description: string;
+    image: string;
+    imageAlt: string;
+    href: string;
+    accessCode: string;
+    cta: string;
+  };
+  apparel: {
+    heading: string;
+    description: string;
+    image: string;
+    imageAlt: string;
+    href: string;
+    cta: string;
+    options: readonly string[];
+  };
+  orderSteps: readonly string[];
+  catalogContact: {
+    name: string;
+    role: string;
+    email: string;
+    emailHref: string;
+    phone: string;
+    phoneHref: string;
+  };
+};
+
+function vendorByKind(vendors: ContentItem[], kind: string, slug: string) {
+  return vendors.find((item) => item.slug === slug || dataString(item.data, "vendorKind") === kind);
+}
+
+export async function getPublicProShopContent(): Promise<PublicProShopContent> {
   const [page, vendorState] = await Promise.all([
     getPublishedSingleton("pro_shop_settings"),
     getPublicContentState("pro_shop_vendor"),
@@ -268,23 +419,68 @@ export async function getPublicProShop() {
   const base = PRO_SHOP;
   const pageData = page?.data ?? {};
   const vendors = vendorState.published;
+  const wilsonItem = vendorByKind(vendors, "wilson", "wilson");
+  const apparelItem = vendorByKind(vendors, "apparel", "nvba-apparel");
+
+  const contactName = dataString(pageData, "contactName") || STORES.catalogContact.name;
+  const contactEmail = dataString(pageData, "contactEmail") || STORES.catalogContact.email;
+  const contactPhone = dataString(pageData, "contactPhone") || STORES.catalogContact.phone;
+
+  const heroLine1 = dataString(pageData, "heroLine1") || base.hero.lines[0];
+  const heroLine2 = dataString(pageData, "heroLine2") || base.hero.lines[1];
+  const highlights = dataStringList(pageData, "heroHighlights");
+
   return {
     hero: {
-      ...base.hero,
+      label: dataString(pageData, "heroLabel") || base.hero.label,
+      lines: [heroLine1, heroLine2] as [string, string],
       subtitle: dataString(pageData, "pageDescription") || base.hero.subtitle,
+      highlights: (highlights.length ? highlights : [...base.hero.highlights]) as readonly string[],
       image: dataString(pageData, "heroImageUrl") || base.hero.image,
+      imageAlt: base.hero.imageAlt,
     },
-    wilson: base.wilson,
-    apparel: base.apparel,
-    orderSteps: dataStringList(pageData, "orderSteps").length ? dataStringList(pageData, "orderSteps") : base.orderSteps,
-    vendors,
+    wilson: wilsonItem
+      ? {
+          ...base.wilson,
+          tagline: dataString(wilsonItem.data, "tagline") || base.wilson.tagline,
+          heading: wilsonItem.title || base.wilson.heading,
+          description: dataString(wilsonItem.data, "description") || base.wilson.description,
+          image: dataString(wilsonItem.data, "logoUrl") || base.wilson.image,
+          href: dataString(wilsonItem.data, "catalogUrl") || base.wilson.href,
+          accessCode: dataString(wilsonItem.data, "accessCode") || base.wilson.accessCode,
+          cta: dataString(wilsonItem.data, "cta") || base.wilson.cta,
+        }
+      : base.wilson,
+    apparel: apparelItem
+      ? {
+          ...base.apparel,
+          heading: apparelItem.title === "NVBA Apparel" ? base.apparel.heading : apparelItem.title,
+          description: dataString(apparelItem.data, "description") || base.apparel.description,
+          image: dataString(apparelItem.data, "logoUrl") || base.apparel.image,
+          href: dataString(apparelItem.data, "catalogUrl") || base.apparel.href,
+          cta: dataString(apparelItem.data, "cta") || base.apparel.cta,
+          options: (dataStringList(apparelItem.data, "apparelOptions").length
+            ? dataStringList(apparelItem.data, "apparelOptions")
+            : [...base.apparel.options]) as readonly string[],
+        }
+      : base.apparel,
+    orderSteps: (dataStringList(pageData, "orderSteps").length
+      ? dataStringList(pageData, "orderSteps")
+      : [...base.orderSteps]) as readonly string[],
     catalogContact: {
-      name: dataString(pageData, "contactName") || PRO_SHOP.orderSteps[2],
-      role: dataString(pageData, "contactRole") || "",
-      email: dataString(pageData, "contactEmail") || "",
-      phone: dataString(pageData, "contactPhone") || "",
+      name: contactName,
+      role: dataString(pageData, "contactRole") || STORES.catalogContact.role,
+      email: contactEmail,
+      emailHref: `mailto:${contactEmail}`,
+      phone: contactPhone,
+      phoneHref: STORES.catalogContact.phoneHref,
     },
   };
+}
+
+/** @deprecated Use getPublicProShopContent */
+export async function getPublicProShop() {
+  return getPublicProShopContent();
 }
 
 export async function getHomepageContent() {
@@ -324,6 +520,18 @@ export async function getPublicNewsArticles() {
     image: dataString(item.data, "featuredImageUrl") || "/images/brand/college-alumni.png",
     publicationDate: dataString(item.data, "publicationDate"),
   }));
+}
+
+export async function getFeaturedHomeSponsors(): Promise<Sponsor[]> {
+  const sponsors = await getPublicSponsors();
+  const state = await getPublicContentState("sponsor");
+  const featured = state.published.filter((item) => dataString(item.data, "featuredOnHomepage") === "yes");
+  if (featured.length) {
+    const names = new Set(featured.map((item) => item.title));
+    const filtered = sponsors.filter((s) => names.has(s.name));
+    if (filtered.length) return filtered;
+  }
+  return sponsors.slice(0, 1);
 }
 
 export function resolveBookingHref(key?: BookingKey) {

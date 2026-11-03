@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "db:seed-cms": "node -e \"console.log('Apply supabase/migrations then seed tenant_content_items for NVBA. See supabase/manual/nvba-tenant.sql and owner portal at /admin after env is set.')\""
+    "db:seed-cms": "node scripts/db-seed-nvba-cms.mjs",
+    "db:provision-owner-staff": "node scripts/db-provision-owner-staff.mjs"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.7",

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import CopyAccessCode from "@/components/CopyAccessCode";
-import { PRO_SHOP, STORES } from "@/content/site";
+import { getPublicProShopContent } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 import { btnGhost, btnOnDark, btnPrimary } from "@/lib/styles";
 
@@ -11,9 +11,10 @@ export const metadata = createPageMetadata({
   path: "/pro-shop",
 });
 
-export default function ProShopPage() {
-  const contact = STORES.catalogContact;
-  const { hero, wilson, apparel, orderSteps } = PRO_SHOP;
+export const revalidate = 60;
+
+export default async function ProShopPage() {
+  const { hero, wilson, apparel, orderSteps, catalogContact: contact } = await getPublicProShopContent();
 
   return (
     <>
