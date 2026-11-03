@@ -20,8 +20,13 @@ export default function LessonsPage() {
     <>
       <PageIntro eyebrow="Private instruction" title="Lessons">
         <p>
-          Hitting, pitching, fielding, and catching with the academy staff. Baseball and softball players are both
-          welcome.
+          Private lessons are the best way to work on what a specific player needs. Every student is built a little
+          differently, physically, mentally, and emotionally, so instruction is tailored to that player.
+        </p>
+        <p className="mt-3">
+          The first lesson sets a baseline. From there, each player gets a development plan and a purposeful routine
+          built on the absolutes, not one fixed style. Players are expected to know their strengths, weaknesses, and
+          style, and to bring hard work, self-discipline, and accountability.
         </p>
         <SiteLink href={bookTrainingHref()} className={`${btnOnDark} mt-6`}>
           Book Training
@@ -89,6 +94,14 @@ export default function LessonsPage() {
           <BookingLink destination="packages" className={`${btnPrimary} mt-5`}>
             Purchase Lessons
           </BookingLink>
+        </div>
+        <div className="mt-5 rounded-2xl border border-nv-navy/10 bg-white p-5">
+          <h2 className="font-display text-3xl font-bold tracking-wide text-nv-navy">Lesson terms and conditions</h2>
+          <ul className="mt-4 space-y-3 text-sm leading-relaxed text-zinc-700">
+            <li>24 hour notice is required when cancelling any lesson or batting cage time. You will be charged the full amount if you fail to do so.</li>
+            <li>Scheduling and reservations are on a first come, first serve basis and are subject to availability.</li>
+            <li>Payment is due prior to the start of lessons, clinics, etc.</li>
+          </ul>
         </div>
       </section>
     </>
