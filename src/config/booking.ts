@@ -29,6 +29,8 @@ export const booking = {
       "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4115723",
     batSpeed:
       "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4111214",
+    pitchingClinic:
+      "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=3990935",
   },
 } as const;
 

@@ -41,6 +41,23 @@ export default function OfferingDetail({
               </div>
             ))}
           </dl>
+          {offering.sections?.length ? (
+            <div className="mt-6 grid gap-4">
+              {offering.sections.map((section) => (
+                <div key={section.title} className="rounded-xl bg-white p-4">
+                  <h2 className="font-display text-2xl font-bold tracking-wide text-nv-navy">{section.title}</h2>
+                  <ul className="mt-3 space-y-2 text-sm leading-relaxed text-zinc-700">
+                    {section.items.map((item) => (
+                      <li key={item} className="flex gap-2">
+                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-nv-blue" />
+                        <span>{item}</span>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              ))}
+            </div>
+          ) : null}
           <ul className="mt-6 space-y-3 text-sm leading-relaxed text-zinc-700">
             {offering.details.map((detail) => (
               <li key={detail} className="rounded-xl bg-white p-4">

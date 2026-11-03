@@ -68,6 +68,7 @@ export type Offering = {
   instructor?: string;
   limit?: string;
   details: string[];
+  sections?: { title: string; items: string[] }[];
   bookingKey?: BookingKey;
   cta: string;
   image?: string;
@@ -76,6 +77,41 @@ export type Offering = {
 };
 
 export const CAMPS: Offering[] = [
+  {
+    slug: "advanced-pitching-clinic",
+    name: "Advanced Pitching Clinic",
+    eyebrow: "Pitching clinic",
+    summary:
+      "Three Sunday sessions led by Jordan Fox and Cade McKee, former Scott County High School All-American pitchers.",
+    ages: "12–16",
+    dates: "February 1 – February 15",
+    days: "Sundays",
+    times: "7:00–8:30 p.m.",
+    price: "$119 + tax",
+    instructor: "Jordan Fox & Cade McKee",
+    limit: "First 16 players · 3 sessions",
+    details: [
+      "This pitching clinic features two former Scott County High School All-American pitchers.",
+    ],
+    sections: [
+      {
+        title: "Pitching instruction focused on",
+        items: [
+          "Band work",
+          "Pitching mechanics",
+          "Pitching grips",
+          "Pickoff moves",
+          "Pitching drills",
+          "Proper leg drive",
+          "Arm care",
+        ],
+      },
+    ],
+    bookingKey: "pitchingClinic",
+    cta: "Register",
+    image: "/images/flyers/pitching-clinic.jpg",
+    imageAlt: "Advanced Pitching Clinic with Jordan Fox and Cade McKee",
+  },
   {
     slug: "bat-speed-clinic",
     name: "Bat Speed Clinic",
@@ -114,11 +150,38 @@ export const CAMPS: Offering[] = [
     instructor: "Noochie Varner & full NVBA staff",
     limit: "First 15 players · 13 sessions",
     details: [
-      "Fielding work includes footwork drills, on-field communication, holding runners, and arm strength and accuracy.",
-      "Hitting data is captured and reviewed using HitTrax. Drills are specific to each player, including body movement and the approach at the plate.",
-      "Baserunning covers primary and secondary leadoffs, steals, and recorded home-to-first times.",
-      "Attendees receive a Rookie Development shirt and 2 free private hitting lessons with Noochie after the program.",
-      "After week 7, instructors meet with each player and parent to review progress. A closing conversation is held at the end of the program.",
+      "Each week, sessions are designed to enhance each player's overall baseball IQ.",
+      "Attendees receive a Rookie Development shirt and 2 free private hitting lessons with Noochie after camp.",
+      "After week 7, instructors sit down with each player and parent to discuss performance and progress from week 1 to week 7.",
+      "Post-session interviews at the end of camp give parents and players a chance to share their takeaways.",
+    ],
+    sections: [
+      {
+        title: "Fielding",
+        items: [
+          "Footwork drills",
+          "On-field communication",
+          "Holding runners",
+          "Arm strength and accuracy, with proper throwing technique",
+        ],
+      },
+      {
+        title: "Hitting",
+        items: [
+          "Hitting data from week 1 to week 14 is captured and reviewed using HitTrax",
+          "Drills are unique and specific to each player's needs",
+          "Understanding body movements and how they affect the swing",
+          "Understanding the approach at the plate",
+        ],
+      },
+      {
+        title: "Baserunning",
+        items: [
+          "Primary and secondary leadoffs",
+          "Steals: what to watch for, finding timing, and understanding body positioning",
+          "Home-to-first time is recorded",
+        ],
+      },
     ],
     bookingKey: "rookie",
     cta: "Register",

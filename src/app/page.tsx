@@ -24,7 +24,7 @@ export default function HomePage() {
             View all
           </Link>
         </div>
-        <div className="mt-6 grid gap-5 lg:grid-cols-3">
+        <div className="mt-6 grid gap-5 lg:grid-cols-2">
           {CAMPS.map((camp) => (
             <OfferingCard key={camp.slug} offering={camp} href={`/camps/${camp.slug}`} />
           ))}
@@ -71,9 +71,10 @@ export default function HomePage() {
                     ) : null}
                   </div>
                   <div className="flex flex-1 flex-col p-4 sm:p-5">
-                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{lesson.coach}</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{lesson.role}</p>
                     <h3 className="mt-1 font-display text-2xl font-bold tracking-wide text-nv-navy">{lesson.name}</h3>
-                    {flyer ? null : <p className="mt-2 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>}
+                    <p className="mt-1 text-sm font-semibold text-zinc-800">{lesson.coach}</p>
+                    <p className="mt-3 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>
                     <SiteLink href={LESSON_BOOKING_HREFS[lesson.slug]} className={`${btnPrimary} mt-auto w-full pt-4`}>
                       Book Lesson
                     </SiteLink>
