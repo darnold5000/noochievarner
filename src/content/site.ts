@@ -47,7 +47,6 @@ export const HEADER_NAV = [
   { label: "Camps & Clinics", href: "/camps" },
   { label: "Lessons", href: "/lessons" },
   { label: "Memberships", href: "/memberships" },
-  { label: "Pro Shop", href: "/pro-shop" },
   { label: "NVBA Services", href: "/services" },
 ] as const;
 
@@ -433,64 +432,9 @@ export const CONTACT_TOPICS = [
   { value: "camps", label: "Camps & clinics" },
   { value: "membership", label: "Membership" },
   { value: "facility", label: "Facility rental & services" },
-  { value: "pro-shop", label: "Pro shop & equipment" },
 ] as const;
 
 export type ContactTopic = (typeof CONTACT_TOPICS)[number]["value"];
-
-export const STORES = {
-  teamShop: "https://www.team.shop/en-us",
-  wilsonJoin: "http://www.wilsonteamshop.com/join",
-  accessCode: "18DD053",
-  catalogContact: {
-    name: "Petey Reynolds",
-    role: "Director of Equipment and Sales",
-    email: "peteyreynolds@icloud.com",
-    emailHref: "mailto:peteyreynolds@icloud.com",
-    phone: "(859) 298-0174",
-    phoneDisplay: "859-298-0174",
-    phoneHref: "tel:+18592980174",
-  },
-} as const;
-
-export const PRO_SHOP = {
-  hero: {
-    label: "NVBA Pro Shop",
-    lines: ["Gear Up.", "Play Your Best."] as const,
-    subtitle:
-      "Browse Wilson equipment and NVBA team apparel with exclusive partner pricing and local ordering support.",
-    highlights: ["Wilson partner pricing", "Team apparel", "Local order support"] as const,
-    image: "/images/pro-shop/hero-banner.webp",
-    imageAlt: "Team shop baseball apparel and equipment",
-  },
-  wilson: {
-    brand: "Wilson",
-    tagline: "Official equipment partner",
-    heading: "Gear Up with Wilson",
-    description:
-      "Browse discounted Wilson apparel and equipment through NVBA's partner catalog. Orders are placed with our equipment director after you choose items in the Wilson store.",
-    image: "/images/pro-shop/wilson-gear.webp",
-    imageAlt: "Baseball player in Wilson and EvoShield equipment",
-    href: STORES.wilsonJoin,
-    accessCode: STORES.accessCode,
-    cta: "Browse Wilson catalog",
-  },
-  apparel: {
-    heading: "Rep your academy.",
-    description:
-      "Show your NVBA pride with custom team jerseys, spirit wear, and academy gear. Browse the team shop catalog, then contact Petey Reynolds to place your order.",
-    image: "/images/pro-shop/nvba-apparel.jpg",
-    imageAlt: "Custom, design-your-own, and stock team jerseys available through NVBA apparel",
-    href: STORES.teamShop,
-    cta: "Shop NVBA apparel",
-    options: ["Custom team jerseys", "Design-your-own looks", "Stock team styles"] as const,
-  },
-  orderSteps: [
-    "Browse the Wilson or NVBA apparel catalog.",
-    "Find the products you're interested in.",
-    "Contact Petey Reynolds to place your order.",
-  ] as const,
-} as const;
 
 export const GALLERY = [
   {

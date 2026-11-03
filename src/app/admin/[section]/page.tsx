@@ -308,14 +308,6 @@ export default async function AdminSectionPage({ params, searchParams }: { param
           .
         </div>
       ) : null}
-      {section === "pro-shop" ? (
-        <div className="mt-5 text-sm text-zinc-600">
-          Vendor catalogs:{" "}
-          <Link href="/admin/pro-shop-vendors" className="font-semibold text-nv-blue hover:underline">
-            Pro Shop Vendors →
-          </Link>
-        </div>
-      ) : null}
       {section === "services" ? (
         <div className="mt-5 text-sm text-zinc-600">
           Page intro and facility image:{" "}

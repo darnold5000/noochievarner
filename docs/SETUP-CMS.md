@@ -73,7 +73,7 @@ Re-run safely after adding new seed rows to the script.
 ## Owner access
 
 1. Deploy with env vars configured.
-2. Sign in at `/login` → **Owner portal sign in** (Supabase Auth).
+2. Sign in at `/login` → **Staff login** (Supabase Auth). Use **Forgot password?** to reset via email.
 3. Manage content at `/admin`.
 
 Public pages read CMS data with static fallbacks when Supabase is unset. After seeding, the site should match pre-CMS appearance.
@@ -85,7 +85,7 @@ Public pages read CMS data with static fallbacks when Supabase is unset. After s
 - [ ] Owner has `manage_website`
 - [ ] `npm run db:seed-cms` inserted expected row count
 - [ ] `/admin` loads; edit + save persists
-- [ ] Public `/about`, `/pro-shop`, `/lessons`, footer/header reflect CMS after revalidation (~60s)
+- [ ] Public `/about`, `/lessons`, footer/header reflect CMS after revalidation (~60s)
 
 ## Not verified automatically
 

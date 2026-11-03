@@ -33,11 +33,6 @@ export default async function AdminDashboardPage() {
         <h2 className="font-display text-lg font-bold text-nv-navy">Related tools</h2>
         <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-2 text-sm">
           <li>
-            <Link href="/admin/pro-shop-vendors" className="font-semibold text-nv-blue hover:underline">
-              Pro Shop Vendors
-            </Link>
-          </li>
-          <li>
             <Link href="/admin/services-intro" className="font-semibold text-nv-blue hover:underline">
               Services Intro
             </Link>

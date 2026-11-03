@@ -297,48 +297,6 @@ export const MEMBERSHIP = {
   ],
 };
 
-export const PRO_SHOP = {
-  hero: {
-    label: "NVBA Pro Shop",
-    lines: ["Gear Up.", "Play Your Best."],
-    subtitle:
-      "Browse Wilson equipment and NVBA team apparel with exclusive partner pricing and local ordering support.",
-    highlights: ["Wilson partner pricing", "Team apparel", "Local order support"],
-    image: "/images/pro-shop/hero-banner.webp",
-  },
-  wilson: {
-    brand: "Wilson",
-    tagline: "Official equipment partner",
-    heading: "Gear Up with Wilson",
-    description:
-      "Browse discounted Wilson apparel and equipment through NVBA's partner catalog. Orders are placed with our equipment director after you choose items in the Wilson store.",
-    image: "/images/pro-shop/wilson-gear.webp",
-    href: "http://www.wilsonteamshop.com/join",
-    accessCode: "18DD053",
-    cta: "Browse Wilson catalog",
-  },
-  apparel: {
-    heading: "Rep your academy.",
-    description:
-      "Show your NVBA pride with custom team jerseys, spirit wear, and academy gear. Browse the team shop catalog, then contact Petey Reynolds to place your order.",
-    image: "/images/pro-shop/nvba-apparel.jpg",
-    href: "https://www.team.shop/en-us",
-    cta: "Shop NVBA apparel",
-    options: ["Custom team jerseys", "Design-your-own looks", "Stock team styles"],
-  },
-  orderSteps: [
-    "Browse the Wilson or NVBA apparel catalog.",
-    "Find the products you're interested in.",
-    "Contact Petey Reynolds to place your order.",
-  ],
-  contact: {
-    name: "Petey Reynolds",
-    role: "Director of Equipment and Sales",
-    email: "peteyreynolds@icloud.com",
-    phone: "(859) 298-0174",
-  },
-};
-
 export const SERVICES_INTRO =
   "Our state-of-the-art batting cages and pitching tunnel are available to the public in 30- and 60-minute blocks. Teams can also book the entire facility or indoor turf field in one- or two-hour blocks.";
 
@@ -420,7 +378,6 @@ export const CONTACT_TOPICS = [
   { value: "camps", label: "Camps & clinics" },
   { value: "membership", label: "Membership" },
   { value: "facility", label: "Facility rental & services" },
-  { value: "pro-shop", label: "Pro shop & equipment" },
 ];
 
 export const GALLERY = [

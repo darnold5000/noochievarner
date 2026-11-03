@@ -7,14 +7,12 @@ import {
   GALLERY,
   LESSONS,
   MEMBERSHIP,
-  PRO_SHOP,
   SERVICES,
   SERVICES_FACILITY_IMAGE,
   SERVICES_INTRO,
   SITE,
   SPONSORS,
   SPONSORS_INTRO,
-  STORES,
   type ContactTopic,
   type FacilityService,
   type Offering,
@@ -365,122 +363,6 @@ export async function getPublicAboutContent(): Promise<PublicAboutContent | null
     })),
     contact,
   };
-}
-
-export type PublicProShopContent = {
-  hero: {
-    label: string;
-    lines: readonly [string, string];
-    subtitle: string;
-    highlights: readonly string[];
-    image: string;
-    imageAlt: string;
-  };
-  wilson: {
-    brand: string;
-    tagline: string;
-    heading: string;
-    description: string;
-    image: string;
-    imageAlt: string;
-    href: string;
-    accessCode: string;
-    cta: string;
-  };
-  apparel: {
-    heading: string;
-    description: string;
-    image: string;
-    imageAlt: string;
-    href: string;
-    cta: string;
-    options: readonly string[];
-  };
-  orderSteps: readonly string[];
-  catalogContact: {
-    name: string;
-    role: string;
-    email: string;
-    emailHref: string;
-    phone: string;
-    phoneHref: string;
-  };
-};
-
-function vendorByKind(vendors: ContentItem[], kind: string, slug: string) {
-  return vendors.find((item) => item.slug === slug || dataString(item.data, "vendorKind") === kind);
-}
-
-export async function getPublicProShopContent(): Promise<PublicProShopContent> {
-  const [page, vendorState] = await Promise.all([
-    getPublishedSingleton("pro_shop_settings"),
-    getPublicContentState("pro_shop_vendor"),
-  ]);
-  const base = PRO_SHOP;
-  const pageData = page?.data ?? {};
-  const vendors = vendorState.published;
-  const wilsonItem = vendorByKind(vendors, "wilson", "wilson");
-  const apparelItem = vendorByKind(vendors, "apparel", "nvba-apparel");
-
-  const contactName = dataString(pageData, "contactName") || STORES.catalogContact.name;
-  const contactEmail = dataString(pageData, "contactEmail") || STORES.catalogContact.email;
-  const contactPhone = dataString(pageData, "contactPhone") || STORES.catalogContact.phone;
-
-  const heroLine1 = dataString(pageData, "heroLine1") || base.hero.lines[0];
-  const heroLine2 = dataString(pageData, "heroLine2") || base.hero.lines[1];
-  const highlights = dataStringList(pageData, "heroHighlights");
-
-  return {
-    hero: {
-      label: dataString(pageData, "heroLabel") || base.hero.label,
-      lines: [heroLine1, heroLine2] as [string, string],
-      subtitle: dataString(pageData, "pageDescription") || base.hero.subtitle,
-      highlights: (highlights.length ? highlights : [...base.hero.highlights]) as readonly string[],
-      image: dataString(pageData, "heroImageUrl") || base.hero.image,
-      imageAlt: base.hero.imageAlt,
-    },
-    wilson: wilsonItem
-      ? {
-          ...base.wilson,
-          tagline: dataString(wilsonItem.data, "tagline") || base.wilson.tagline,
-          heading: wilsonItem.title || base.wilson.heading,
-          description: dataString(wilsonItem.data, "description") || base.wilson.description,
-          image: dataString(wilsonItem.data, "logoUrl") || base.wilson.image,
-          href: dataString(wilsonItem.data, "catalogUrl") || base.wilson.href,
-          accessCode: dataString(wilsonItem.data, "accessCode") || base.wilson.accessCode,
-          cta: dataString(wilsonItem.data, "cta") || base.wilson.cta,
-        }
-      : base.wilson,
-    apparel: apparelItem
-      ? {
-          ...base.apparel,
-          heading: apparelItem.title === "NVBA Apparel" ? base.apparel.heading : apparelItem.title,
-          description: dataString(apparelItem.data, "description") || base.apparel.description,
-          image: dataString(apparelItem.data, "logoUrl") || base.apparel.image,
-          href: dataString(apparelItem.data, "catalogUrl") || base.apparel.href,
-          cta: dataString(apparelItem.data, "cta") || base.apparel.cta,
-          options: (dataStringList(apparelItem.data, "apparelOptions").length
-            ? dataStringList(apparelItem.data, "apparelOptions")
-            : [...base.apparel.options]) as readonly string[],
-        }
-      : base.apparel,
-    orderSteps: (dataStringList(pageData, "orderSteps").length
-      ? dataStringList(pageData, "orderSteps")
-      : [...base.orderSteps]) as readonly string[],
-    catalogContact: {
-      name: contactName,
-      role: dataString(pageData, "contactRole") || STORES.catalogContact.role,
-      email: contactEmail,
-      emailHref: `mailto:${contactEmail}`,
-      phone: contactPhone,
-      phoneHref: STORES.catalogContact.phoneHref,
-    },
-  };
-}
-
-/** @deprecated Use getPublicProShopContent */
-export async function getPublicProShop() {
-  return getPublicProShopContent();
 }
 
 export async function getHomepageContent() {
