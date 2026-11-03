@@ -88,7 +88,7 @@ export default async function HomePage() {
               "Personalized baseball and softball instruction focused on skills, confidence, and development."
             }
           />
-          <div className="mt-6 grid items-stretch gap-4 md:grid-cols-2">
+          <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:grid-cols-2 lg:grid-cols-3 lg:gap-4">
             {featuredLessons.map((lesson) => (
               <HomeFeaturedLessonCard
                 key={lesson.slug}

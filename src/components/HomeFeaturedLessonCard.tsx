@@ -27,32 +27,32 @@ export default function HomeFeaturedLessonCard({
   const photoFit = coach?.photoFit;
 
   return (
-    <article className="flex h-full flex-col overflow-hidden rounded-2xl border border-nv-navy/10 bg-white shadow-md shadow-nv-navy/5">
-      <div className="relative aspect-[3/2] w-full bg-nv-navy">
+    <article className="flex h-full flex-col overflow-hidden rounded-xl border border-nv-navy/10 bg-white shadow-md shadow-nv-navy/5">
+      <div className="relative aspect-[16/10] w-full bg-nv-navy">
         {lesson.image ? (
           <Image
             src={lesson.image}
             alt={lesson.imageAlt ?? `${lesson.coach}, ${lesson.name}`}
             fill
             className="object-cover object-top"
-            sizes="(max-width: 768px) 100vw, 50vw"
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : photo ? (
           <Image
             src={photo}
             alt=""
             fill
-            className={photoFit === "contain" ? "object-contain p-4" : "object-cover object-top"}
-            sizes="(max-width: 768px) 100vw, 50vw"
+            className={photoFit === "contain" ? "object-contain p-3" : "object-cover object-top"}
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         ) : null}
       </div>
-      <div className="flex flex-1 flex-col p-4 sm:p-5">
-        <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{lesson.role}</p>
-        <h3 className="mt-1 font-display text-2xl font-bold tracking-wide text-nv-navy">{lesson.name}</h3>
-        <p className="mt-1 text-sm font-semibold text-zinc-800">{lesson.coach}</p>
-        <p className="mt-2 line-clamp-2 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>
-        <SiteLink href={bookHref} className={`${btnPrimary} mt-auto w-full pt-4`}>
+      <div className="flex flex-1 flex-col p-3 sm:p-4">
+        <p className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-nv-blue sm:text-xs">{lesson.role}</p>
+        <h3 className="mt-0.5 font-display text-lg font-bold tracking-wide text-nv-navy sm:text-xl">{lesson.name}</h3>
+        <p className="mt-0.5 text-xs font-semibold text-zinc-800 sm:text-sm">{lesson.coach}</p>
+        <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-zinc-600 sm:text-sm">{lesson.bio}</p>
+        <SiteLink href={bookHref} className={`${btnPrimary} mt-auto w-full pt-3 text-sm sm:pt-4`}>
           Book Lesson
         </SiteLink>
       </div>

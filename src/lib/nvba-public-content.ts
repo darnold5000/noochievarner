@@ -381,15 +381,24 @@ export async function getFeaturedHomeCamps(): Promise<Offering[]> {
   return camps;
 }
 
+const DEFAULT_HOME_LESSON_SLUGS = ["hitting", "pitching", "fielding"] as const;
+
 export async function getFeaturedHomeLessons() {
   const lessons = await getPublicLessons();
+  const bySlug = new Map<string, (typeof lessons)[number]>(lessons.map((lesson) => [lesson.slug, lesson]));
   const state = await getPublicContentState("lesson");
-  const featured = state.published.filter((item) => dataString(item.data, "featuredOnHomepage") === "yes");
-  if (featured.length) {
-    const slugs = featured.map((item) => item.slug);
-    return lessons.filter((lesson) => slugs.includes(lesson.slug)).slice(0, 2);
-  }
-  return lessons.slice(0, 2);
+  const featuredSlugs = state.published
+    .filter((item) => dataString(item.data, "featuredOnHomepage") === "yes")
+    .map((item) => item.slug);
+
+  const orderedSlugs: string[] =
+    featuredSlugs.length > 0
+      ? [...featuredSlugs, ...DEFAULT_HOME_LESSON_SLUGS.filter((slug) => !featuredSlugs.includes(slug))].slice(0, 3)
+      : [...DEFAULT_HOME_LESSON_SLUGS];
+
+  return orderedSlugs
+    .map((slug) => bySlug.get(slug))
+    .filter((lesson): lesson is (typeof lessons)[number] => Boolean(lesson));
 }
 
 export async function getPublicNewsArticles() {

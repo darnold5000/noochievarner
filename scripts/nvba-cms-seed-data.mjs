@@ -260,7 +260,7 @@ export const LESSONS = [
     focusAreas: ["Fundamentals", "Footwork", "Glove work", "Game situations"],
     bookingKey: "coreyAlsop",
     imageUrl: "/images/flyers/fielding.jpg",
-    featuredOnHomepage: "no",
+    featuredOnHomepage: "yes",
     sort: 3,
   },
   {
