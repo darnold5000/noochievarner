@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HomeCampProgramCard from "@/components/HomeCampProgramCard";
-import Hero, { heroContentFromData } from "@/components/Hero";
+import Hero, { HOME_HERO_IMAGE, heroContentFromData } from "@/components/Hero";
 import HomeFeaturedLessonCard from "@/components/HomeFeaturedLessonCard";
 import HomeSectionHeader from "@/components/HomeSectionHeader";
 import QuickActions from "@/components/QuickActions";
@@ -52,7 +52,12 @@ export default async function HomePage() {
 
   return (
     <>
-      <Hero content={heroContent} />
+      <Hero
+        content={{
+          ...(heroContent ?? {}),
+          heroImageUrl: HOME_HERO_IMAGE,
+        }}
+      />
       <QuickActions />
 
       <section className="bg-white py-8 sm:py-10">
