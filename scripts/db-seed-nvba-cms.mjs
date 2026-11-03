@@ -80,7 +80,7 @@ const rows = [
       headlinePrimary: "NOOCHIE VARNER",
       headlineSecondary: "BASEBALL ACADEMY",
       heroDescription: SITE.tagline,
-      heroImageUrl: "/images/facility/facility.jpg",
+      heroImageUrl: "/images/facility/hero-infield.jpg",
       facilityBadgeLabel: "Indoor facility",
       facilityBadgeText: "16,000 sq. ft.",
       primaryButtonText: "Book a Lesson",
