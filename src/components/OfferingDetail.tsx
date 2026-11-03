@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import PageIntro from "@/components/PageIntro";
+import ProgramFlyerSection from "@/components/ProgramFlyerSection";
 import SiteLink from "@/components/SiteLink";
 import { campRegisterHref } from "@/config/schedule";
 import type { Offering } from "@/content/site";
@@ -31,69 +31,68 @@ export default function OfferingDetail({
       <PageIntro eyebrow={offering.eyebrow} title={offering.name}>
         <p>{offering.summary}</p>
       </PageIntro>
-      <section className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.2fr_0.8fr]">
-        <div>
-          <dl className="grid gap-3 sm:grid-cols-2">
-            {facts.map(([label, value]) => (
-              <div key={label} className="rounded-xl border border-nv-navy/10 bg-white p-4">
-                <dt className="text-xs font-bold uppercase tracking-wide text-zinc-500">{label}</dt>
-                <dd className="mt-1 font-semibold text-nv-navy">{value}</dd>
+      <section className="mx-auto max-w-3xl px-4 py-8 pb-12 sm:px-6 sm:py-10">
+        <dl className="grid gap-3 sm:grid-cols-2">
+          {facts.map(([label, value]) => (
+            <div key={label} className="rounded-xl border border-nv-navy/10 bg-white p-4 shadow-sm">
+              <dt className="text-xs font-bold uppercase tracking-wide text-zinc-500">{label}</dt>
+              <dd className="mt-1 font-semibold text-nv-navy">{value}</dd>
+            </div>
+          ))}
+        </dl>
+
+        {offering.sections?.length ? (
+          <div className="mt-8 grid gap-4 sm:grid-cols-2">
+            {offering.sections.map((section) => (
+              <div key={section.title} className="rounded-xl border border-nv-navy/10 bg-white p-5 shadow-sm sm:col-span-2">
+                <h2 className="font-display text-xl font-bold tracking-wide text-nv-navy sm:text-2xl">{section.title}</h2>
+                <ul className="mt-3 space-y-2 text-sm leading-relaxed text-zinc-700">
+                  {section.items.map((item) => (
+                    <li key={item} className="flex gap-2">
+                      <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-nv-blue" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
               </div>
             ))}
-          </dl>
-          {offering.sections?.length ? (
-            <div className="mt-6 grid gap-4">
-              {offering.sections.map((section) => (
-                <div key={section.title} className="rounded-xl bg-white p-4">
-                  <h2 className="font-display text-2xl font-bold tracking-wide text-nv-navy">{section.title}</h2>
-                  <ul className="mt-3 space-y-2 text-sm leading-relaxed text-zinc-700">
-                    {section.items.map((item) => (
-                      <li key={item} className="flex gap-2">
-                        <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-nv-blue" />
-                        <span>{item}</span>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </div>
-          ) : null}
-          <ul className="mt-6 space-y-3 text-sm leading-relaxed text-zinc-700">
-            {offering.details.map((detail) => (
-              <li key={detail} className="rounded-xl bg-white p-4">
-                {detail}
-              </li>
-            ))}
-          </ul>
-          {offering.contactLines ? (
-            <p className="mt-4 text-sm text-zinc-600">{offering.contactLines.join(" · ")}</p>
-          ) : null}
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
-            {registerHref ? (
-              <SiteLink href={registerHref} className={btnPrimary}>
-                {offering.cta}
-              </SiteLink>
-            ) : (
-              <Link href="/contact" className={btnPrimary}>
-                {offering.cta}
-              </Link>
-            )}
-            <Link href={backHref} className={btnOutline}>
-              {backLabel}
-            </Link>
           </div>
+        ) : null}
+
+        {offering.details.length ? (
+          <div className="mt-8">
+            <h2 className="font-display text-xl font-bold tracking-wide text-nv-navy">Program details</h2>
+            <ul className="mt-3 space-y-3 text-sm leading-relaxed text-zinc-700">
+              {offering.details.map((detail) => (
+                <li key={detail} className="rounded-xl border border-nv-navy/10 bg-white p-4 shadow-sm">
+                  {detail}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ) : null}
+
+        {offering.contactLines ? (
+          <p className="mt-6 text-sm text-zinc-600">{offering.contactLines.join(" · ")}</p>
+        ) : null}
+
+        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+          {registerHref ? (
+            <SiteLink href={registerHref} className={btnPrimary}>
+              {offering.cta}
+            </SiteLink>
+          ) : (
+            <Link href="/contact" className={btnPrimary}>
+              {offering.cta}
+            </Link>
+          )}
+          <Link href={backHref} className={btnOutline}>
+            {backLabel}
+          </Link>
         </div>
+
         {offering.image ? (
-          <figure className="overflow-hidden rounded-2xl border border-nv-navy/10 bg-white">
-            <Image
-              src={offering.image}
-              alt={offering.imageAlt ?? `${offering.name} flyer`}
-              width={900}
-              height={1100}
-              className="h-auto w-full"
-            />
-            <figcaption className="px-4 py-3 text-xs text-zinc-500">Program flyer</figcaption>
-          </figure>
+          <ProgramFlyerSection src={offering.image} alt={offering.imageAlt ?? `${offering.name} program flyer`} />
         ) : null}
       </section>
     </>

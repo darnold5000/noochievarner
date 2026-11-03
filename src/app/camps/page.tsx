@@ -1,4 +1,4 @@
-import OfferingCard from "@/components/OfferingCard";
+import CampProgramCard from "@/components/CampProgramCard";
 import PageIntro from "@/components/PageIntro";
 import { CAMPS } from "@/content/site";
 import { sortCampsByStartDate } from "@/lib/camp-sort";
@@ -22,9 +22,9 @@ export default function CampsPage() {
           are listed on each program below.
         </p>
       </PageIntro>
-      <section className="mx-auto grid max-w-7xl gap-5 px-4 py-8 pb-10 sm:px-6 sm:py-10 sm:pb-12 lg:grid-cols-2">
+      <section className="mx-auto grid max-w-7xl gap-4 px-4 py-8 pb-10 sm:px-6 sm:py-10 sm:pb-12 lg:grid-cols-2 lg:gap-5">
         {sortedCamps.map((camp) => (
-          <OfferingCard key={camp.slug} offering={camp} href={`/camps/${camp.slug}`} />
+          <CampProgramCard key={camp.slug} offering={camp} href={`/camps/${camp.slug}`} />
         ))}
       </section>
     </>
