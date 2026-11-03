@@ -179,52 +179,31 @@ export async function getPublicGallery() {
   return [...GALLERY];
 }
 
-const STATIC_FACILITY_GALLERY = [
-  {
-    src: SERVICES_FACILITY_IMAGE.src,
-    alt: SERVICES_FACILITY_IMAGE.alt,
-    caption: "Indoor turf and batting cages",
-  },
-  {
-    src: "/images/facility/about-1.jpg",
-    alt: "Noochie Varner with youth players",
-    caption: "Around the academy",
-  },
-  {
-    src: "/images/facility/about-2.jpg",
-    alt: "Ribbon cutting inside the Noochie Varner Baseball Academy",
-    caption: "Facility opening",
-  },
-  {
-    src: "/images/facility/about-3.jpg",
-    alt: "Coach working with a young player inside the academy",
-    caption: "Player instruction",
-  },
-] as const;
+const SERVICES_GALLERY_EXCLUDED_CAPTIONS = new Set([
+  "facility opening",
+  "around the academy",
+  "player instruction",
+  "hittrax",
+]);
 
-/** Facility-category gallery photos for the services page sidebar. */
+function isExcludedFromServicesGallery(photo: { caption: string; alt: string }) {
+  const caption = photo.caption.trim().toLowerCase();
+  const alt = photo.alt.trim().toLowerCase();
+  if (SERVICES_GALLERY_EXCLUDED_CAPTIONS.has(caption)) return true;
+  if (caption.includes("hittrax") || alt.includes("hittrax")) return true;
+  return false;
+}
+
+/** Gallery photos for the services page sidebar (all gallery items minus a fixed exclude list). */
 export async function getPublicFacilityGalleryPhotos(introImage?: { src: string; alt: string }) {
-  const state = await getPublicContentState("gallery_photo");
-  const cmsFacility = state.published
-    .filter((item) => dataString(item.data, "category") === "facility")
-    .map((item) => ({
-      src: dataString(item.data, "photoUrl"),
-      alt: dataString(item.data, "caption") || item.title,
-      caption: dataString(item.data, "caption") || item.title,
-      sort: Number(dataString(item.data, "sortOrderDisplay")) || item.sort_order,
-    }))
-    .filter((photo) => photo.src)
-    .sort((a, b) => a.sort - b.sort);
-
-  let photos = cmsFacility.length
-    ? cmsFacility.map(({ src, alt, caption }) => ({ src, alt, caption }))
-    : [...STATIC_FACILITY_GALLERY];
+  const all = await getPublicGallery();
+  let photos = all.filter((photo) => !isExcludedFromServicesGallery(photo));
 
   if (introImage?.src && !photos.some((photo) => photo.src === introImage.src)) {
-    photos = [
-      { src: introImage.src, alt: introImage.alt, caption: introImage.alt },
-      ...photos,
-    ];
+    const introEntry = { src: introImage.src, alt: introImage.alt, caption: introImage.alt };
+    if (!isExcludedFromServicesGallery(introEntry)) {
+      photos = [introEntry, ...photos];
+    }
   }
 
   const seen = new Set<string>();

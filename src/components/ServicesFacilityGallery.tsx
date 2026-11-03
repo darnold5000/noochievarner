@@ -102,14 +102,8 @@ export default function ServicesFacilityGallery({ images }: { images: GalleryIma
       ) : null}
 
       {count > 1 ? (
-        <div
-          className={`grid gap-2 p-3 sm:gap-2.5 sm:p-4 ${
-            count >= 4 ? "grid-cols-4" : count === 3 ? "grid-cols-3" : "grid-cols-2"
-          }`}
-          role="tablist"
-          aria-label="Facility photo thumbnails"
-        >
-          {images.slice(0, 4).map((image, thumbIndex) => {
+        <div className="grid grid-cols-4 gap-2 p-3 sm:gap-2.5 sm:p-4" role="tablist" aria-label="Facility photo thumbnails">
+          {images.map((image, thumbIndex) => {
             const selected = thumbIndex === index;
             return (
               <button
@@ -123,7 +117,7 @@ export default function ServicesFacilityGallery({ images }: { images: GalleryIma
                   selected ? "border-nv-blue ring-1 ring-nv-blue/30" : "border-transparent opacity-80 hover:opacity-100"
                 }`}
               >
-                <Image src={image.src} alt="" fill className="object-cover" sizes="96px" />
+                <Image src={image.src} alt="" fill className="object-cover" sizes="(max-width: 1024px) 22vw, 10vw" />
               </button>
             );
           })}
