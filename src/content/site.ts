@@ -447,8 +447,8 @@ export const PRO_SHOP = {
     subtitle:
       "Browse Wilson equipment and NVBA team apparel with exclusive partner pricing and local ordering support.",
     highlights: ["Wilson partner pricing", "Team apparel", "Local order support"] as const,
-    image: "/images/gallery/hitting.jpg",
-    imageAlt: "Baseball training at Noochie Varner Baseball Academy",
+    image: "/images/pro-shop/hero.webp",
+    imageAlt: "Baseball player in Wilson equipment at the plate",
   },
   wilson: {
     brand: "Wilson",
@@ -464,11 +464,13 @@ export const PRO_SHOP = {
   },
   apparel: {
     heading: "Rep your academy.",
-    description: "Shop NVBA-branded apparel and team gear through the team shop catalog.",
-    image: "/images/gallery/stars-9u.jpg",
-    imageAlt: "NVBA team at the academy",
+    description:
+      "Show your NVBA pride with custom team jerseys, spirit wear, and academy gear. Browse the team shop catalog, then contact Petey Reynolds to place your order.",
+    image: "/images/pro-shop/nvba-apparel.jpg",
+    imageAlt: "Custom, design-your-own, and stock team jerseys available through NVBA apparel",
     href: STORES.teamShop,
     cta: "Shop NVBA apparel",
+    options: ["Custom team jerseys", "Design-your-own looks", "Stock team styles"] as const,
   },
   orderSteps: [
     "Browse the Wilson or NVBA apparel catalog.",

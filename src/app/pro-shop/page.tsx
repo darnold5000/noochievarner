@@ -96,32 +96,50 @@ export default function ProShopPage() {
       </section>
 
       <section className="border-y border-nv-navy/8 bg-nv-ice/80 py-10 sm:py-12">
-        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-12">
-          <div className="relative overflow-hidden rounded-2xl shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10">
-            <div className="relative aspect-[4/3]">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+          <article className="overflow-hidden rounded-2xl border border-nv-navy/10 bg-white shadow-lg shadow-nv-navy/5">
+            <div className="relative aspect-[16/9] w-full bg-nv-navy sm:aspect-[21/9]">
               <Image
                 src={apparel.image}
                 alt={apparel.imageAlt}
                 fill
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 50vw"
+                className="object-contain object-center"
+                sizes="100vw"
               />
             </div>
-          </div>
-          <div>
-            <h2 className="font-display text-3xl font-bold uppercase tracking-wide text-nv-navy sm:text-4xl">
-              {apparel.heading}
-            </h2>
-            <p className="mt-4 text-sm leading-relaxed text-zinc-600 sm:text-base">{apparel.description}</p>
-            <a
-              href={apparel.href}
-              className={`${btnPrimary} mt-6 inline-flex w-full sm:w-auto`}
-              target="_blank"
-              rel="noreferrer"
-            >
-              {apparel.cta}
-            </a>
-          </div>
+            <div className="grid gap-6 p-6 sm:p-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center lg:gap-10">
+              <div>
+                <h2 className="font-display text-3xl font-bold uppercase tracking-wide text-nv-navy sm:text-4xl">
+                  {apparel.heading}
+                </h2>
+                <p className="mt-4 text-sm leading-relaxed text-zinc-600 sm:text-base">{apparel.description}</p>
+                <ul className="mt-5 flex flex-wrap gap-2">
+                  {apparel.options.map((option) => (
+                    <li
+                      key={option}
+                      className="rounded-full border border-nv-blue/20 bg-nv-ice px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-nv-navy"
+                    >
+                      {option}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div className="flex flex-col items-start lg:items-end">
+                <a
+                  href={apparel.href}
+                  className={`${btnPrimary} w-full sm:w-auto`}
+                  target="_blank"
+                  rel="noreferrer"
+                >
+                  {apparel.cta}
+                </a>
+                <p className="mt-3 max-w-sm text-xs leading-relaxed text-zinc-500 lg:text-right">
+                  Opens the external team shop catalog. NVBA does not checkout on this site — email or call Petey to
+                  complete your order.
+                </p>
+              </div>
+            </div>
+          </article>
         </div>
       </section>
 
