@@ -2,7 +2,7 @@ import Image from "next/image";
 import CopyAccessCode from "@/components/CopyAccessCode";
 import { PRO_SHOP, STORES } from "@/content/site";
 import { createPageMetadata } from "@/lib/seo";
-import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
+import { btnGhost, btnOnDark, btnPrimary } from "@/lib/styles";
 
 export const metadata = createPageMetadata({
   title: "Pro Shop",
@@ -194,7 +194,7 @@ export default function ProShopPage() {
             <a href={contact.emailHref} className={`${btnOnDark} w-full sm:w-auto`}>
               Email Petey
             </a>
-            <a href={contact.phoneHref} className={`${btnOutline} w-full border-white/30 bg-transparent text-white hover:border-white hover:bg-white/10 sm:w-auto`}>
+            <a href={contact.phoneHref} className={`${btnGhost} w-full sm:w-auto`}>
               Call Petey
             </a>
           </div>
