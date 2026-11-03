@@ -35,34 +35,49 @@ export default function HomePage() {
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">Private instruction</p>
           <h2 className="font-display text-4xl font-bold tracking-wide text-nv-navy">Lessons</h2>
-          <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          <div className="mt-6 grid items-stretch gap-5 md:grid-cols-2">
             {LESSONS.map((lesson) => {
               const coach = COACHES.find((item) => item.services[0] === lesson.slug);
+              const flyer = "image" in lesson ? lesson.image : null;
+              const flyerAlt = "imageAlt" in lesson ? lesson.imageAlt : `${lesson.coach}, ${lesson.name}`;
               return (
-                <article key={lesson.slug} className="flex flex-col rounded-2xl border border-nv-navy/10 p-5">
-                  <div className="flex items-start gap-3">
-                    {coach ? (
-                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-nv-ice">
-                        <Image
-                          src={coach.photo}
-                          alt={`${coach.name}, ${coach.specialty} instructor`}
-                          fill
-                          className={coach.photoFit === "contain" ? "object-contain p-1" : "object-cover"}
-                          style={{ objectPosition: coach.photoPosition }}
-                          sizes="64px"
-                        />
+                <article
+                  key={lesson.slug}
+                  className="flex h-full flex-col overflow-hidden rounded-2xl border border-nv-navy/10 bg-white shadow-sm"
+                >
+                  <div className="relative aspect-[3/2] bg-nv-navy">
+                    {flyer ? (
+                      <Image
+                        src={flyer}
+                        alt={flyerAlt}
+                        fill
+                        className="object-contain"
+                        sizes="(max-width: 768px) 100vw, 50vw"
+                      />
+                    ) : coach ? (
+                      <div className="flex h-full flex-col items-center justify-center gap-3 px-6 text-center text-white">
+                        <div className="relative h-36 w-36">
+                          <Image
+                            src={coach.photo}
+                            alt=""
+                            fill
+                            className={coach.photoFit === "contain" ? "object-contain" : "object-cover"}
+                            sizes="96px"
+                          />
+                        </div>
+                        <p className="font-display text-3xl font-bold tracking-wide">Catching</p>
+                        <p className="text-sm text-nv-silver">NVBA instructors</p>
                       </div>
                     ) : null}
-                    <div className="min-w-0">
-                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{lesson.role}</p>
-                      <h3 className="mt-1 font-display text-2xl font-bold leading-tight tracking-wide">{lesson.name}</h3>
-                      <p className="mt-1 text-sm font-semibold text-zinc-800">{lesson.coach}</p>
-                    </div>
                   </div>
-                  <p className="mt-3 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>
-                  <SiteLink href={LESSON_BOOKING_HREFS[lesson.slug]} className={`${btnPrimary} mt-5 w-full`}>
-                    Book Lesson
-                  </SiteLink>
+                  <div className="flex flex-1 flex-col p-4 sm:p-5">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{lesson.coach}</p>
+                    <h3 className="mt-1 font-display text-2xl font-bold tracking-wide text-nv-navy">{lesson.name}</h3>
+                    {flyer ? null : <p className="mt-2 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>}
+                    <SiteLink href={LESSON_BOOKING_HREFS[lesson.slug]} className={`${btnPrimary} mt-auto w-full pt-4`}>
+                      Book Lesson
+                    </SiteLink>
+                  </div>
                 </article>
               );
             })}
