@@ -14,9 +14,11 @@ Set in `.env.local` (development) and Vercel (production):
 | Variable | Purpose |
 |----------|---------|
 | `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Browser / cookie auth |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Browser / cookie auth (required for owner login on `/login`) |
 | `SUPABASE_SERVICE_ROLE_KEY` | Server-only reads & seed script (**never** expose to client) |
 | `TENANT_ID` | UUID of the NVBA tenant row |
+
+**Vercel:** Set all four Supabase variables above. Without them, `/login` only shows EZFacility. After changing env, redeploy the noochievarner project.
 | `NEXT_PUBLIC_SITE_URL` | Public site URL for metadata |
 
 ## Database migration

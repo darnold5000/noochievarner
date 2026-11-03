@@ -19,13 +19,13 @@ export function StaffLoginForm({ returnTo = "/admin" }: { returnTo?: string }) {
       const supabase = createClient();
       const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
       if (signInError) {
-        setError("Could not sign in. Check your owner email and password.");
+        setError("Could not sign in. Check your email and password.");
         return;
       }
       router.push(returnTo.startsWith("/") ? returnTo : "/admin");
       router.refresh();
     } catch {
-      setError("Owner sign in is unavailable. Confirm Supabase is configured.");
+      setError("Staff login is unavailable. Confirm Supabase is configured.");
     } finally {
       setLoading(false);
     }
@@ -36,7 +36,7 @@ export function StaffLoginForm({ returnTo = "/admin" }: { returnTo?: string }) {
       {error ? <p className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-800">{error}</p> : null}
       <div className="space-y-2">
         <label htmlFor="staff-email" className="text-sm font-semibold text-nv-navy">
-          Owner email
+          Email
         </label>
         <input
           id="staff-email"
@@ -67,7 +67,7 @@ export function StaffLoginForm({ returnTo = "/admin" }: { returnTo?: string }) {
         disabled={loading}
         className="inline-flex min-h-11 w-full items-center justify-center rounded-lg bg-nv-blue px-4 py-3 text-sm font-bold text-white disabled:opacity-70"
       >
-        {loading ? "Signing in…" : "Owner portal sign in"}
+        {loading ? "Signing in…" : "Staff login"}
       </button>
     </form>
   );
