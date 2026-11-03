@@ -1,4 +1,7 @@
 /** Static fallback when NV Stars gallery CMS rows are not seeded yet. */
+/** Tournament graphics shown below the hero on /nv-stars (not in news & highlights). */
+export const NV_STARS_PINNED_HIGHLIGHT_SLUGS = ["nv-stars-03", "nv-stars-13"] as const;
+
 export type NvStarsPhoto = {
   slug: string;
   src: string;

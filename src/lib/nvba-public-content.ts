@@ -18,7 +18,7 @@ import {
   type Offering,
   type Sponsor,
 } from "@/content/site";
-import { NV_STARS_PHOTOS } from "@/content/nv-stars";
+import { NV_STARS_PHOTOS, NV_STARS_PINNED_HIGHLIGHT_SLUGS } from "@/content/nv-stars";
 import {
   dataString,
   dataStringList,
@@ -221,10 +221,18 @@ export async function getPublicNvStarsTeams(): Promise<NvStarsPublicPhoto[]> {
     }));
 }
 
+export async function getPublicNvStarsFeaturedHighlights(): Promise<NvStarsPublicPhoto[]> {
+  const records = await getNvStarsGalleryRecords();
+  return NV_STARS_PINNED_HIGHLIGHT_SLUGS.map((slug) => records.find((item) => item.slug === slug))
+    .filter((item): item is NonNullable<typeof item> => Boolean(item))
+    .map(({ src, alt, caption }) => ({ src, alt, caption }));
+}
+
 export async function getPublicNvStarsHighlights(): Promise<NvStarsPublicPhoto[]> {
+  const pinned = new Set<string>(NV_STARS_PINNED_HIGHLIGHT_SLUGS);
   const records = await getNvStarsGalleryRecords();
   return records
-    .filter((item) => item.category === "nv-stars-news")
+    .filter((item) => item.category === "nv-stars-news" && !pinned.has(item.slug))
     .map(({ src, alt, caption }) => ({ src, alt, caption }));
 }
 

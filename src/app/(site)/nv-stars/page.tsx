@@ -1,5 +1,9 @@
 import NvStarsPhotoGrid from "@/components/NvStarsPhotoGrid";
-import { getPublicNvStarsHighlights, getPublicNvStarsTeams } from "@/lib/nvba-public-content";
+import {
+  getPublicNvStarsFeaturedHighlights,
+  getPublicNvStarsHighlights,
+  getPublicNvStarsTeams,
+} from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -12,7 +16,11 @@ export const metadata = createPageMetadata({
 export const revalidate = 60;
 
 export default async function NvStarsPage() {
-  const [teams, highlights] = await Promise.all([getPublicNvStarsTeams(), getPublicNvStarsHighlights()]);
+  const [featuredHighlights, teams, highlights] = await Promise.all([
+    getPublicNvStarsFeaturedHighlights(),
+    getPublicNvStarsTeams(),
+    getPublicNvStarsHighlights(),
+  ]);
 
   return (
     <>
@@ -25,6 +33,14 @@ export default async function NvStarsPage() {
           </p>
         </div>
       </section>
+
+      {featuredHighlights.length ? (
+        <section className="border-b border-nv-navy/8 bg-white">
+          <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
+            <NvStarsPhotoGrid images={featuredHighlights} variant="news" />
+          </div>
+        </section>
+      ) : null}
 
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
         {teams.length ? (
