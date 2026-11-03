@@ -6,6 +6,7 @@ export const SITE = {
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   phone: "(859) 421-4062",
   phoneHref: "tel:+18594214062",
+  smsHref: "sms:+18594214062",
   email: "noochie@noochievarnerbaseball.com",
   emailHref: "mailto:noochie@noochievarnerbaseball.com",
   address: {
@@ -16,6 +17,10 @@ export const SITE = {
     full: "115 Etter Lane, Georgetown, KY 40324",
     mapUrl:
       "https://www.google.com/maps/search/?api=1&query=115+Etter+Lane+Georgetown+KY+40324",
+    directionsUrl:
+      "https://www.google.com/maps/dir/?api=1&destination=115+Etter+Lane,+Georgetown,+KY+40324",
+    mapEmbedUrl:
+      "https://www.google.com/maps?q=115+Etter+Lane,+Georgetown,+KY+40324&output=embed",
   },
   facility:
     "16,000 sq. ft. indoor training facility in Georgetown, Kentucky. The academy opened in early December 2016.",
@@ -408,6 +413,17 @@ export const SPONSORS: Sponsor[] = [
 
 export const SPONSORS_INTRO =
   "Thank you to the local partners who invest in youth baseball and softball at Noochie Varner Baseball Academy.";
+
+export const CONTACT_TOPICS = [
+  { value: "general", label: "General question" },
+  { value: "lessons", label: "Private lessons" },
+  { value: "camps", label: "Camps & clinics" },
+  { value: "membership", label: "Membership" },
+  { value: "facility", label: "Facility rental & services" },
+  { value: "pro-shop", label: "Pro shop & equipment" },
+] as const;
+
+export type ContactTopic = (typeof CONTACT_TOPICS)[number]["value"];
 
 export const STORES = {
   teamShop: "https://www.team.shop/en-us",
