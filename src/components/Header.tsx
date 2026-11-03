@@ -10,6 +10,7 @@ import {
   ACADEMY_LINKS,
   HEADER_CONTACT,
   HEADER_NAV,
+  MOBILE_ACADEMY_LINKS,
   MOBILE_NAV,
   SITE,
 } from "@/content/site";
@@ -95,6 +96,7 @@ export default function Header({ branding }: { branding?: SiteBranding }) {
   const academyMenuId = useId();
 
   const academySectionActive = ACADEMY_LINKS.some((item) => isActivePath(pathname, item.href));
+  const mobileAcademySectionActive = MOBILE_ACADEMY_LINKS.some((item) => isActivePath(pathname, item.href));
 
   const close = () => {
     setOpen(false);
@@ -247,7 +249,7 @@ export default function Header({ branding }: { branding?: SiteBranding }) {
             <button
               type="button"
               className={`flex w-full items-center justify-between rounded-md px-3 py-2.5 text-left text-sm font-semibold tracking-wide ${
-                mobileAcademyOpen || academySectionActive ? "bg-white/10 text-white" : "text-nv-silver"
+                mobileAcademyOpen || mobileAcademySectionActive ? "bg-white/10 text-white" : "text-nv-silver"
               }`}
               aria-expanded={mobileAcademyOpen}
               onClick={() => setMobileAcademyOpen((value) => !value)}
@@ -257,7 +259,7 @@ export default function Header({ branding }: { branding?: SiteBranding }) {
             </button>
             {mobileAcademyOpen ? (
               <div className="mt-1 grid gap-1 pl-2">
-                {ACADEMY_LINKS.map((item) => (
+                {MOBILE_ACADEMY_LINKS.map((item) => (
                   <MainNavLink key={item.href} href={item.href} label={item.label} onClick={close} compact />
                 ))}
               </div>

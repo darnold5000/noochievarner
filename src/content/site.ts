@@ -71,7 +71,15 @@ export const FOOTER_MORE_LINKS = [
   { label: "Sponsors", href: "/sponsors" },
 ] as const;
 
-export const MOBILE_NAV = [{ label: "Home", href: "/" }, ...HEADER_NAV, HEADER_CONTACT] as const;
+export const MOBILE_NAV = [
+  { label: "Home", href: "/" },
+  ...HEADER_NAV,
+  { label: "NV Stars Teams", href: "/nv-stars" },
+  HEADER_CONTACT,
+] as const;
+
+/** Academy submenu on mobile (NV Stars is a top-level mobile link). */
+export const MOBILE_ACADEMY_LINKS = ACADEMY_LINKS.filter((item) => item.href !== "/nv-stars");
 
 export type Offering = {
   slug: string;
