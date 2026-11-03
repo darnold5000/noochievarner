@@ -2,9 +2,10 @@
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { GALLERY } from "@/content/site";
 
-export default function GalleryGrid() {
+export type GalleryImage = { src: string; alt: string; caption: string };
+
+export default function GalleryGrid({ images }: { images: GalleryImage[] }) {
   const [selected, setSelected] = useState<number | null>(null);
 
   useEffect(() => {
@@ -19,7 +20,7 @@ export default function GalleryGrid() {
   return (
     <>
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:gap-4">
-        {GALLERY.map((image, index) => (
+        {images.map((image, index) => (
           <button
             key={image.src}
             type="button"
@@ -44,7 +45,7 @@ export default function GalleryGrid() {
           className="fixed inset-0 z-50 flex items-center justify-center bg-black/90 p-4"
           role="dialog"
           aria-modal="true"
-          aria-label={GALLERY[selected].alt}
+          aria-label={images[selected].alt}
           onClick={() => setSelected(null)}
         >
           <button
@@ -56,8 +57,8 @@ export default function GalleryGrid() {
           </button>
           <div className="relative h-[80vh] w-full max-w-5xl" onClick={(event) => event.stopPropagation()}>
             <Image
-              src={GALLERY[selected].src}
-              alt={GALLERY[selected].alt}
+              src={images[selected].src}
+              alt={images[selected].alt}
               fill
               className="object-contain"
               sizes="90vw"

@@ -1,36 +1,68 @@
 import Image from "next/image";
 import Link from "next/link";
 import CampProgramCard from "@/components/CampProgramCard";
-import Hero from "@/components/Hero";
+import Hero, { heroContentFromData } from "@/components/Hero";
 import HomeFeaturedLessonCard from "@/components/HomeFeaturedLessonCard";
 import HomeSectionHeader from "@/components/HomeSectionHeader";
 import QuickActions from "@/components/QuickActions";
 import SponsorCard from "@/components/SponsorCard";
 import { LESSON_BOOKING_HREFS } from "@/config/schedule";
+import { SITE } from "@/content/site";
 import { sortCampsByStartDate } from "@/lib/camp-sort";
-import { CAMPS, LESSONS, MEMBERSHIP, SITE, SPONSORS } from "@/content/site";
+import { dataString } from "@/lib/nvba-cms";
+import {
+  getFeaturedHomeCamps,
+  getFeaturedHomeLessons,
+  getHomepageContent,
+  getPublicMembership,
+  getPublicSponsors,
+} from "@/lib/nvba-public-content";
 import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
 
-const FEATURED_LESSON_SLUGS = ["hitting", "pitching"] as const;
+export const revalidate = 60;
 
-const sortedCamps = sortCampsByStartDate(CAMPS);
+export default async function HomePage() {
+  const [homepageData, camps, featuredLessons, membership, sponsors] = await Promise.all([
+    getHomepageContent(),
+    getFeaturedHomeCamps(),
+    getFeaturedHomeLessons(),
+    getPublicMembership(),
+    getPublicSponsors(),
+  ]);
 
-export default function HomePage() {
-  const featuredLessons = FEATURED_LESSON_SLUGS.map((slug) => LESSONS.find((l) => l.slug === slug)).filter(
-    (lesson): lesson is (typeof LESSONS)[number] => Boolean(lesson),
-  );
+  const sortedCamps = sortCampsByStartDate(camps);
+  const heroContent = heroContentFromData(homepageData ?? undefined);
+  const campsEyebrow = homepageData ? dataString(homepageData, "campsSectionEyebrow") : "";
+  const campsTitle = homepageData ? dataString(homepageData, "campsSectionTitle") : "";
+  const campsDescription = homepageData ? dataString(homepageData, "campsSectionDescription") : "";
+  const lessonsEyebrow = homepageData ? dataString(homepageData, "lessonsSectionEyebrow") : "";
+  const lessonsTitle = homepageData ? dataString(homepageData, "lessonsSectionTitle") : "";
+  const lessonsDescription = homepageData ? dataString(homepageData, "lessonsSectionDescription") : "";
+  const facilityImage = homepageData ? dataString(homepageData, "facilitySectionImageUrl") : "/images/facility/about-3.jpg";
+  const facilityTitle = homepageData ? dataString(homepageData, "facilitySectionTitle") : "16,000 sq. ft. built for development.";
+  const facilityDescription =
+    homepageData ? dataString(homepageData, "facilitySectionDescription") : "Train year-round in our indoor baseball and softball facility in Georgetown, Kentucky.";
+  const facilityButton = homepageData ? dataString(homepageData, "facilitySectionButtonText") : "About the Academy";
+  const membershipEyebrow = homepageData ? dataString(homepageData, "membershipSectionEyebrow") : "Membership";
+  const membershipTitle = homepageData ? dataString(homepageData, "membershipSectionTitle") : membership.name;
+  const membershipDescription =
+    homepageData ? dataString(homepageData, "membershipSectionDescription") : "Train year-round with HitTrax lessons, daily cage access, gym access, and priority scheduling. Choose a one-time payment or monthly installments — see membership details for full pricing.";
+
+  const homepageSponsors = sponsors.filter((_, index) => index === 0);
 
   return (
     <>
-      <Hero />
+      <Hero content={heroContent} />
       <QuickActions />
 
       <section className="bg-white py-8 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <HomeSectionHeader
-            eyebrow="Now registering"
-            title="Camps & Clinics"
-            description="Develop your skills with camps, clinics, and programs designed for every level."
+            eyebrow={campsEyebrow || "Now registering"}
+            title={campsTitle || "Camps & Clinics"}
+            description={
+              campsDescription || "Develop your skills with camps, clinics, and programs designed for every level."
+            }
             actionHref="/camps"
           />
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
@@ -44,16 +76,19 @@ export default function HomePage() {
       <section className="border-t border-nv-navy/8 bg-nv-ice/80 py-8 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <HomeSectionHeader
-            eyebrow="Private instruction"
-            title="Train with experienced coaches"
-            description="Personalized baseball and softball instruction focused on skills, confidence, and development."
+            eyebrow={lessonsEyebrow || "Private instruction"}
+            title={lessonsTitle || "Train with experienced coaches"}
+            description={
+              lessonsDescription ||
+              "Personalized baseball and softball instruction focused on skills, confidence, and development."
+            }
           />
           <div className="mt-6 grid items-stretch gap-4 md:grid-cols-2">
             {featuredLessons.map((lesson) => (
               <HomeFeaturedLessonCard
                 key={lesson.slug}
                 lesson={lesson}
-                bookHref={LESSON_BOOKING_HREFS[lesson.slug]}
+                bookHref={LESSON_BOOKING_HREFS[lesson.slug as keyof typeof LESSON_BOOKING_HREFS]}
               />
             ))}
           </div>
@@ -70,7 +105,7 @@ export default function HomePage() {
           <div className="relative overflow-hidden rounded-2xl shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10">
             <div className="relative aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/5]">
               <Image
-                src="/images/facility/about-3.jpg"
+                src={facilityImage}
                 alt="Instructor working with a young player at the academy"
                 fill
                 className="object-cover object-center"
@@ -80,12 +115,8 @@ export default function HomePage() {
           </div>
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">The facility</p>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-wide text-nv-navy sm:text-4xl">
-              16,000 sq. ft. built for development.
-            </h2>
-            <p className="mt-4 text-sm leading-relaxed text-zinc-700 sm:text-base">
-              Train year-round in our indoor baseball and softball facility in Georgetown, Kentucky.
-            </p>
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-wide text-nv-navy sm:text-4xl">{facilityTitle}</h2>
+            <p className="mt-4 text-sm leading-relaxed text-zinc-700 sm:text-base">{facilityDescription}</p>
             <ul className="mt-5 space-y-2 text-sm text-zinc-700">
               <li className="flex gap-2">
                 <span className="mt-2 h-1.5 w-1.5 shrink-0 rounded-full bg-nv-blue" />
@@ -102,7 +133,7 @@ export default function HomePage() {
             </ul>
             <p className="mt-4 text-sm text-zinc-600">{SITE.facility}</p>
             <Link href="/about" className={`${btnPrimary} mt-6`}>
-              About the Academy
+              {facilityButton}
             </Link>
           </div>
         </div>
@@ -113,13 +144,10 @@ export default function HomePage() {
         <div className="absolute -right-20 top-1/2 h-64 w-64 -translate-y-1/2 rounded-full bg-nv-blue/10 blur-3xl" aria-hidden />
         <div className="relative mx-auto max-w-7xl px-4 sm:px-6">
           <div className="mx-auto max-w-3xl text-center lg:max-w-none lg:text-left">
-            <p className="text-xs font-bold uppercase tracking-[0.18em] text-nv-silver">Membership</p>
-            <h2 className="mt-2 font-display text-3xl font-bold tracking-wide sm:text-4xl lg:text-5xl">
-              {MEMBERSHIP.name}
-            </h2>
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-nv-silver">{membershipEyebrow}</p>
+            <h2 className="mt-2 font-display text-3xl font-bold tracking-wide sm:text-4xl lg:text-5xl">{membershipTitle}</h2>
             <p className="mx-auto mt-4 max-w-2xl text-sm leading-relaxed text-zinc-200 lg:mx-0 lg:text-base">
-              Train year-round with HitTrax lessons, daily cage access, gym access, and priority scheduling. Choose a
-              one-time payment or monthly installments — see membership details for full pricing.
+              {membershipDescription}
             </p>
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row lg:justify-start">
               <Link href="/memberships" className={btnOnDark}>
@@ -133,7 +161,7 @@ export default function HomePage() {
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
         <p className="text-center text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">Our sponsors</p>
         <div className="mt-4">
-          {SPONSORS.map((sponsor) => (
+          {(homepageSponsors.length ? homepageSponsors : sponsors).map((sponsor) => (
             <SponsorCard key={sponsor.name} sponsor={sponsor} compact />
           ))}
         </div>

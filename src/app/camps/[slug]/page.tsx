@@ -1,11 +1,14 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import OfferingDetail from "@/components/OfferingDetail";
-import { CAMPS, campBySlug } from "@/content/site";
+import { getPublicCampBySlug, getPublicCampSlugs } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 
-export function generateStaticParams() {
-  return CAMPS.map((camp) => ({ slug: camp.slug }));
+export const revalidate = 60;
+
+export async function generateStaticParams() {
+  const slugs = await getPublicCampSlugs();
+  return slugs.map((slug) => ({ slug }));
 }
 
 export async function generateMetadata({
@@ -14,7 +17,7 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
-  const camp = campBySlug(slug);
+  const camp = await getPublicCampBySlug(slug);
   if (!camp) return {};
   return createPageMetadata({
     title: camp.name,
@@ -29,7 +32,7 @@ export default async function CampDetailPage({
   params: Promise<{ slug: string }>;
 }) {
   const { slug } = await params;
-  const camp = campBySlug(slug);
+  const camp = await getPublicCampBySlug(slug);
   if (!camp) notFound();
   return <OfferingDetail offering={camp} backHref="/camps" backLabel="All camps" />;
 }

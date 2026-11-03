@@ -1,6 +1,6 @@
 import ContactForm from "@/components/ContactForm";
 import ContactMapEmbed from "@/components/ContactMapEmbed";
-import { SITE } from "@/content/site";
+import { getPublicContactTopics, getResolvedSiteContact } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 import { btnOutline } from "@/lib/styles";
 
@@ -11,7 +11,11 @@ export const metadata = createPageMetadata({
   path: "/contact",
 });
 
-export default function ContactPage() {
+export const revalidate = 60;
+
+export default async function ContactPage() {
+  const [contact, topics] = await Promise.all([getResolvedSiteContact(), getPublicContactTopics()]);
+
   return (
     <>
       <section className="mx-auto max-w-6xl px-4 py-10 sm:px-6 sm:py-12">
@@ -27,28 +31,28 @@ export default function ContactPage() {
 
       <section className="border-t border-nv-navy/10 bg-white/60">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-          <ContactForm />
+          <ContactForm topics={topics} />
 
           <aside className="space-y-6">
             <div className="rounded-2xl border border-nv-navy/10 bg-white p-6">
               <h2 className="text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">Reach us directly</h2>
               <ul className="mt-4 space-y-3 text-sm">
                 <li>
-                  <a className="font-semibold text-nv-navy hover:text-nv-blue" href={SITE.phoneHref}>
-                    {SITE.phone}
+                  <a className="font-semibold text-nv-navy hover:text-nv-blue" href={contact.phoneHref}>
+                    {contact.phone}
                   </a>
                 </li>
                 <li>
-                  <a className="font-semibold text-nv-navy hover:text-nv-blue" href={SITE.smsHref}>
-                    Text {SITE.phone}
+                  <a className="font-semibold text-nv-navy hover:text-nv-blue" href={contact.phoneHref}>
+                    Text {contact.phone}
                   </a>
                 </li>
                 <li>
-                  <a className="font-semibold text-nv-navy hover:text-nv-blue" href={SITE.emailHref}>
-                    {SITE.email}
+                  <a className="font-semibold text-nv-navy hover:text-nv-blue" href={contact.emailHref}>
+                    {contact.email}
                   </a>
                 </li>
-                {SITE.social.map((link) => (
+                {contact.social.map((link) => (
                   <li key={link.label}>
                     <a
                       className="font-semibold text-nv-navy hover:text-nv-blue"
@@ -66,14 +70,14 @@ export default function ContactPage() {
             <div>
               <ContactMapEmbed />
               <address className="mt-4 not-italic text-sm leading-relaxed text-zinc-600">
-                <p className="font-semibold text-nv-navy">{SITE.name}</p>
-                <p>{SITE.address.street}</p>
+                <p className="font-semibold text-nv-navy">{contact.name}</p>
+                <p>{contact.address.street}</p>
                 <p>
-                  {SITE.address.city}, {SITE.address.state} {SITE.address.zip}
+                  {contact.address.city}, {contact.address.state} {contact.address.zip}
                 </p>
               </address>
               <a
-                href={SITE.address.directionsUrl}
+                href={contact.address.directionsUrl}
                 className={`${btnOutline} mt-4`}
                 target="_blank"
                 rel="noreferrer"

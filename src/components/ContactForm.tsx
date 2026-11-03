@@ -25,7 +25,11 @@ const initialState: FormState = {
   company: "",
 };
 
-export default function ContactForm() {
+export default function ContactForm({
+  topics = CONTACT_TOPICS,
+}: {
+  topics?: readonly { value: ContactTopic; label: string }[];
+}) {
   const [form, setForm] = useState<FormState>(initialState);
   const [submitting, setSubmitting] = useState(false);
   const [sent, setSent] = useState(false);
@@ -108,7 +112,7 @@ export default function ContactForm() {
             onChange={(e) => update("topic", e.target.value as ContactTopic)}
             required
           >
-            {CONTACT_TOPICS.map((topic) => (
+            {topics.map((topic) => (
               <option key={topic.value} value={topic.value}>
                 {topic.label}
               </option>

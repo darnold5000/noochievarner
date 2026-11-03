@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import PageIntro from "@/components/PageIntro";
-import { SERVICES, SERVICES_FACILITY_IMAGE, SERVICES_INTRO } from "@/content/site";
+import { getPublicServices, getPublicServicesIntro } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 import { btnGhost, btnOnDark } from "@/lib/styles";
 
@@ -12,15 +12,19 @@ export const metadata = createPageMetadata({
   path: "/services",
 });
 
-export default function ServicesPage() {
+export const revalidate = 60;
+
+export default async function ServicesPage() {
+  const [services, intro] = await Promise.all([getPublicServices(), getPublicServicesIntro()]);
+
   return (
     <>
       <PageIntro eyebrow="Facility" title="NVBA Services">
-        <p>{SERVICES_INTRO}</p>
+        <p>{intro.intro}</p>
       </PageIntro>
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-[1.05fr_0.95fr] lg:items-start">
         <div className="space-y-4">
-          {SERVICES.map((service) => (
+          {services.map((service) => (
             <article key={service.name} className="rounded-2xl border border-nv-navy/10 bg-white p-5 sm:p-6">
               <h2 className="font-display text-2xl font-bold tracking-wide text-nv-navy sm:text-3xl">
                 {service.name}
@@ -74,8 +78,8 @@ export default function ServicesPage() {
         </div>
         <figure className="overflow-hidden rounded-2xl border border-nv-navy/10 bg-white lg:sticky lg:top-24">
           <Image
-            src={SERVICES_FACILITY_IMAGE.src}
-            alt={SERVICES_FACILITY_IMAGE.alt}
+            src={intro.image.src}
+            alt={intro.image.alt}
             width={1024}
             height={1008}
             className="h-auto w-full object-cover"

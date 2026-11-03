@@ -1,0 +1,332 @@
+import type { BookingKey } from "@/config/booking";
+import { bookingUrl } from "@/config/booking";
+import {
+  CAMPS,
+  CONTACT_TOPICS,
+  GALLERY,
+  LESSONS,
+  MEMBERSHIP,
+  PRO_SHOP,
+  SERVICES,
+  SERVICES_FACILITY_IMAGE,
+  SERVICES_INTRO,
+  SITE,
+  SPONSORS,
+  SPONSORS_INTRO,
+  type ContactTopic,
+  type FacilityService,
+  type Offering,
+  type Sponsor,
+} from "@/content/site";
+import {
+  dataString,
+  dataStringList,
+  getPublicContentState,
+  getPublishedSingleton,
+  type ContentItem,
+} from "@/lib/nvba-cms";
+
+function programToOffering(item: ContentItem): Offering {
+  const data = item.data;
+  const bookingKey = dataString(data, "bookingKey") as BookingKey;
+  const registrationEnabled = dataString(data, "registrationEnabled") !== "no";
+  return {
+    slug: item.slug,
+    name: item.title,
+    eyebrow: dataString(data, "eyebrow") || "Program",
+    summary: dataString(data, "summary"),
+    ages: dataString(data, "ages") || undefined,
+    dates: dataString(data, "dates") || undefined,
+    days: dataString(data, "days") || undefined,
+    times: dataString(data, "times") || undefined,
+    price: dataString(data, "price") || undefined,
+    instructor: dataString(data, "instructor") || undefined,
+    limit: dataString(data, "capacity") || undefined,
+    details: dataStringList(data, "details").length ? dataStringList(data, "details") : dataStringList(data, "trainingTopics"),
+    sections: dataStringList(data, "includedBenefits").length
+      ? [{ title: "Included", items: dataStringList(data, "includedBenefits") }]
+      : undefined,
+    bookingKey: registrationEnabled && bookingKey ? bookingKey : undefined,
+    cta: dataString(data, "cta") || "Register",
+    image: dataString(data, "flyerUrl") || undefined,
+    imageAlt: item.title,
+  };
+}
+
+export async function getPublicCamps(): Promise<Offering[]> {
+  const state = await getPublicContentState("program");
+  const cmsItems = state.published.map(programToOffering);
+  if (state.cmsManaged) return cmsItems.sort((a, b) => a.name.localeCompare(b.name));
+  const managed = new Set(state.managedSlugs);
+  const fallback = CAMPS.filter((camp) => !managed.has(camp.slug));
+  return [...cmsItems, ...fallback];
+}
+
+export async function getPublicCampBySlug(slug: string): Promise<Offering | undefined> {
+  const camps = await getPublicCamps();
+  return camps.find((camp) => camp.slug === slug);
+}
+
+export async function getPublicCampSlugs(): Promise<string[]> {
+  const camps = await getPublicCamps();
+  return camps.map((camp) => camp.slug);
+}
+
+export async function getPublicLessons(): Promise<(typeof LESSONS)[number][]> {
+  const state = await getPublicContentState("lesson");
+  if (!state.published.length && !state.cmsManaged) return [...LESSONS];
+  const cms = state.published.map((item) => {
+    const data = item.data;
+    const bookingKey = dataString(data, "bookingKey") as BookingKey;
+    return {
+      slug: item.slug,
+      name: item.title,
+      coach: dataString(data, "instructorName") || "NVBA instructor",
+      role: dataString(data, "category"),
+      bio: dataString(data, "description"),
+      focus: dataStringList(data, "focusAreas") as unknown as readonly string[],
+      bookingKey,
+      image: dataString(data, "imageUrl") || undefined,
+      imageAlt: item.title,
+      contact: [] as readonly string[],
+    };
+  }) as (typeof LESSONS)[number][];
+  if (state.cmsManaged) return cms;
+  const managed = new Set(state.managedSlugs);
+  return [...cms, ...LESSONS.filter((lesson) => !managed.has(lesson.slug))];
+}
+
+export async function getPublicSponsors(): Promise<Sponsor[]> {
+  const state = await getPublicContentState("sponsor");
+  const cms = state.published.map((item) => ({
+    name: item.title,
+    note: dataString(item.data, "shortDescription"),
+    image: dataString(item.data, "logoUrl") || "/images/sponsors/placeholder.jpg",
+    imageAlt: item.title,
+    href: dataString(item.data, "websiteUrl") || "#",
+    cta: dataString(item.data, "cta") || "Visit sponsor",
+  }));
+  if (state.cmsManaged) return cms;
+  const managed = new Set(state.managedSlugs);
+  return [...cms, ...SPONSORS.filter((s) => !managed.has(slugify(s.name)))];
+}
+
+function slugify(value: string) {
+  return value.trim().toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/(^-|-$)/g, "");
+}
+
+export async function getPublicSponsorsIntro() {
+  const settings = await getPublishedSingleton("site_settings");
+  const intro = settings ? dataString(settings.data, "sponsorsIntro") : "";
+  return intro || SPONSORS_INTRO;
+}
+
+export async function getPublicGallery() {
+  const state = await getPublicContentState("gallery_photo");
+  const cms = state.published
+    .map((item) => ({
+      src: dataString(item.data, "photoUrl"),
+      alt: dataString(item.data, "caption") || item.title,
+      caption: dataString(item.data, "caption") || item.title,
+    }))
+    .filter((photo) => photo.src);
+  if (state.cmsManaged) return cms;
+  if (cms.length) return cms;
+  return [...GALLERY];
+}
+
+export async function getPublicServices(): Promise<FacilityService[]> {
+  const state = await getPublicContentState("nvba_service");
+  const cms = state.published.map((item) => {
+    const ratesRaw = dataStringList(item.data, "rates");
+    const rates = ratesRaw
+      .map((line) => {
+        const [label, price] = line.split("|").map((part) => part.trim());
+        return label && price ? { label, price } : null;
+      })
+      .filter((rate): rate is { label: string; price: string } => Boolean(rate));
+    return {
+      name: item.title,
+      lead: dataString(item.data, "shortDescription") || undefined,
+      detail: dataString(item.data, "fullDescription") || undefined,
+      bullets: dataStringList(item.data, "bullets"),
+      rates: rates.length ? rates : undefined,
+      price: dataString(item.data, "displayPrice") || undefined,
+      contact: dataString(item.data, "contactOnly") === "yes",
+    } satisfies FacilityService;
+  });
+  if (state.cmsManaged) return cms;
+  const managed = new Set(state.managedSlugs);
+  return [...cms, ...SERVICES.filter((service) => !managed.has(slugify(service.name)))];
+}
+
+export async function getPublicServicesIntro() {
+  const introItem = await getPublishedSingleton("services_intro");
+  if (introItem && dataString(introItem.data, "servicesIntro")) {
+    return {
+      intro: dataString(introItem.data, "servicesIntro"),
+      image: {
+        src: dataString(introItem.data, "facilityImageUrl") || SERVICES_FACILITY_IMAGE.src,
+        alt: dataString(introItem.data, "facilityImageAlt") || SERVICES_FACILITY_IMAGE.alt,
+      },
+    };
+  }
+  return { intro: SERVICES_INTRO, image: SERVICES_FACILITY_IMAGE };
+}
+
+export async function getPublicMembership() {
+  const item = await getPublishedSingleton("membership_display");
+  if (!item) return MEMBERSHIP;
+  const data = item.data;
+  return {
+    name: item.title || MEMBERSHIP.name,
+    term: dataString(data, "term") || MEMBERSHIP.term,
+    annual: dataString(data, "displayAnnualPrice") || MEMBERSHIP.annual,
+    monthly: dataString(data, "displayMonthlyPrice") || MEMBERSHIP.monthly,
+    initiation: dataString(data, "displayInitiationFee") || MEMBERSHIP.initiation,
+    includes: dataStringList(data, "benefits").length ? dataStringList(data, "benefits") : [...MEMBERSHIP.includes],
+  };
+}
+
+export async function getPublicContactTopics(): Promise<readonly { value: ContactTopic; label: string }[]> {
+  const state = await getPublicContentState("contact_topic");
+  const cms = state.published.map((item) => ({
+    value: (dataString(item.data, "value") || item.slug) as ContactTopic,
+    label: item.title,
+  }));
+  if (state.cmsManaged && cms.length) return cms;
+  const managed = new Set(state.managedSlugs);
+  return [...cms, ...CONTACT_TOPICS.filter((topic) => !managed.has(topic.value))];
+}
+
+export type ResolvedSiteContact = {
+  phone: string;
+  phoneHref: string;
+  email: string;
+  emailHref: string;
+  address: {
+    street: string;
+    city: string;
+    state: string;
+    zip: string;
+    full: string;
+    mapUrl: string;
+    directionsUrl: string;
+    mapEmbedUrl: string;
+  };
+  tagline: string;
+  social: { label: string; href: string }[];
+  name: string;
+};
+
+export async function getResolvedSiteContact(): Promise<ResolvedSiteContact> {
+  const [settings, contact] = await Promise.all([
+    getPublishedSingleton("site_settings"),
+    getPublishedSingleton("contact_settings"),
+  ]);
+  const settingsData = settings?.data ?? {};
+  const contactData = contact?.data ?? {};
+  const phone = dataString(contactData, "phone") || dataString(settingsData, "phone") || SITE.phone;
+  const email = dataString(contactData, "email") || dataString(settingsData, "email") || SITE.email;
+  const street = dataString(contactData, "street") || SITE.address.street;
+  const city = dataString(contactData, "city") || SITE.address.city;
+  const stateCode = dataString(contactData, "state") || SITE.address.state;
+  const zip = dataString(contactData, "zip") || SITE.address.zip;
+  const full = [street, `${city}, ${stateCode} ${zip}`].filter(Boolean).join(", ");
+  const mapsUrl = dataString(contactData, "mapsUrl") || SITE.address.mapUrl;
+  return {
+    name: dataString(settingsData, "academyName") || SITE.name,
+    tagline: dataString(settingsData, "tagline") || SITE.tagline,
+    phone,
+    phoneHref: phone.replace(/\D/g, "").length >= 10 ? `tel:+1${phone.replace(/\D/g, "").slice(-10)}` : SITE.phoneHref,
+    email,
+    emailHref: `mailto:${email}`,
+    address: {
+      street,
+      city,
+      state: stateCode,
+      zip,
+      full,
+      mapUrl: mapsUrl,
+      directionsUrl: SITE.address.directionsUrl,
+      mapEmbedUrl: SITE.address.mapEmbedUrl,
+    },
+    social: [
+      { label: "Facebook", href: dataString(contactData, "facebook") || dataString(settingsData, "facebook") || SITE.social[0]?.href || "" },
+      { label: "X", href: dataString(contactData, "x") || dataString(settingsData, "x") || SITE.social[1]?.href || "" },
+      { label: "YouTube", href: dataString(contactData, "youtube") || dataString(settingsData, "youtube") || SITE.social[2]?.href || "" },
+      { label: "Instagram", href: dataString(contactData, "instagram") || dataString(settingsData, "instagram") || SITE.social[3]?.href || "" },
+    ].filter((item) => item.href),
+  };
+}
+
+export async function getPublicProShop() {
+  const [page, vendorState] = await Promise.all([
+    getPublishedSingleton("pro_shop_settings"),
+    getPublicContentState("pro_shop_vendor"),
+  ]);
+  const base = PRO_SHOP;
+  const pageData = page?.data ?? {};
+  const vendors = vendorState.published;
+  return {
+    hero: {
+      ...base.hero,
+      subtitle: dataString(pageData, "pageDescription") || base.hero.subtitle,
+      image: dataString(pageData, "heroImageUrl") || base.hero.image,
+    },
+    wilson: base.wilson,
+    apparel: base.apparel,
+    orderSteps: dataStringList(pageData, "orderSteps").length ? dataStringList(pageData, "orderSteps") : base.orderSteps,
+    vendors,
+    catalogContact: {
+      name: dataString(pageData, "contactName") || PRO_SHOP.orderSteps[2],
+      role: dataString(pageData, "contactRole") || "",
+      email: dataString(pageData, "contactEmail") || "",
+      phone: dataString(pageData, "contactPhone") || "",
+    },
+  };
+}
+
+export async function getHomepageContent() {
+  const item = await getPublishedSingleton("homepage");
+  if (!item) return null;
+  return item.data;
+}
+
+export async function getFeaturedHomeCamps(): Promise<Offering[]> {
+  const camps = await getPublicCamps();
+  const state = await getPublicContentState("program");
+  const featuredSlugs = new Set(
+    state.published.filter((item) => dataString(item.data, "featuredOnHomepage") === "yes").map((item) => item.slug),
+  );
+  if (featuredSlugs.size) return camps.filter((camp) => featuredSlugs.has(camp.slug));
+  return camps;
+}
+
+export async function getFeaturedHomeLessons() {
+  const lessons = await getPublicLessons();
+  const state = await getPublicContentState("lesson");
+  const featured = state.published.filter((item) => dataString(item.data, "featuredOnHomepage") === "yes");
+  if (featured.length) {
+    const slugs = featured.map((item) => item.slug);
+    return lessons.filter((lesson) => slugs.includes(lesson.slug)).slice(0, 2);
+  }
+  return lessons.slice(0, 2);
+}
+
+export async function getPublicNewsArticles() {
+  const state = await getPublicContentState("news_article");
+  return state.published.map((item) => ({
+    slug: item.slug,
+    headline: item.title,
+    summary: dataString(item.data, "summary"),
+    body: dataString(item.data, "body"),
+    image: dataString(item.data, "featuredImageUrl") || "/images/brand/college-alumni.png",
+    publicationDate: dataString(item.data, "publicationDate"),
+  }));
+}
+
+export function resolveBookingHref(key?: BookingKey) {
+  if (!key) return bookingUrl("noochieHitting");
+  return bookingUrl(key);
+}

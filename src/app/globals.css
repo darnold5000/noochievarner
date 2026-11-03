@@ -30,3 +30,19 @@ body {
 .font-display {
   font-family: var(--font-display);
 }
+
+.admin-input {
+  width: 100%;
+  border-radius: 0.5rem;
+  border: 1px solid color-mix(in srgb, var(--nv-navy) 15%, transparent);
+  background: #fff;
+  padding: 0.65rem 0.85rem;
+  font-size: 0.875rem;
+  line-height: 1.4;
+  color: var(--nv-navy);
+}
+
+.admin-input:focus {
+  outline: 2px solid color-mix(in srgb, var(--nv-blue) 35%, transparent);
+  outline-offset: 1px;
+}

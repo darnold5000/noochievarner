@@ -1,7 +1,8 @@
 import Link from "next/link";
 import PageIntro from "@/components/PageIntro";
 import SponsorCard from "@/components/SponsorCard";
-import { SITE, SPONSORS, SPONSORS_INTRO } from "@/content/site";
+import { SITE } from "@/content/site";
+import { getPublicSponsors, getPublicSponsorsIntro } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 import { btnOutline } from "@/lib/styles";
 
@@ -12,14 +13,18 @@ export const metadata = createPageMetadata({
   path: "/sponsors",
 });
 
-export default function SponsorsPage() {
+export const revalidate = 60;
+
+export default async function SponsorsPage() {
+  const [sponsors, intro] = await Promise.all([getPublicSponsors(), getPublicSponsorsIntro()]);
+
   return (
     <>
       <PageIntro eyebrow="Partners" title="Our sponsors">
-        <p>{SPONSORS_INTRO}</p>
+        <p>{intro}</p>
       </PageIntro>
       <section className="mx-auto max-w-4xl space-y-6 px-4 py-10 sm:px-6">
-        {SPONSORS.map((sponsor) => (
+        {sponsors.map((sponsor) => (
           <SponsorCard key={sponsor.name} sponsor={sponsor} featured />
         ))}
         <article className="rounded-2xl bg-nv-ice p-6 sm:p-8">

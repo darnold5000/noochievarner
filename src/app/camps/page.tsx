@@ -1,7 +1,7 @@
 import CampProgramCard from "@/components/CampProgramCard";
 import PageIntro from "@/components/PageIntro";
-import { CAMPS } from "@/content/site";
 import { sortCampsByStartDate } from "@/lib/camp-sort";
+import { getPublicCamps } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -11,9 +11,11 @@ export const metadata = createPageMetadata({
   path: "/camps",
 });
 
-const sortedCamps = sortCampsByStartDate(CAMPS);
+export const revalidate = 60;
 
-export default function CampsPage() {
+export default async function CampsPage() {
+  const camps = sortCampsByStartDate(await getPublicCamps());
+
   return (
     <>
       <PageIntro eyebrow="Georgetown, KY" title="Camps & Clinics">
@@ -23,7 +25,7 @@ export default function CampsPage() {
         </p>
       </PageIntro>
       <section className="mx-auto grid max-w-7xl gap-4 px-4 py-8 pb-10 sm:px-6 sm:py-10 sm:pb-12 lg:grid-cols-2 lg:gap-5">
-        {sortedCamps.map((camp) => (
+        {camps.map((camp) => (
           <CampProgramCard key={camp.slug} offering={camp} href={`/camps/${camp.slug}`} />
         ))}
       </section>
