@@ -1,13 +1,12 @@
 import type { MetadataRoute } from "next";
 import { useInternalBooking } from "@/config/booking";
-import { CAMPS, PROGRAMS, SITE } from "@/content/site";
+import { CAMPS, SITE } from "@/content/site";
 
 const paths = [
   "",
   ...(useInternalBooking ? ["/book"] : []),
   "/camps",
   "/lessons",
-  "/programs",
   "/memberships",
   "/services",
   "/about",
@@ -17,7 +16,6 @@ const paths = [
   "/store",
   "/contact",
   ...CAMPS.map((camp) => `/camps/${camp.slug}`),
-  ...PROGRAMS.map((program) => `/programs/${program.slug}`),
 ];
 
 export default function sitemap(): MetadataRoute.Sitemap {

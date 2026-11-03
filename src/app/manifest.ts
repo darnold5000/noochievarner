@@ -16,7 +16,6 @@ export default function manifest(): MetadataRoute.Manifest {
     ],
     shortcuts: [
       { name: "Book", short_name: "Book", url: bookTrainingHref() },
-      { name: "Programs", short_name: "Programs", url: "/programs" },
       { name: "Lessons", short_name: "Lessons", url: "/lessons" },
       { name: "Memberships", short_name: "Memberships", url: "/memberships" },
       { name: "Account", short_name: "Account", url: "/sign-in" },

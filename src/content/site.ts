@@ -42,7 +42,6 @@ export const NAV = [
   { label: "Home", href: "/" },
   { label: "Camps & Clinics", href: "/camps" },
   { label: "Lessons", href: "/lessons" },
-  { label: "Programs", href: "/programs" },
   { label: "Memberships", href: "/memberships" },
   { label: "About", href: "/about" },
 ] as const;
@@ -149,29 +148,6 @@ export const CAMPS: Offering[] = [
     image: "/images/flyers/teeball.jpg",
     imageAlt: "NVBA Winter Tee Ball League flyer",
     contactLines: ["DJ Lemons", "(859) 588-9521"],
-  },
-];
-
-export const PROGRAMS: Offering[] = [
-  {
-    slug: "nv-stars",
-    name: "NV Stars",
-    eyebrow: "2026–2027 teams",
-    summary:
-      "Travel teams focused on player development in a fun, competitive environment. Teams practice twice per week and play through the region and beyond.",
-    dates: "2026–2027 season",
-    instructor: "NVBA indoor facility, Georgetown",
-    details: [
-      "Offseason training at the 16,000 sq. ft. NVBA indoor facility includes weekly team practices, speed and agility, skill development, and hitting through the winter.",
-      "NV Stars fields two teams at each age group. Scout teams play a national schedule. Premier teams play a regional schedule.",
-      "Published player amenities include membership to the indoor facility, 3 free hitting clinics (January–February), and winter speed and agility training.",
-      "The academy slogan for the organization is: Developing players. Building character. Competing to win.",
-      "No public registration link is posted for tryouts. Contact the academy to ask about NV Stars.",
-    ],
-    cta: "Contact the academy",
-    image: "/images/flyers/stars.jpg",
-    imageAlt: "NV Stars 2026–2027 information flyer",
-    contactLines: [SITE.phone, SITE.email],
   },
 ];
 
@@ -406,8 +382,4 @@ export const GALLERY = [
 
 export function campBySlug(slug: string) {
   return CAMPS.find((camp) => camp.slug === slug);
-}
-
-export function programBySlug(slug: string) {
-  return PROGRAMS.find((program) => program.slug === slug);
 }

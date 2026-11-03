@@ -4,7 +4,7 @@ import Hero from "@/components/Hero";
 import SiteLink from "@/components/SiteLink";
 import OfferingCard from "@/components/OfferingCard";
 import QuickActions from "@/components/QuickActions";
-import { LESSON_BOOKING_HREFS } from "@/config/schedule";
+import { COACHES, LESSON_BOOKING_HREFS } from "@/config/schedule";
 import { CAMPS, LESSONS, MEMBERSHIP, SITE, SPONSORS } from "@/content/site";
 import { btnOnDark, btnPrimary } from "@/lib/styles";
 
@@ -36,17 +36,36 @@ export default function HomePage() {
           <p className="text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">Private instruction</p>
           <h2 className="font-display text-4xl font-bold tracking-wide text-nv-navy">Lessons</h2>
           <div className="mt-6 grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {LESSONS.map((lesson) => (
-              <article key={lesson.slug} className="rounded-2xl border border-nv-navy/10 p-5">
-                <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{lesson.role}</p>
-                <h3 className="mt-1 font-display text-2xl font-bold tracking-wide">{lesson.name}</h3>
-                <p className="mt-1 text-sm font-semibold text-zinc-800">{lesson.coach}</p>
-                <p className="mt-3 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>
-                <SiteLink href={LESSON_BOOKING_HREFS[lesson.slug]} className={`${btnPrimary} mt-5 w-full`}>
-                  Book Lesson
-                </SiteLink>
-              </article>
-            ))}
+            {LESSONS.map((lesson) => {
+              const coach = COACHES.find((item) => item.services[0] === lesson.slug);
+              return (
+                <article key={lesson.slug} className="flex flex-col rounded-2xl border border-nv-navy/10 p-5">
+                  <div className="flex items-start gap-3">
+                    {coach ? (
+                      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl bg-nv-ice">
+                        <Image
+                          src={coach.photo}
+                          alt={`${coach.name}, ${coach.specialty} instructor`}
+                          fill
+                          className={coach.photoFit === "contain" ? "object-contain p-1" : "object-cover"}
+                          style={{ objectPosition: coach.photoPosition }}
+                          sizes="64px"
+                        />
+                      </div>
+                    ) : null}
+                    <div className="min-w-0">
+                      <p className="text-xs font-bold uppercase tracking-[0.16em] text-nv-blue">{lesson.role}</p>
+                      <h3 className="mt-1 font-display text-2xl font-bold leading-tight tracking-wide">{lesson.name}</h3>
+                      <p className="mt-1 text-sm font-semibold text-zinc-800">{lesson.coach}</p>
+                    </div>
+                  </div>
+                  <p className="mt-3 text-sm leading-relaxed text-zinc-600">{lesson.bio}</p>
+                  <SiteLink href={LESSON_BOOKING_HREFS[lesson.slug]} className={`${btnPrimary} mt-5 w-full`}>
+                    Book Lesson
+                  </SiteLink>
+                </article>
+              );
+            })}
           </div>
         </div>
       </section>
