@@ -1,9 +1,9 @@
 import Image from "next/image";
 import Link from "next/link";
+import CampProgramCard from "@/components/CampProgramCard";
 import Hero from "@/components/Hero";
 import HomeFeaturedLessonCard from "@/components/HomeFeaturedLessonCard";
 import HomeSectionHeader from "@/components/HomeSectionHeader";
-import OfferingCard from "@/components/OfferingCard";
 import QuickActions from "@/components/QuickActions";
 import SponsorCard from "@/components/SponsorCard";
 import { LESSON_BOOKING_HREFS } from "@/config/schedule";
@@ -35,12 +35,7 @@ export default function HomePage() {
           />
           <div className="mt-6 grid gap-4 lg:grid-cols-2">
             {sortedCamps.map((camp) => (
-              <OfferingCard
-                key={camp.slug}
-                offering={camp}
-                href={`/camps/${camp.slug}`}
-                imagePresentation="promo"
-              />
+              <CampProgramCard key={camp.slug} offering={camp} href={`/camps/${camp.slug}`} />
             ))}
           </div>
         </div>
