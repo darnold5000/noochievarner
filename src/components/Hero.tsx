@@ -36,7 +36,7 @@ export default function Hero({ content }: { content?: HeroContent | null }) {
   const secondaryHref = content?.secondaryButtonHref || "/camps";
 
   return (
-    <section className="relative isolate h-[clamp(30rem,74vw,35rem)] overflow-hidden bg-nv-navy text-white sm:h-[clamp(28.125rem,38vw,31.25rem)]">
+    <section className="relative isolate h-[clamp(31rem,78vw,36.5rem)] overflow-hidden bg-nv-navy text-white sm:h-[clamp(29.5rem,44vw,33.75rem)]">
       <Image
         src={heroImage}
         alt="Indoor training facility at Noochie Varner Baseball Academy"
