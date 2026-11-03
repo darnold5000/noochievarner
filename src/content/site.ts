@@ -43,11 +43,11 @@ export const NAV = [
   { label: "Camps & Clinics", href: "/camps" },
   { label: "Lessons", href: "/lessons" },
   { label: "Memberships", href: "/memberships" },
+  { label: "NVBA Services", href: "/services" },
   { label: "About", href: "/about" },
 ] as const;
 
 export const MORE_LINKS = [
-  { label: "Services", href: "/services" },
   { label: "Sponsors", href: "/sponsors" },
   { label: "News", href: "/news" },
   { label: "Gallery", href: "/gallery" },
@@ -316,42 +316,75 @@ export const MEMBERSHIP = {
   ],
 } as const;
 
-export const SERVICES = [
+export const SERVICES_INTRO =
+  "Our state-of-the-art batting cages and pitching tunnel are available to the public in 30- and 60-minute blocks. Teams can also book the entire facility or indoor turf field in one- or two-hour blocks.";
+
+export const SERVICES_FACILITY_IMAGE = {
+  src: "/images/facility/services-indoor-field.jpg",
+  alt: "Indoor turf infield and batting cages at Noochie Varner Baseball Academy",
+} as const;
+
+export type FacilityService = {
+  name: string;
+  lead?: string;
+  detail?: string;
+  bullets?: string[];
+  rates?: { label: string; price: string }[];
+  price?: string;
+  contact?: boolean;
+};
+
+export const SERVICES: FacilityService[] = [
   {
     name: "Cage rentals",
-    detail: "Batting cages are available to the public in 30- and 60-minute blocks.",
-    price: "30 minutes $20 · 60 minutes $35",
+    rates: [
+      { label: "30 minutes", price: "$20" },
+      { label: "60 minutes", price: "$35" },
+    ],
   },
   {
     name: "Field rental",
-    detail: `Use of the ${SITE.infield.toLowerCase()}.`,
-    price: "1.5 hours $100 · 2 hours $180",
+    lead: `Take advantage of our ${SITE.infield.toLowerCase()}.`,
+    rates: [
+      { label: "1.5 hours", price: "$100" },
+      { label: "2 hours", price: "$180" },
+    ],
   },
   {
-    name: "Team training",
-    detail:
-      "Teams can book the facility or the indoor turf. Contact the academy for team rental times.",
-    price: "Call or email to schedule",
+    name: "Team rentals",
+    detail: "Book the full facility or indoor turf for your team.",
+    contact: true,
   },
   {
     name: "Birthday parties",
     detail:
-      "A 2-hour party includes one staff member, field space, and kickball, dodgeball, wiffle ball, and soccer. Members receive 10% off this package.",
-    price: "$200",
+      "Host your child's birthday party at NVBA. We offer a 2-hour party and will work with you to create the right event.",
+    bullets: [
+      "One staff member at your service",
+      "Full access to our field space for games and fun",
+      "Kickball, dodgeball, wiffle ball, and soccer available",
+    ],
+    price: "$200 · Members receive 10% off",
   },
   {
     name: "Video analysis",
     detail:
-      "Short video segments, typically two to three minutes, can be replayed to show technique and progress over time.",
-    price: "Ask when you book a lesson",
+      "A picture is worth a thousand words, and that is what makes video analysis such a valuable addition to any sports academy. A typical video segment is two to three minutes in length and can be viewed repeatedly to clearly demonstrate correct, as well as incorrect, technique. It is also a great tool to show a player's progress over time.",
   },
   {
-    name: "Speed and agility",
+    name: "Speed and agility training",
+    lead: "What it takes to be a five-tool player:",
+    bullets: [
+      "Above-average hitter",
+      "Hit for power",
+      "Above-average defensive player",
+      "Above-average arm",
+      "Above-average foot speed",
+    ],
     detail:
-      "Training aimed at foot speed, bat speed, and staying healthy. The academy describes this as part of developing a complete player.",
-    price: "Ask the academy",
+      "To be a complete baseball player you need all five tools in your arsenal. NVBA knows that a slow bat is a bad bat, and our instructors work with players on the proper training to develop speed and power while avoiding injuries. Learn how Noochie made it through eight years of professional baseball without a disabled-list stint.",
   },
-] as const;
+];
 
 export const SPONSORS = [
   {
