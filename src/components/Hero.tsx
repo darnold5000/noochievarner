@@ -36,27 +36,28 @@ export default function Hero({ content }: { content?: HeroContent | null }) {
   const secondaryHref = content?.secondaryButtonHref || "/camps";
 
   return (
-    <section className="relative isolate h-[clamp(31rem,78vw,36.5rem)] overflow-hidden bg-nv-navy text-white sm:h-[clamp(29.5rem,44vw,33.75rem)]">
+    <section className="relative isolate h-[clamp(34rem,88vw,39rem)] overflow-hidden bg-nv-navy text-white sm:h-[clamp(36rem,42vw,39rem)]">
       <Image
         src={heroImage}
         alt="Indoor training facility at Noochie Varner Baseball Academy"
         fill
         priority
+        quality={92}
         className="object-cover object-[52%_78%] sm:object-[58%_72%]"
         sizes="100vw"
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-nv-navy/92 via-nv-navy/55 to-nv-navy/10 sm:via-nv-navy/40 sm:to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-r from-nv-navy/88 via-nv-navy/50 to-nv-navy/5 sm:via-nv-navy/35 sm:to-transparent"
         aria-hidden
       />
       <div
-        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-nv-navy/45 via-transparent to-nv-navy/25 sm:to-transparent"
+        className="pointer-events-none absolute inset-0 bg-gradient-to-t from-nv-navy/35 via-transparent to-nv-navy/15 sm:to-transparent"
         aria-hidden
       />
       <div className="relative mx-auto flex h-full max-w-7xl flex-col justify-center px-4 py-8 sm:px-6 sm:py-9 lg:py-10">
         <div className="max-w-2xl">
           <p className="text-xs font-bold uppercase tracking-[0.22em] text-nv-silver">{locationLabel}</p>
-          <h1 className="mt-2 font-display font-bold tracking-wide drop-shadow-sm">
+          <h1 className="mt-2 font-display font-bold tracking-wide">
             <span className="block text-[clamp(2rem,7vw,3.75rem)] leading-[0.92] text-white sm:text-[clamp(2.25rem,5vw,3.75rem)]">
               {headlinePrimary}
             </span>
@@ -66,7 +67,7 @@ export default function Hero({ content }: { content?: HeroContent | null }) {
           </h1>
           <p className="mt-3 max-w-xl text-sm leading-snug text-zinc-100 sm:mt-3.5 sm:text-base sm:leading-relaxed">{heroDescription}</p>
           <p className="mt-1.5 text-sm text-nv-silver/90">{SITE.address.full}</p>
-          <div className="mt-3.5 inline-flex max-w-full items-center gap-3 rounded-xl border border-white/20 bg-nv-navy/75 px-3 py-2 shadow-lg backdrop-blur-sm sm:mt-4 sm:py-2.5 sm:pr-5">
+          <div className="mt-3.5 inline-flex max-w-full items-center gap-3 rounded-xl border border-white/20 bg-nv-navy/90 px-3 py-2 shadow-lg sm:mt-4 sm:py-2.5 sm:pr-5">
             <div className="relative h-9 w-11 shrink-0 overflow-hidden rounded-md bg-white/95 sm:h-10 sm:w-12">
               <Image src="/images/brand/icon.png" alt="" fill className="object-contain p-0.5" sizes="48px" />
             </div>
