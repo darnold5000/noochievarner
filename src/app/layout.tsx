@@ -1,9 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Barlow_Condensed, DM_Sans } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import SiteFooter from "@/components/SiteFooter";
-import SiteHeader from "@/components/SiteHeader";
-import MobileDock from "@/components/MobileDock";
 import { SITE } from "@/content/site";
 import "./globals.css";
 
@@ -98,10 +95,7 @@ export default function RootLayout({
             __html: JSON.stringify(jsonLd).replace(/</g, "\\u003c"),
           }}
         />
-        <SiteHeader />
-        <main className="flex-1 pb-24 md:pb-0">{children}</main>
-        <SiteFooter />
-        <MobileDock />
+        {children}
         <Analytics />
       </body>
     </html>
