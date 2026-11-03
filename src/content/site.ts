@@ -43,28 +43,35 @@ export const SITE = {
     "https://cdn2.sportngin.com/attachments/video_file/9b28-332948/Baseball_complex_final_1080.mp4",
 } as const;
 
-export const NAV = [
+export const HEADER_NAV = [
   { label: "Camps & Clinics", href: "/camps" },
   { label: "Lessons", href: "/lessons" },
   { label: "Memberships", href: "/memberships" },
   { label: "Pro Shop", href: "/pro-shop" },
   { label: "NVBA Services", href: "/services" },
-  { label: "About", href: "/about" },
-  { label: "Contact", href: "/contact" },
 ] as const;
 
-/** Lower-priority pages linked from the footer (not in desktop header). */
+export const ACADEMY_LINKS = [
+  { label: "About Us", href: "/about" },
+  { label: "Facility Gallery", href: "/gallery" },
+  { label: "News & Updates", href: "/news" },
+  { label: "Our Sponsors", href: "/sponsors" },
+] as const;
+
+export const HEADER_CONTACT = { label: "Contact", href: "/contact" } as const;
+
+/** Primary header links including Contact (legacy alias for footer). */
+export const NAV = [...HEADER_NAV, HEADER_CONTACT] as const;
+
+/** Lower-priority pages linked from the footer More section. */
 export const FOOTER_MORE_LINKS = [
+  { label: "About Us", href: "/about" },
   { label: "News", href: "/news" },
   { label: "Gallery", href: "/gallery" },
   { label: "Sponsors", href: "/sponsors" },
 ] as const;
 
-export const MOBILE_NAV = [
-  { label: "Home", href: "/" },
-  ...NAV,
-  ...FOOTER_MORE_LINKS,
-] as const;
+export const MOBILE_NAV = [{ label: "Home", href: "/" }, ...HEADER_NAV, HEADER_CONTACT] as const;
 
 export type Offering = {
   slug: string;

@@ -3,10 +3,16 @@
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { bookTrainingHref, bookingUrl } from "@/config/booking";
 import SiteLink from "@/components/SiteLink";
-import { MOBILE_NAV, NAV, SITE } from "@/content/site";
+import {
+  ACADEMY_LINKS,
+  HEADER_CONTACT,
+  HEADER_NAV,
+  MOBILE_NAV,
+  SITE,
+} from "@/content/site";
 import { btnOnDark } from "@/lib/styles";
 
 function isActivePath(pathname: string, href: string) {
@@ -19,14 +25,16 @@ function MainNavLink({
   label,
   onClick,
   compact,
+  suppressActive,
 }: {
   href: string;
   label: string;
   onClick?: () => void;
   compact?: boolean;
+  suppressActive?: boolean;
 }) {
   const pathname = usePathname();
-  const active = isActivePath(pathname, href);
+  const active = !suppressActive && isActivePath(pathname, href);
   return (
     <Link
       href={href}
@@ -50,9 +58,70 @@ function MainNavLink({
   );
 }
 
+function AcademyMenuLink({
+  href,
+  label,
+  onNavigate,
+}: {
+  href: string;
+  label: string;
+  onNavigate: () => void;
+}) {
+  const pathname = usePathname();
+  const active = isActivePath(pathname, href);
+  return (
+    <Link
+      href={href}
+      role="menuitem"
+      onClick={onNavigate}
+      className={`block rounded-md px-3 py-2.5 text-sm font-semibold tracking-wide ${
+        active ? "bg-white/10 text-white" : "text-nv-silver hover:bg-white/5 hover:text-white"
+      }`}
+    >
+      {label}
+    </Link>
+  );
+}
+
 export default function Header() {
+  const pathname = usePathname();
   const [open, setOpen] = useState(false);
-  const close = () => setOpen(false);
+  const [academyOpen, setAcademyOpen] = useState(false);
+  const [mobileAcademyOpen, setMobileAcademyOpen] = useState(false);
+  const academyRef = useRef<HTMLDivElement>(null);
+  const academyMenuId = useId();
+
+  const academySectionActive = ACADEMY_LINKS.some((item) => isActivePath(pathname, item.href));
+
+  const close = () => {
+    setOpen(false);
+    setAcademyOpen(false);
+    setMobileAcademyOpen(false);
+  };
+
+  useEffect(() => {
+    if (!academyOpen) return;
+
+    const onPointerDown = (event: MouseEvent | TouchEvent) => {
+      const target = event.target;
+      if (!(target instanceof Node)) return;
+      if (academyRef.current?.contains(target)) return;
+      setAcademyOpen(false);
+    };
+
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setAcademyOpen(false);
+    };
+
+    document.addEventListener("mousedown", onPointerDown);
+    document.addEventListener("touchstart", onPointerDown);
+    document.addEventListener("keydown", onKeyDown);
+    return () => {
+      document.removeEventListener("mousedown", onPointerDown);
+      document.removeEventListener("touchstart", onPointerDown);
+      document.removeEventListener("keydown", onKeyDown);
+    };
+  }, [academyOpen]);
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-nv-navy text-white">
@@ -77,9 +146,54 @@ export default function Header() {
         </Link>
 
         <nav className="hidden min-w-0 flex-1 items-center justify-end gap-0 xl:flex" aria-label="Primary">
-          {NAV.map((item) => (
-            <MainNavLink key={item.href} href={item.href} label={item.label} />
+          {HEADER_NAV.map((item) => (
+            <MainNavLink
+              key={item.href}
+              href={item.href}
+              label={item.label}
+              suppressActive={academyOpen}
+            />
           ))}
+          <div
+            ref={academyRef}
+            className="relative"
+            onMouseEnter={() => setAcademyOpen(true)}
+            onMouseLeave={() => setAcademyOpen(false)}
+          >
+            <button
+              type="button"
+              id={`${academyMenuId}-button`}
+              aria-expanded={academyOpen}
+              aria-haspopup="menu"
+              aria-controls={`${academyMenuId}-menu`}
+              className={`whitespace-nowrap rounded-md border-b-2 px-2 py-2 text-xs font-semibold tracking-wide xl:px-2.5 xl:text-sm ${
+                academyOpen || academySectionActive
+                  ? "border-nv-blue text-white"
+                  : "border-transparent text-nv-silver hover:border-white/20 hover:text-white"
+              }`}
+              onClick={() => setAcademyOpen((value) => !value)}
+            >
+              Academy
+            </button>
+            {academyOpen ? (
+              <div
+                id={`${academyMenuId}-menu`}
+                role="menu"
+                aria-labelledby={`${academyMenuId}-button`}
+                className="absolute right-0 top-full z-50 mt-2 min-w-[13rem] rounded-lg border border-white/10 bg-nv-navy p-1.5 shadow-xl"
+              >
+                {ACADEMY_LINKS.map((item) => (
+                  <AcademyMenuLink
+                    key={item.href}
+                    href={item.href}
+                    label={item.label}
+                    onNavigate={() => setAcademyOpen(false)}
+                  />
+                ))}
+              </div>
+            ) : null}
+          </div>
+          <MainNavLink href={HEADER_CONTACT.href} label={HEADER_CONTACT.label} suppressActive={academyOpen} />
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 xl:ml-3">
@@ -97,7 +211,10 @@ export default function Header() {
             className="inline-flex h-10 w-10 items-center justify-center rounded-md hover:bg-white/10 xl:hidden"
             aria-expanded={open}
             aria-label={open ? "Close menu" : "Open menu"}
-            onClick={() => setOpen((value) => !value)}
+            onClick={() => {
+              setAcademyOpen(false);
+              setOpen((value) => !value);
+            }}
           >
             <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               {open ? (
@@ -116,6 +233,26 @@ export default function Header() {
             {MOBILE_NAV.map((item) => (
               <MainNavLink key={item.href} href={item.href} label={item.label} onClick={close} compact />
             ))}
+          </div>
+          <div className="mt-2 border-t border-white/10 pt-2">
+            <button
+              type="button"
+              className={`flex w-full items-center justify-between rounded-md px-3 py-2.5 text-left text-sm font-semibold tracking-wide ${
+                mobileAcademyOpen || academySectionActive ? "bg-white/10 text-white" : "text-nv-silver"
+              }`}
+              aria-expanded={mobileAcademyOpen}
+              onClick={() => setMobileAcademyOpen((value) => !value)}
+            >
+              Academy
+              <span className="text-xs">{mobileAcademyOpen ? "−" : "+"}</span>
+            </button>
+            {mobileAcademyOpen ? (
+              <div className="mt-1 grid gap-1 pl-2">
+                {ACADEMY_LINKS.map((item) => (
+                  <MainNavLink key={item.href} href={item.href} label={item.label} onClick={close} compact />
+                ))}
+              </div>
+            ) : null}
           </div>
           <div className="mt-4 grid gap-2">
             <SiteLink href={bookTrainingHref()} onClick={close} className={btnOnDark}>
