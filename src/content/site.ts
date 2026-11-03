@@ -447,8 +447,8 @@ export const PRO_SHOP = {
     subtitle:
       "Browse Wilson equipment and NVBA team apparel with exclusive partner pricing and local ordering support.",
     highlights: ["Wilson partner pricing", "Team apparel", "Local order support"] as const,
-    image: "/images/pro-shop/hero.webp",
-    imageAlt: "Baseball player in Wilson equipment at the plate",
+    image: "/images/pro-shop/hero-banner.webp",
+    imageAlt: "Team shop baseball apparel and equipment",
   },
   wilson: {
     brand: "Wilson",
@@ -456,8 +456,8 @@ export const PRO_SHOP = {
     heading: "Gear Up with Wilson",
     description:
       "Browse discounted Wilson apparel and equipment through NVBA's partner catalog. Orders are placed with our equipment director after you choose items in the Wilson store.",
-    image: "/images/gallery/hittrax.jpg",
-    imageAlt: "HitTrax and training equipment at NVBA",
+    image: "/images/pro-shop/wilson-gear.webp",
+    imageAlt: "Baseball player in Wilson and EvoShield equipment",
     href: STORES.wilsonJoin,
     accessCode: STORES.accessCode,
     cta: "Browse Wilson catalog",

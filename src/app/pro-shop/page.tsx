@@ -17,40 +17,56 @@ export default function ProShopPage() {
 
   return (
     <>
-      <section className="relative overflow-hidden bg-nv-navy text-white">
-        <div
-          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-nv-blue/25 via-transparent to-nv-navy"
-          aria-hidden
-        />
-        <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-2 lg:gap-10 lg:py-14">
-          <div>
-            <p className="text-xs font-bold uppercase tracking-[0.22em] text-nv-silver">{hero.label}</p>
-            <h1 className="mt-3 font-display text-4xl font-bold leading-[0.95] tracking-wide sm:text-5xl lg:text-6xl">
-              {hero.lines[0]}
-              <span className="mt-1 block text-nv-silver">{hero.lines[1]}</span>
-            </h1>
-            <p className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-200 sm:text-base">{hero.subtitle}</p>
-            <ul className="mt-6 flex flex-wrap gap-2">
-              {hero.highlights.map((item) => (
-                <li
-                  key={item}
-                  className="rounded-full border border-nv-blue/40 bg-nv-blue/15 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-white sm:text-xs"
-                >
-                  {item}
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div className="relative overflow-hidden rounded-2xl shadow-2xl shadow-black/40 ring-1 ring-white/10">
-            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[5/4]">
-              <Image
-                src={hero.image}
-                alt={hero.imageAlt}
-                fill
-                priority
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+      <section className="relative overflow-hidden bg-nv-navy">
+        <div className="bg-nv-navy px-4 py-8 text-white sm:hidden">
+          <p className="text-xs font-bold uppercase tracking-[0.22em] text-nv-silver">{hero.label}</p>
+          <h1 className="mt-3 font-display text-4xl font-bold leading-[0.95] tracking-wide">
+            {hero.lines[0]}
+            <span className="mt-1 block text-nv-silver">{hero.lines[1]}</span>
+          </h1>
+          <p className="mt-4 text-sm leading-relaxed text-zinc-100">{hero.subtitle}</p>
+          <ul className="mt-5 flex flex-wrap gap-2">
+            {hero.highlights.map((item) => (
+              <li
+                key={item}
+                className="rounded-full border border-white/25 bg-nv-blue/20 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em]"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="relative aspect-[16/10] min-h-[12rem] sm:aspect-[21/9] sm:min-h-[20rem] lg:min-h-[26rem]">
+          <Image
+            src={hero.image}
+            alt={hero.imageAlt}
+            fill
+            priority
+            className="object-cover object-center"
+            sizes="100vw"
+          />
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 hidden w-[min(55%,32rem)] bg-gradient-to-r from-nv-navy/95 via-nv-navy/75 to-transparent sm:block lg:w-[min(42%,38rem)]"
+            aria-hidden
+          />
+          <div className="absolute inset-0 hidden items-center sm:flex">
+            <div className="relative max-w-md px-8 text-white lg:max-w-lg lg:px-10">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-nv-silver">{hero.label}</p>
+              <h1 className="mt-3 font-display text-5xl font-bold leading-[0.95] tracking-wide drop-shadow-sm lg:text-6xl">
+                {hero.lines[0]}
+                <span className="mt-1 block text-nv-silver">{hero.lines[1]}</span>
+              </h1>
+              <p className="mt-4 text-base leading-relaxed text-zinc-100">{hero.subtitle}</p>
+              <ul className="mt-5 flex flex-wrap gap-2">
+                {hero.highlights.map((item) => (
+                  <li
+                    key={item}
+                    className="rounded-full border border-white/25 bg-nv-navy/40 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] backdrop-blur-sm"
+                  >
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
@@ -87,7 +103,7 @@ export default function ProShopPage() {
                 src={wilson.image}
                 alt={wilson.imageAlt}
                 fill
-                className="object-cover object-center"
+                className="object-cover object-top"
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
             </div>
