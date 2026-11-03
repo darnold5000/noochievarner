@@ -92,9 +92,7 @@ export default function OfferingDetail({
               height={1100}
               className="h-auto w-full"
             />
-            <figcaption className="px-4 py-3 text-xs text-zinc-500">
-              Original flyer, kept as a reference. The details above are the information to use.
-            </figcaption>
+            <figcaption className="px-4 py-3 text-xs text-zinc-500">Program flyer</figcaption>
           </figure>
         ) : null}
       </section>

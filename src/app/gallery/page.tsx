@@ -12,7 +12,7 @@ export default function GalleryPage() {
   return (
     <>
       <PageIntro eyebrow="NVBA in action" title="Photo Gallery">
-        <p>Albums published on the current academy site, including earlier seasons. These are photos, not open registrations.</p>
+        <p>Photos from lessons, clinics, team practices, and life at the academy.</p>
       </PageIntro>
       <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
         <GalleryGrid />

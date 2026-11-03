@@ -16,8 +16,8 @@ export default function ServicesPage() {
     <>
       <PageIntro eyebrow="Facility" title="Services">
         <p>
-          Cage and field time is reserved with the academy directly. Lesson booking stays on the lessons page so
-          those two paths stay separate.
+          Reserve cages, field time, team training, parties, and more at the indoor facility. Call or email the
+          academy to schedule.
         </p>
       </PageIntro>
       <section className="mx-auto grid max-w-7xl gap-4 px-4 py-10 sm:px-6 md:grid-cols-2">

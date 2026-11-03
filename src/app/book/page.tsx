@@ -19,8 +19,7 @@ export default function BookPage() {
     <>
       <PageIntro eyebrow="Academy booking" title="Book Training">
         <p>
-          Choose a coach, date, and time on this site. This preview uses sample availability so you can see how a
-          built-in booking flow would work.
+          Choose a coach, lesson type, date, and time for private lessons, camps, clinics, or facility rentals.
         </p>
       </PageIntro>
       <Suspense fallback={<p className="px-4 py-12 text-center text-sm text-zinc-600">Loading booking…</p>}>

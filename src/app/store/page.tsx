@@ -14,13 +14,13 @@ export default function StorePage() {
   return (
     <>
       <PageIntro eyebrow="Apparel & equipment" title="Team Store">
-        <p>Shop the existing team store and Wilson catalog. This site does not take payment for gear.</p>
+        <p>Shop NVBA apparel and browse the Wilson catalog for bats, gloves, and gear.</p>
       </PageIntro>
       <section className="mx-auto grid max-w-5xl gap-4 px-4 py-10 sm:px-6 md:grid-cols-2">
         <article className="rounded-2xl bg-white p-6">
           <h2 className="font-display text-3xl font-bold tracking-wide text-nv-navy">NV apparel</h2>
           <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-            The academy links its Wilson team store from the current site.
+            Visit the Wilson team store for NVBA apparel and spirit wear.
           </p>
           <a href={STORES.teamShop} className={`${btnPrimary} mt-5`} target="_blank" rel="noreferrer">
             Visit the team store

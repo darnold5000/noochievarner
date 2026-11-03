@@ -15,8 +15,8 @@ export default function CampsPage() {
     <>
       <PageIntro eyebrow="Georgetown, KY" title="Camps & Clinics">
         <p>
-          Dates, ages, times, and prices are listed on each program. Registration opens the matching signup page
-          only after you choose one.
+          Seasonal clinics, development programs, and leagues at the indoor facility. Dates, ages, times, and prices
+          are listed on each program below.
         </p>
       </PageIntro>
       <section className="mx-auto grid max-w-7xl gap-5 px-4 py-10 sm:px-6 lg:grid-cols-2">

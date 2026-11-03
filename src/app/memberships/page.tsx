@@ -16,8 +16,8 @@ export default function MembershipsPage() {
     <>
       <PageIntro eyebrow="12-month membership" title="Memberships">
         <p>
-          One membership is published on the current academy site. Purchase continues through the existing account
-          sign-in.
+          Train year-round with indoor access, HitTrax lessons, cage time, and priority scheduling. Sign in to
+          purchase or manage your membership.
         </p>
       </PageIntro>
       <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6">

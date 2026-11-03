@@ -12,7 +12,7 @@ export default function NewsPage() {
   return (
     <>
       <PageIntro eyebrow="Media" title="In the News">
-        <p>Academy-specific items from the current site. The old news page was a general sports article feed, so it is not carried over.</p>
+        <p>Updates and highlights from Noochie Varner Baseball Academy.</p>
       </PageIntro>
       <section className="mx-auto max-w-3xl px-4 py-10 sm:px-6">
         <article className="overflow-hidden rounded-2xl bg-white">
@@ -28,7 +28,7 @@ export default function NewsPage() {
               Former NV Stars players playing college baseball
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-zinc-600">
-              The academy publishes this graphic of former NV Stars players who went on to play college baseball.
+              Former NV Stars players who went on to play college baseball.
             </p>
           </div>
         </article>

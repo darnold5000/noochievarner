@@ -13,7 +13,7 @@ export default function SponsorsPage() {
   return (
     <>
       <PageIntro eyebrow="Partners" title="Proudly supported by our partners">
-        <p>Sponsor names and links below are the ones published on the current academy site.</p>
+        <p>Local partners who support NVBA athletes, families, and the Georgetown community.</p>
       </PageIntro>
       <section className="mx-auto grid max-w-4xl gap-4 px-4 py-10 sm:px-6">
         {SPONSORS.map((sponsor) => {
