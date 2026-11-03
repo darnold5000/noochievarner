@@ -441,32 +441,39 @@ export const STORES = {
 } as const;
 
 export const PRO_SHOP = {
-  heroImage: "/images/gallery/hitting.jpg",
-  heroImageAlt: "Hitting practice at Noochie Varner Baseball Academy",
-  title: "Gear Up for the Season.",
-  subtitle:
-    "Browse NVBA catalog links for Wilson apparel and equipment, then place your order with our equipment team.",
-  highlights: ["Wilson partner pricing", "Apparel & equipment", "Local order support"] as const,
-  partner: {
-    name: "Wilson",
-    detail: "NVBA is a proud partner of Wilson for discounted apparel and equipment.",
+  hero: {
+    label: "NVBA Pro Shop",
+    lines: ["Gear Up.", "Play Your Best."] as const,
+    subtitle:
+      "Browse Wilson equipment and NVBA team apparel with exclusive partner pricing and local ordering support.",
+    highlights: ["Wilson partner pricing", "Team apparel", "Local order support"] as const,
+    image: "/images/gallery/hitting.jpg",
+    imageAlt: "Baseball training at Noochie Varner Baseball Academy",
   },
-  orderProcess:
-    "NVBA is a proud partner of Wilson. All visitors to the NVBA website are welcome to browse the apparel and equipment catalog links below, and place an order. Orders can be placed by emailing the NVBA Director of Equipment and Sales, Petey Reynolds, or by calling him directly.",
-  catalogLinks: [
-    {
-      name: "Wilson Discounted Store",
-      detail: "Use the access code below when prompted to browse Wilson apparel and equipment at partner pricing.",
-      href: STORES.wilsonJoin,
-      accessCode: STORES.accessCode,
-      cta: "Open Wilson store",
-    },
-    {
-      name: "NVBA team apparel",
-      detail: "Spirit wear and NVBA-branded apparel through the team shop catalog.",
-      href: STORES.teamShop,
-      cta: "Visit team shop",
-    },
+  wilson: {
+    brand: "Wilson",
+    tagline: "Official equipment partner",
+    heading: "Gear Up with Wilson",
+    description:
+      "Browse discounted Wilson apparel and equipment through NVBA's partner catalog. Orders are placed with our equipment director after you choose items in the Wilson store.",
+    image: "/images/gallery/hittrax.jpg",
+    imageAlt: "HitTrax and training equipment at NVBA",
+    href: STORES.wilsonJoin,
+    accessCode: STORES.accessCode,
+    cta: "Browse Wilson catalog",
+  },
+  apparel: {
+    heading: "Rep your academy.",
+    description: "Shop NVBA-branded apparel and team gear through the team shop catalog.",
+    image: "/images/gallery/stars-9u.jpg",
+    imageAlt: "NVBA team at the academy",
+    href: STORES.teamShop,
+    cta: "Shop NVBA apparel",
+  },
+  orderSteps: [
+    "Browse the Wilson or NVBA apparel catalog.",
+    "Find the products you're interested in.",
+    "Contact Petey Reynolds to place your order.",
   ] as const,
 } as const;
 

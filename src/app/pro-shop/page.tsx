@@ -1,127 +1,168 @@
 import Image from "next/image";
-import Link from "next/link";
+import CopyAccessCode from "@/components/CopyAccessCode";
 import { PRO_SHOP, STORES } from "@/content/site";
 import { createPageMetadata } from "@/lib/seo";
-import { btnGhost, btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
+import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
 
 export const metadata = createPageMetadata({
   title: "Pro Shop",
   description:
-    "NVBA catalog links for Wilson discounted apparel and equipment. Access code 18DD053. Orders through Petey Reynolds, Director of Equipment and Sales.",
+    "NVBA Pro Shop — Wilson partner catalog and NVBA team apparel. Access code 18DD053. Orders through Petey Reynolds.",
   path: "/pro-shop",
 });
 
 export default function ProShopPage() {
   const contact = STORES.catalogContact;
+  const { hero, wilson, apparel, orderSteps } = PRO_SHOP;
 
   return (
     <>
-      <section className="relative isolate min-h-[22rem] overflow-hidden bg-nv-navy text-white sm:min-h-[26rem]">
-        <Image
-          src={PRO_SHOP.heroImage}
-          alt={PRO_SHOP.heroImageAlt}
-          fill
-          priority
-          className="object-cover"
-          sizes="100vw"
+      <section className="relative overflow-hidden bg-nv-navy text-white">
+        <div
+          className="pointer-events-none absolute inset-0 bg-gradient-to-br from-nv-blue/25 via-transparent to-nv-navy"
+          aria-hidden
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-nv-navy via-nv-navy/85 to-nv-navy/55" />
-        <div className="relative mx-auto flex max-w-7xl flex-col justify-end px-4 py-12 sm:px-6 sm:py-16">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-nv-silver">Apparel & equipment</p>
-          <h1 className="mt-2 max-w-3xl font-display text-4xl font-bold tracking-wide sm:text-6xl">
-            {PRO_SHOP.title}
-          </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-zinc-200">{PRO_SHOP.subtitle}</p>
-          <ul className="mt-6 flex flex-wrap gap-2">
-            {PRO_SHOP.highlights.map((item) => (
-              <li
-                key={item}
-                className="rounded-full border border-white/20 bg-white/10 px-3 py-1.5 text-xs font-bold uppercase tracking-wide text-white"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
+        <div className="relative mx-auto grid max-w-7xl items-center gap-8 px-4 py-10 sm:px-6 sm:py-12 lg:grid-cols-2 lg:gap-10 lg:py-14">
+          <div>
+            <p className="text-xs font-bold uppercase tracking-[0.22em] text-nv-silver">{hero.label}</p>
+            <h1 className="mt-3 font-display text-4xl font-bold leading-[0.95] tracking-wide sm:text-5xl lg:text-6xl">
+              {hero.lines[0]}
+              <span className="mt-1 block text-nv-silver">{hero.lines[1]}</span>
+            </h1>
+            <p className="mt-5 max-w-lg text-sm leading-relaxed text-zinc-200 sm:text-base">{hero.subtitle}</p>
+            <ul className="mt-6 flex flex-wrap gap-2">
+              {hero.highlights.map((item) => (
+                <li
+                  key={item}
+                  className="rounded-full border border-nv-blue/40 bg-nv-blue/15 px-3 py-1.5 text-[0.65rem] font-bold uppercase tracking-[0.12em] text-white sm:text-xs"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <div className="relative overflow-hidden rounded-2xl shadow-2xl shadow-black/40 ring-1 ring-white/10">
+            <div className="relative aspect-[4/3] sm:aspect-[16/10] lg:aspect-[5/4]">
+              <Image
+                src={hero.image}
+                alt={hero.imageAlt}
+                fill
+                priority
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+          </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
-        <div className="rounded-2xl border border-nv-navy/10 bg-white p-6 sm:p-8">
-          <p className="text-xs font-bold uppercase tracking-[0.2em] text-nv-blue">Vendor partner</p>
-          <h2 className="mt-2 font-display text-3xl font-bold tracking-wide text-nv-navy sm:text-4xl">
-            {PRO_SHOP.partner.name}
-          </h2>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-zinc-600">{PRO_SHOP.partner.detail}</p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6">
-        <h2 className="font-display text-3xl font-bold tracking-wide text-nv-navy sm:text-4xl">NVBA catalog links</h2>
-        <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-600">
-          Browse the catalogs below, then contact Petey Reynolds to place your order.
-        </p>
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {PRO_SHOP.catalogLinks.map((link) => (
-            <article
-              key={link.name}
-              className="flex flex-col rounded-2xl border border-nv-navy/10 bg-white p-6 sm:p-7"
+      <section className="bg-white py-10 sm:py-12">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-12">
+          <div className="order-2 lg:order-1">
+            <p className="text-xs font-bold uppercase tracking-[0.2em] text-nv-blue">{wilson.brand}</p>
+            <p className="mt-1 text-xs font-bold uppercase tracking-[0.16em] text-zinc-500">{wilson.tagline}</p>
+            <h2 className="mt-3 font-display text-3xl font-bold tracking-wide text-nv-navy sm:text-4xl">
+              {wilson.heading}
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-zinc-600 sm:text-base">{wilson.description}</p>
+            <div className="mt-6 flex flex-col gap-3 rounded-xl border border-nv-navy/10 bg-nv-ice p-4 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-xs font-bold uppercase tracking-wide text-zinc-500">Access code</p>
+                <p className="font-display text-2xl font-bold tracking-wide text-nv-blue">{wilson.accessCode}</p>
+              </div>
+              <CopyAccessCode code={wilson.accessCode} />
+            </div>
+            <a
+              href={wilson.href}
+              className={`${btnPrimary} mt-6 inline-flex w-full sm:w-auto`}
+              target="_blank"
+              rel="noreferrer"
             >
-              <h3 className="font-display text-2xl font-bold tracking-wide text-nv-navy sm:text-3xl">{link.name}</h3>
-              <p className="mt-2 flex-1 text-sm leading-relaxed text-zinc-600">{link.detail}</p>
-              {"accessCode" in link && link.accessCode ? (
-                <p className="mt-4 rounded-xl bg-nv-ice px-4 py-3 text-sm text-zinc-700">
-                  <span className="font-bold uppercase tracking-wide text-nv-navy">Access code</span>
-                  <span className="mt-1 block font-display text-2xl font-bold tracking-wide text-nv-blue">
-                    {link.accessCode}
-                  </span>
-                </p>
-              ) : null}
-              <a href={link.href} className={`${btnPrimary} mt-5 w-full sm:w-auto`} target="_blank" rel="noreferrer">
-                {link.cta}
-              </a>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pb-10 sm:px-6">
-        <article className="rounded-2xl border border-nv-navy/10 bg-nv-ice p-6 sm:p-8">
-          <h2 className="font-display text-3xl font-bold tracking-wide text-nv-navy">Order process</h2>
-          <p className="mt-3 max-w-3xl text-sm leading-relaxed text-zinc-700">{PRO_SHOP.orderProcess}</p>
-          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-            <a href={contact.emailHref} className={btnOutline}>
-              Email {contact.name}
-            </a>
-            <a href={contact.phoneHref} className={btnOutline}>
-              Call {contact.phoneDisplay}
+              {wilson.cta}
             </a>
           </div>
-          <p className="mt-4 text-sm text-zinc-600">
-            {contact.name}, {contact.role} ·{" "}
-            <a className="font-semibold text-nv-blue hover:underline" href={contact.emailHref}>
+          <div className="relative order-1 overflow-hidden rounded-2xl shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10 lg:order-2">
+            <div className="relative aspect-[4/3]">
+              <Image
+                src={wilson.image}
+                alt={wilson.imageAlt}
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="border-y border-nv-navy/8 bg-nv-ice/80 py-10 sm:py-12">
+        <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-12">
+          <div className="relative overflow-hidden rounded-2xl shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10">
+            <div className="relative aspect-[4/3]">
+              <Image
+                src={apparel.image}
+                alt={apparel.imageAlt}
+                fill
+                className="object-cover object-center"
+                sizes="(max-width: 1024px) 100vw, 50vw"
+              />
+            </div>
+          </div>
+          <div>
+            <h2 className="font-display text-3xl font-bold uppercase tracking-wide text-nv-navy sm:text-4xl">
+              {apparel.heading}
+            </h2>
+            <p className="mt-4 text-sm leading-relaxed text-zinc-600 sm:text-base">{apparel.description}</p>
+            <a
+              href={apparel.href}
+              className={`${btnPrimary} mt-6 inline-flex w-full sm:w-auto`}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {apparel.cta}
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-3xl px-4 py-10 pb-14 sm:px-6 sm:py-12">
+        <h2 className="text-center font-display text-3xl font-bold tracking-wide text-nv-navy sm:text-4xl">
+          How to order
+        </h2>
+        <ol className="mt-8 space-y-4">
+          {orderSteps.map((step, index) => (
+            <li
+              key={step}
+              className="flex gap-4 rounded-xl border border-nv-navy/10 bg-white p-4 shadow-sm sm:p-5"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-nv-blue font-display text-lg font-bold text-white">
+                {index + 1}
+              </span>
+              <p className="pt-1 text-sm leading-relaxed text-zinc-700 sm:text-base">{step}</p>
+            </li>
+          ))}
+        </ol>
+
+        <div className="mt-8 rounded-2xl bg-nv-navy p-6 text-white sm:p-8">
+          <p className="font-display text-xl font-bold tracking-wide">{contact.name}</p>
+          <p className="mt-1 text-sm text-nv-silver">{contact.role}</p>
+          <p className="mt-4 text-sm">
+            <a className="font-semibold underline hover:text-nv-silver" href={contact.emailHref}>
               {contact.email}
             </a>
-            {" · "}
-            <a className="font-semibold text-nv-blue hover:underline" href={contact.phoneHref}>
+          </p>
+          <p className="mt-1 text-sm">
+            <a className="font-semibold underline hover:text-nv-silver" href={contact.phoneHref}>
               {contact.phone}
             </a>
           </p>
-        </article>
-      </section>
-
-      <section className="mx-auto max-w-7xl px-4 pb-14 sm:px-6">
-        <div className="rounded-2xl bg-nv-navy p-6 text-white sm:p-8">
-          <h2 className="font-display text-3xl font-bold tracking-wide">Not sure what you need?</h2>
-          <p className="mt-2 max-w-2xl text-sm leading-relaxed text-zinc-200">
-            Need help choosing a bat, glove, or training gear? Talk with {contact.name} before you order.
-          </p>
-          <div className="mt-5 flex flex-col gap-3 sm:flex-row">
-            <a href={contact.phoneHref} className={btnOnDark}>
-              Call or text {contact.phone}
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+            <a href={contact.emailHref} className={`${btnOnDark} w-full sm:w-auto`}>
+              Email Petey
             </a>
-            <Link href="/sponsors" className={btnGhost}>
-              View sponsors
-            </Link>
+            <a href={contact.phoneHref} className={`${btnOutline} w-full border-white/30 bg-transparent text-white hover:border-white hover:bg-white/10 sm:w-auto`}>
+              Call Petey
+            </a>
           </div>
         </div>
       </section>
