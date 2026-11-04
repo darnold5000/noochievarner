@@ -415,22 +415,22 @@ export const ABOUT = {
   introEyebrow: "Georgetown, Kentucky",
   introTitle: "About the Academy",
   introText:
-    "The focus at NVBA is on the individual. Instructors evaluate each player's swing and build on what that player already does well.",
+    "The focus at NVBA is on the individual. Instructors evaluate each player's strengths and build a plan around what that player already does well.",
   storyParagraphs: [
-    "There are similarities in every good swing, and none are exactly the same. Lessons start with an evaluation: natural abilities, goals, and, for younger players, what is age-appropriate. Instructors look at strength, balance, conditioning, technique, vision, and footwork.",
-    "Players are encouraged to stay with one coach so instruction stays consistent. The staff is broad enough that a player can also sample another instructor's approach.",
-    "The academy's other message is practice. The indoor facility at 115 Etter Lane, Georgetown, KY 40324 opened in early December 2016. It is 16,000 square feet, with a 7,000 square foot infield practice area.",
-    "Instructors train players of all ages and skill levels, from Little Leaguers to MLB prospects. Services include private, group, and team lessons, facility and cage rentals, camps, and clinics. Batting and pitching lessons are offered for softball and baseball, along with catching, defensive drills, and speed and agility work.",
-    "Noochie Varner teaches private hitting and has 8 years of professional playing experience. The academy site notes he played those 8 years without a stay on the disabled list, and uses that as part of the conversation around speed, power, and staying healthy.",
+    "Every good swing shares common principles, but no two hitters are built the same. Lessons begin with an evaluation of natural ability, goals, and age-appropriate expectations. Instructors address strength, balance, conditioning, technique, vision, and footwork.",
+    "Players are encouraged to work consistently with one coach. Our staff is large enough that a player can also learn from another instructor when that helps their development.",
+    "Practice is at the heart of NVBA. The indoor facility at 115 Etter Lane, Georgetown, KY 40324 opened in December 2016. The building offers 16,000 square feet of training space, including a 7,000 sq. ft. infield practice area.",
+    "We train baseball and softball players from tee-ball ages through advanced prospects. Offerings include private, group, and team lessons, cage and field rentals, camps, and clinics—plus hitting, pitching, catching, defense, and speed and agility work.",
+    "Noochie Varner leads private hitting instruction and played eight seasons of professional baseball without a disabled-list stint. That experience shapes how he talks with players about speed, power, and staying healthy.",
   ],
   mainImageUrl: "/images/facility/facility.jpg",
   secondaryImageUrl: "/images/facility/about-2.jpg",
 };
 
 export const FACILITY_FEATURES = [
-  { slug: "indoor-training", label: "Indoor training", description: "Baseball and softball development year-round.", sort: 1 },
-  { slug: "infield-area", label: "Infield practice area", description: SITE.infield, sort: 2 },
-  { slug: "hittrax", label: "HitTrax", description: "Hitting metrics and player development tracking.", sort: 3 },
+  { slug: "indoor-training", label: "Indoor training", description: "Year-round baseball and softball development in a climate-controlled facility.", sort: 1 },
+  { slug: "infield-area", label: "Infield practice area", description: "Dedicated turf space for ground balls, footwork, and team defense.", sort: 2 },
+  { slug: "hittrax", label: "HitTrax", description: "Measure exit velocity, launch angle, and more to track hitting progress.", sort: 3 },
 ];
 
 export function slugify(value) {

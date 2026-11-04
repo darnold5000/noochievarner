@@ -1,5 +1,6 @@
 import Image from "next/image";
 import PageIntro from "@/components/PageIntro";
+import { ABOUT_STORY_PARAGRAPHS, ABOUT_INTRO_TEXT, FACILITY_VIDEO_POSTER } from "@/content/about";
 import { SITE } from "@/content/site";
 import { getPublicAboutContent, getResolvedSiteContact } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
@@ -13,13 +14,7 @@ export const metadata = createPageMetadata({
 
 export const revalidate = 60;
 
-const FALLBACK_PARAGRAPHS = [
-  "There are similarities in every good swing, and none are exactly the same. Lessons start with an evaluation: natural abilities, goals, and, for younger players, what is age-appropriate. Instructors look at strength, balance, conditioning, technique, vision, and footwork.",
-  "Players are encouraged to stay with one coach so instruction stays consistent. The staff is broad enough that a player can also sample another instructor's approach.",
-  `The academy's other message is practice. The indoor facility at ${SITE.address.full} opened in early December 2016. It is 16,000 square feet, with a 7,000 square foot infield practice area.`,
-  "Instructors train players of all ages and skill levels, from Little Leaguers to MLB prospects. Services include private, group, and team lessons, facility and cage rentals, camps, and clinics. Batting and pitching lessons are offered for softball and baseball, along with catching, defensive drills, and speed and agility work.",
-  "Noochie Varner teaches private hitting and has 8 years of professional playing experience. The academy site notes he played those 8 years without a stay on the disabled list, and uses that as part of the conversation around speed, power, and staying healthy.",
-];
+const FALLBACK_PARAGRAPHS = [...ABOUT_STORY_PARAGRAPHS];
 
 export default async function AboutPage() {
   const [cms, contactFallback] = await Promise.all([getPublicAboutContent(), getResolvedSiteContact()]);
@@ -28,7 +23,7 @@ export default async function AboutPage() {
   const introTitle = cms?.introTitle ?? "About the Academy";
   const introText =
     cms?.introText ??
-    "The focus at NVBA is on the individual. Instructors evaluate each player's swing and build on what that player already does well.";
+    ABOUT_INTRO_TEXT;
   const paragraphs = cms?.storyParagraphs.length ? cms.storyParagraphs : FALLBACK_PARAGRAPHS;
   const mainImage = cms?.mainImageUrl ?? (cms ? "" : "/images/facility/facility.jpg");
   const secondaryImage = cms?.secondaryImageUrl ?? (cms ? "" : "/images/facility/about-2.jpg");
@@ -80,9 +75,17 @@ export default async function AboutPage() {
       </section>
       <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6">
         <h2 className="font-display text-3xl font-bold tracking-wide text-nv-navy">Facility video</h2>
-        <video className="mt-4 w-full rounded-2xl bg-black" controls playsInline preload="none">
-          <source src={facilityVideo} type="video/mp4" />
-        </video>
+        <div className="mt-4 max-w-3xl">
+          <video
+            className="aspect-video w-full rounded-2xl bg-nv-navy object-cover"
+            controls
+            playsInline
+            preload="metadata"
+            poster={FACILITY_VIDEO_POSTER}
+          >
+            <source src={facilityVideo} type="video/mp4" />
+          </video>
+        </div>
         <p className="mt-6 text-sm text-zinc-700">
           {contact.address.full}
           <br />

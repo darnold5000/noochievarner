@@ -39,7 +39,11 @@ export default async function LessonsPage() {
       </PageIntro>
       <section className="mx-auto grid max-w-7xl gap-4 px-4 py-10 sm:px-6 lg:grid-cols-2">
         {coaches.map((coach) => (
-          <article key={coach.id} className="rounded-2xl border border-nv-navy/10 bg-white p-4 sm:p-5">
+          <article
+            key={coach.id}
+            id={coach.id}
+            className="scroll-mt-28 rounded-2xl border border-nv-navy/10 bg-white p-4 sm:p-5"
+          >
             <div className="flex items-start gap-4">
               <div className="relative h-24 w-24 shrink-0 overflow-hidden rounded-xl bg-nv-ice sm:h-28 sm:w-28">
                 <Image

@@ -1,6 +1,6 @@
 import Image from "next/image";
 import NvStarsPhotoGrid from "@/components/NvStarsPhotoGrid";
-import { getNvStarsCollegeFeature, getPublicNvStarsTeams } from "@/lib/nvba-public-content";
+import { getNvStarsCollegeFeature, getPublicNvStarsHighlights, getPublicNvStarsTeams } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -13,7 +13,11 @@ export const metadata = createPageMetadata({
 export const revalidate = 60;
 
 export default async function NvStarsPage() {
-  const [college, teams] = await Promise.all([getNvStarsCollegeFeature(), getPublicNvStarsTeams()]);
+  const [college, teams, highlights] = await Promise.all([
+    getNvStarsCollegeFeature(),
+    getPublicNvStarsTeams(),
+    getPublicNvStarsHighlights(),
+  ]);
 
   return (
     <>
@@ -58,6 +62,20 @@ export default async function NvStarsPage() {
           )}
         </div>
       </section>
+
+      {highlights.length ? (
+        <section className="border-t border-nv-navy/8 bg-nv-ice/50">
+          <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-10">
+            <p className="text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">Updates</p>
+            <h2 className="mt-2 font-display text-2xl font-bold tracking-wide text-nv-navy sm:text-3xl">
+              NV Stars news &amp; highlights
+            </h2>
+            <div className="mt-6">
+              <NvStarsPhotoGrid images={highlights} variant="news" />
+            </div>
+          </div>
+        </section>
+      ) : null}
     </>
   );
 }

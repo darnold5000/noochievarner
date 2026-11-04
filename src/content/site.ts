@@ -52,8 +52,8 @@ export const HEADER_NAV = [
 
 export const ACADEMY_LINKS = [
   { label: "About Us", href: "/about" },
-  { label: "NV Stars Teams", href: "/nv-stars" },
   { label: "Facility Gallery", href: "/gallery" },
+  { label: "News & Updates", href: "/news" },
   { label: "Our Sponsors", href: "/sponsors" },
 ] as const;
 
@@ -65,6 +65,7 @@ export const NAV = [...HEADER_NAV, HEADER_CONTACT] as const;
 /** Lower-priority pages linked from the footer More section. */
 export const FOOTER_MORE_LINKS = [
   { label: "About Us", href: "/about" },
+  { label: "News", href: "/news" },
   { label: "Gallery", href: "/gallery" },
   { label: "Sponsors", href: "/sponsors" },
 ] as const;
@@ -77,7 +78,7 @@ export const MOBILE_NAV = [
 ] as const;
 
 /** Academy submenu on mobile (NV Stars is a top-level mobile link). */
-export const MOBILE_ACADEMY_LINKS = ACADEMY_LINKS.filter((item) => item.href !== "/nv-stars");
+export const MOBILE_ACADEMY_LINKS = ACADEMY_LINKS;
 
 export type Offering = {
   slug: string;
