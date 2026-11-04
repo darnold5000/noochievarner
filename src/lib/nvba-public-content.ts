@@ -547,17 +547,34 @@ export async function getPublicNewsArticles() {
   }));
 }
 
-/** Same featured image as the Academy → News page (hero on /nv-stars and homepage NV Stars block). */
-export async function getNvStarsMainImage(): Promise<{ src: string; alt: string }> {
+/** College alumni feature (from News CMS article) for /nv-stars and homepage. */
+export async function getNvStarsCollegeFeature(): Promise<{
+  title: string;
+  summary: string;
+  image: { src: string; alt: string };
+}> {
   const articles = await getPublicNewsArticles();
   const article = articles[0];
   if (article) {
-    return { src: article.image, alt: article.headline };
+    return {
+      title: "NV Stars Players playing in College",
+      summary: article.summary || article.body,
+      image: { src: article.image, alt: article.headline },
+    };
   }
   return {
-    src: "/images/brand/college-alumni.png",
-    alt: "Former NV Stars players playing college baseball",
+    title: "NV Stars Players playing in College",
+    summary: "Former NV Stars players who went on to play college baseball.",
+    image: {
+      src: "/images/brand/college-alumni.png",
+      alt: "Former NV Stars players playing college baseball",
+    },
   };
+}
+
+export async function getNvStarsMainImage(): Promise<{ src: string; alt: string }> {
+  const college = await getNvStarsCollegeFeature();
+  return college.image;
 }
 
 export async function getFeaturedHomeSponsors(): Promise<Sponsor[]> {

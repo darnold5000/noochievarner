@@ -67,14 +67,6 @@ export default async function AboutPage() {
               className="h-auto w-full rounded-2xl"
             />
           ) : null}
-          <video
-            className="w-full rounded-2xl bg-black"
-            controls
-            playsInline
-            preload="none"
-          >
-            <source src={facilityVideo} type="video/mp4" />
-          </video>
           {secondaryImage ? (
             <Image
               src={secondaryImage}
@@ -87,7 +79,11 @@ export default async function AboutPage() {
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6">
-        <p className="text-sm text-zinc-700">
+        <h2 className="font-display text-3xl font-bold tracking-wide text-nv-navy">Facility video</h2>
+        <video className="mt-4 w-full rounded-2xl bg-black" controls playsInline preload="none">
+          <source src={facilityVideo} type="video/mp4" />
+        </video>
+        <p className="mt-6 text-sm text-zinc-700">
           {contact.address.full}
           <br />
           <a className="font-semibold text-nv-blue" href={contact.phoneHref}>

@@ -54,7 +54,6 @@ export const ACADEMY_LINKS = [
   { label: "About Us", href: "/about" },
   { label: "NV Stars Teams", href: "/nv-stars" },
   { label: "Facility Gallery", href: "/gallery" },
-  { label: "News & Updates", href: "/news" },
   { label: "Our Sponsors", href: "/sponsors" },
 ] as const;
 
@@ -66,7 +65,6 @@ export const NAV = [...HEADER_NAV, HEADER_CONTACT] as const;
 /** Lower-priority pages linked from the footer More section. */
 export const FOOTER_MORE_LINKS = [
   { label: "About Us", href: "/about" },
-  { label: "News", href: "/news" },
   { label: "Gallery", href: "/gallery" },
   { label: "Sponsors", href: "/sponsors" },
 ] as const;
