@@ -469,6 +469,8 @@ export async function getSiteBranding(): Promise<SiteBranding> {
 
 export type FounderPublicContent = {
   homeSummary: string;
+  /** Primary founder graphic (career stats poster) on homepage and about bio. */
+  mainImageUrl: string;
   photoUrl: string;
   careerPosterUrl: string;
   testimonialsFlyerUrl: string;
@@ -491,16 +493,19 @@ export async function getPublicFounderContent(): Promise<FounderPublicContent> {
   const testimonialBradQuote = dataString(data, "testimonialBradQuote");
   const testimonialMacQuote = dataString(data, "testimonialMacQuote");
 
+  const careerPosterUrl =
+    data && "founderCareerPosterUrl" in data
+      ? dataString(data, "founderCareerPosterUrl") || FOUNDER_CAREER_POSTER
+      : FOUNDER_CAREER_POSTER;
+
   return {
     homeSummary: dataString(data, "founderHomeSummary") || FOUNDER_HOME_SUMMARY,
+    mainImageUrl: careerPosterUrl,
     photoUrl:
       (data && "founderPhotoUrl" in data ? dataString(data, "founderPhotoUrl") : "") ||
       dataString(noochieData, "photoUrl") ||
       FOUNDER_PHOTO,
-    careerPosterUrl:
-      data && "founderCareerPosterUrl" in data
-        ? dataString(data, "founderCareerPosterUrl") || FOUNDER_CAREER_POSTER
-        : FOUNDER_CAREER_POSTER,
+    careerPosterUrl,
     testimonialsFlyerUrl:
       data && "founderTestimonialsFlyerUrl" in data
         ? dataString(data, "founderTestimonialsFlyerUrl") || FOUNDER_TESTIMONIALS_FLYER

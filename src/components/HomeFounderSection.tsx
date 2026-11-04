@@ -9,13 +9,13 @@ export default function HomeFounderSection({ founder }: { founder: FounderPublic
   return (
     <section className="border-b border-nv-navy/8 bg-gradient-to-b from-nv-ice/40 to-white py-10 sm:py-12">
       <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-12">
-        <div className="relative mx-auto aspect-[4/5] w-full max-w-md overflow-hidden rounded-2xl shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10 lg:mx-0 lg:max-w-none">
+        <div className="relative mx-auto aspect-[2/3] w-full max-w-sm overflow-hidden rounded-2xl bg-nv-navy shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10 lg:mx-0 lg:max-w-md">
           <Image
-            src={founder.photoUrl}
-            alt="Noochie Varner, founder of Noochie Varner Baseball Academy"
+            src={founder.mainImageUrl}
+            alt="Noochie Varner — founder, hitting instructor, and professional baseball career highlights"
             fill
-            className="object-cover object-top"
-            sizes="(max-width: 1024px) 90vw, 50vw"
+            className="object-contain object-center"
+            sizes="(max-width: 1024px) 90vw, 420px"
             priority={false}
           />
         </div>

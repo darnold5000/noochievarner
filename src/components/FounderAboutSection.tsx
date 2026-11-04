@@ -44,31 +44,22 @@ export default function FounderAboutSection({ founder }: { founder: FounderPubli
       <section id="noochie-varner" className="scroll-mt-28 border-t border-nv-navy/8 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
-            <div className="space-y-4">
-              <div className="relative aspect-[4/5] overflow-hidden rounded-2xl ring-1 ring-nv-navy/10">
-                <Image
-                  src={founder.photoUrl}
-                  alt="Noochie Varner"
-                  fill
-                  className="object-cover object-top"
-                  sizes="(max-width: 1024px) 100vw, 360px"
-                />
-              </div>
+            <div>
               <button
                 type="button"
-                onClick={() => setLightbox(founder.careerPosterUrl)}
-                className="block w-full overflow-hidden rounded-lg border border-nv-navy/10 bg-nv-ice/30 transition hover:border-nv-blue/40 hover:shadow-md"
+                onClick={() => setLightbox(founder.mainImageUrl)}
+                className="block w-full max-w-md overflow-hidden rounded-2xl bg-nv-navy ring-1 ring-nv-navy/10 transition hover:ring-nv-blue/40 lg:max-w-sm"
               >
-                <span className="relative block aspect-[16/10]">
+                <span className="relative block aspect-[2/3]">
                   <Image
-                    src={founder.careerPosterUrl}
-                    alt="Noochie Varner career statistics"
+                    src={founder.mainImageUrl}
+                    alt="Noochie Varner — founder and professional baseball career highlights"
                     fill
-                    className="object-contain p-1"
-                    sizes="360px"
+                    className="object-contain object-center"
+                    sizes="(max-width: 1024px) 100vw, 420px"
                   />
                 </span>
-                <span className="block px-2 py-2 text-center text-xs font-semibold text-nv-blue">View career stats graphic</span>
+                <span className="block px-3 py-2 text-center text-xs font-semibold text-nv-blue">Enlarge image</span>
               </button>
             </div>
             <div>
