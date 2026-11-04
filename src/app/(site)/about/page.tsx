@@ -1,8 +1,9 @@
 import Image from "next/image";
+import FounderAboutSection from "@/components/FounderAboutSection";
 import PageIntro from "@/components/PageIntro";
 import { ABOUT_STORY_PARAGRAPHS, ABOUT_INTRO_TEXT, FACILITY_VIDEO_POSTER } from "@/content/about";
 import { SITE } from "@/content/site";
-import { getPublicAboutContent, getResolvedSiteContact } from "@/lib/nvba-public-content";
+import { getPublicAboutContent, getPublicFounderContent, getResolvedSiteContact } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 
 export const metadata = createPageMetadata({
@@ -17,7 +18,11 @@ export const revalidate = 60;
 const FALLBACK_PARAGRAPHS = [...ABOUT_STORY_PARAGRAPHS];
 
 export default async function AboutPage() {
-  const [cms, contactFallback] = await Promise.all([getPublicAboutContent(), getResolvedSiteContact()]);
+  const [cms, contactFallback, founder] = await Promise.all([
+    getPublicAboutContent(),
+    getResolvedSiteContact(),
+    getPublicFounderContent(),
+  ]);
   const contact = cms?.contact ?? contactFallback;
   const introEyebrow = cms?.introEyebrow ?? "Georgetown, Kentucky";
   const introTitle = cms?.introTitle ?? "About the Academy";
@@ -34,8 +39,12 @@ export default async function AboutPage() {
       <PageIntro eyebrow={introEyebrow} title={introTitle}>
         <p>{introText}</p>
       </PageIntro>
+
+      <FounderAboutSection founder={founder} />
+
       <section className="mx-auto grid max-w-7xl gap-8 px-4 py-10 sm:px-6 lg:grid-cols-2">
         <div className="space-y-4 text-sm leading-relaxed text-zinc-700">
+          <h2 className="font-display text-2xl font-bold tracking-wide text-nv-navy sm:text-3xl">About the academy</h2>
           {paragraphs.map((paragraph) => (
             <p key={paragraph.slice(0, 48)}>{paragraph}</p>
           ))}

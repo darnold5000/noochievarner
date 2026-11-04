@@ -1,5 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
+import HomeFounderSection from "@/components/HomeFounderSection";
 import HomeNvStarsFeature from "@/components/HomeNvStarsFeature";
 import HomeCampProgramCard from "@/components/HomeCampProgramCard";
 import Hero, { HOME_HERO_IMAGE, heroContentFromData } from "@/components/Hero";
@@ -18,6 +19,7 @@ import {
   getFeaturedNvStarsHomePhotos,
   getHomepageContent,
   getNvStarsMainImage,
+  getPublicFounderContent,
   getPublicMembership,
 } from "@/lib/nvba-public-content";
 import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
@@ -25,7 +27,7 @@ import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [homepageData, camps, featuredLessons, membership, sponsors, nvStarsFeatured, nvStarsMainImage] =
+  const [homepageData, camps, featuredLessons, membership, sponsors, nvStarsFeatured, nvStarsMainImage, founder] =
     await Promise.all([
     getHomepageContent(),
     getFeaturedHomeCamps(),
@@ -34,6 +36,7 @@ export default async function HomePage() {
     getFeaturedHomeSponsors(),
     getFeaturedNvStarsHomePhotos(),
     getNvStarsMainImage(),
+    getPublicFounderContent(),
   ]);
 
   const sortedCamps = sortCampsByStartDate(camps);
@@ -67,6 +70,8 @@ export default async function HomePage() {
         }}
       />
       <QuickActions />
+
+      <HomeFounderSection founder={founder} />
 
       <section className="bg-white py-8 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">

@@ -171,7 +171,7 @@ export const INSTRUCTORS = [
     shortBio:
       "Hitting instruction for baseball and softball. Mechanics, consistency, and HitTrax in every lesson.",
     fullBio:
-      "Noochie works with baseball and softball players of all ages. Instruction focuses on sound mechanics, consistency, and a confident approach at the plate. He has 8 years of professional playing experience. HitTrax is used in all of his hitting lessons.",
+      "Founder and hitting instructor. Full career biography and testimonials are on the About page.",
     photoUrl: "/images/coaches/noochie.jpg",
     phone: "(859) 421-4062",
     email: "noochie@noochievarnerbaseball.com",
@@ -421,8 +421,19 @@ export const ABOUT = {
     "Players are encouraged to work consistently with one coach. Our staff is large enough that a player can also learn from another instructor when that helps their development.",
     "Practice is at the heart of NVBA. The indoor facility at 115 Etter Lane, Georgetown, KY 40324 opened in December 2016. The building offers 16,000 square feet of training space, including a 7,000 sq. ft. infield practice area.",
     "We train baseball and softball players from tee-ball ages through advanced prospects. Offerings include private, group, and team lessons, cage and field rentals, camps, and clinics—plus hitting, pitching, catching, defense, and speed and agility work.",
-    "Noochie Varner leads private hitting instruction and played eight seasons of professional baseball without a disabled-list stint. That experience shapes how he talks with players about speed, power, and staying healthy.",
   ],
+  founderHomeSummary:
+    "Born and raised in Cynthiana, Kentucky, Noochie Varner won two state titles at Harrison County High School and was MVP of the 1998 Kentucky State Baseball Tournament. At St. Catharine College he earned NJCAA All-Region and All-American honors before the Cincinnati Reds drafted him in 2000. After eight professional seasons and a .299 career average, he founded NVBA in Georgetown to help the next generation develop at the plate.",
+  founderCareerPosterUrl: "/images/founder/career-stats-poster.jpg",
+  founderTestimonialsFlyerUrl: "/images/founder/testimonials-flyer.jpg",
+  testimonialBradName: "Brad Shelton",
+  testimonialBradTitle: "Former Head Baseball Coach, University of the Cumberlands",
+  testimonialBradQuote:
+    "Noochie Varner is one of the best hitters I have coached in 22 years at the college level. His work ethic and approach to hitting was second to none. From the first time I saw him hit, I knew he was a pro. I have no doubt he can help young players improve their baseball skills.",
+  testimonialMacName: "Mac Whitaker",
+  testimonialMacTitle: "Hall of Fame Baseball Coach, Harrison County High School",
+  testimonialMacQuote:
+    "Noochie Varner excelled in his baseball career beginning with Little League, continuing in high school and ultimately at the professional level because of his outstanding work ethic and leadership qualities. His ability to relate to players at all ages and levels will enable him to be successful in an instructional environment.",
   mainImageUrl: "/images/facility/facility.jpg",
   secondaryImageUrl: "/images/facility/about-2.jpg",
 };

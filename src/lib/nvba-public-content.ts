@@ -20,6 +20,15 @@ import {
 } from "@/content/site";
 import { NV_STARS_PHOTOS, NV_STARS_TEAM_GRID_SLUGS } from "@/content/nv-stars";
 import {
+  FOUNDER_BIO_SECTIONS,
+  FOUNDER_CAREER_POSTER,
+  FOUNDER_CAREER_STATS,
+  FOUNDER_HOME_SUMMARY,
+  FOUNDER_PHOTO,
+  FOUNDER_TESTIMONIALS,
+  FOUNDER_TESTIMONIALS_FLYER,
+} from "@/content/founder";
+import {
   dataString,
   dataStringList,
   getPublicContentState,
@@ -455,6 +464,64 @@ export async function getSiteBranding(): Promise<SiteBranding> {
     logoUrl: dataString(settingsData, "logoUrl") || "/images/brand/icon.png",
     headerTitle: "NOOCHIE VARNER",
     headerSubtitle: "BASEBALL ACADEMY",
+  };
+}
+
+export type FounderPublicContent = {
+  homeSummary: string;
+  photoUrl: string;
+  careerPosterUrl: string;
+  testimonialsFlyerUrl: string;
+  stats: { label: string; value: string }[];
+  bioSections: { heading: string; paragraphs: string[] }[];
+  testimonials: { name: string; title: string; quote: string }[];
+};
+
+export async function getPublicFounderContent(): Promise<FounderPublicContent> {
+  const [about, instructorState] = await Promise.all([
+    getPublishedSingleton("about_settings"),
+    getPublicContentState("instructor"),
+  ]);
+  const data = about?.data ?? {};
+  const noochieCms = instructorState.published.find(
+    (item) => dataString(item.data, "coachId") === "noochie" || item.slug === "noochie",
+  );
+  const noochieData = noochieCms?.data ?? {};
+
+  const testimonialBradQuote = dataString(data, "testimonialBradQuote");
+  const testimonialMacQuote = dataString(data, "testimonialMacQuote");
+
+  return {
+    homeSummary: dataString(data, "founderHomeSummary") || FOUNDER_HOME_SUMMARY,
+    photoUrl:
+      (data && "founderPhotoUrl" in data ? dataString(data, "founderPhotoUrl") : "") ||
+      dataString(noochieData, "photoUrl") ||
+      FOUNDER_PHOTO,
+    careerPosterUrl:
+      data && "founderCareerPosterUrl" in data
+        ? dataString(data, "founderCareerPosterUrl") || FOUNDER_CAREER_POSTER
+        : FOUNDER_CAREER_POSTER,
+    testimonialsFlyerUrl:
+      data && "founderTestimonialsFlyerUrl" in data
+        ? dataString(data, "founderTestimonialsFlyerUrl") || FOUNDER_TESTIMONIALS_FLYER
+        : FOUNDER_TESTIMONIALS_FLYER,
+    stats: FOUNDER_CAREER_STATS.map((stat) => ({ label: stat.label, value: stat.value })),
+    bioSections: FOUNDER_BIO_SECTIONS.map((section) => ({
+      heading: section.heading,
+      paragraphs: [...section.paragraphs],
+    })),
+    testimonials: [
+      {
+        name: dataString(data, "testimonialBradName") || FOUNDER_TESTIMONIALS[0].name,
+        title: dataString(data, "testimonialBradTitle") || FOUNDER_TESTIMONIALS[0].title,
+        quote: testimonialBradQuote || FOUNDER_TESTIMONIALS[0].quote,
+      },
+      {
+        name: dataString(data, "testimonialMacName") || FOUNDER_TESTIMONIALS[1].name,
+        title: dataString(data, "testimonialMacTitle") || FOUNDER_TESTIMONIALS[1].title,
+        quote: testimonialMacQuote || FOUNDER_TESTIMONIALS[1].quote,
+      },
+    ],
   };
 }
 

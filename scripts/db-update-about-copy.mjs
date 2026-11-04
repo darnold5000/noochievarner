@@ -42,6 +42,15 @@ const nextAboutData = {
   introTitle: ABOUT.introTitle,
   introText: ABOUT.introText,
   storyParagraphs: ABOUT.storyParagraphs,
+  founderHomeSummary: ABOUT.founderHomeSummary,
+  founderCareerPosterUrl: ABOUT.founderCareerPosterUrl,
+  founderTestimonialsFlyerUrl: ABOUT.founderTestimonialsFlyerUrl,
+  testimonialBradName: ABOUT.testimonialBradName,
+  testimonialBradTitle: ABOUT.testimonialBradTitle,
+  testimonialBradQuote: ABOUT.testimonialBradQuote,
+  testimonialMacName: ABOUT.testimonialMacName,
+  testimonialMacTitle: ABOUT.testimonialMacTitle,
+  testimonialMacQuote: ABOUT.testimonialMacQuote,
 };
 
 const { error: updateAboutError } = await db

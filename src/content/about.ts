@@ -6,7 +6,6 @@ export const ABOUT_STORY_PARAGRAPHS = [
   "Players are encouraged to work consistently with one coach. Our staff is large enough that a player can also learn from another instructor when that helps their development.",
   `Practice is at the heart of NVBA. The indoor facility at ${SITE.address.full} opened in December 2016. The building offers 16,000 square feet of training space, including ${SITE.infield.toLowerCase()}.`,
   "We train baseball and softball players from tee-ball ages through advanced prospects. Offerings include private, group, and team lessons, cage and field rentals, camps, and clinics—plus hitting, pitching, catching, defense, and speed and agility work.",
-  "Noochie Varner leads private hitting instruction and played eight seasons of professional baseball without a disabled-list stint. That experience shapes how he talks with players about speed, power, and staying healthy.",
 ] as const;
 
 export const ABOUT_INTRO_TEXT =
