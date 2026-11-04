@@ -58,34 +58,6 @@ function FounderMainGraphic({
   );
 }
 
-function FounderFlyerGraphic({
-  src,
-  alt,
-  onEnlarge,
-}: {
-  src: string;
-  alt: string;
-  onEnlarge: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onEnlarge}
-      className="group block w-full max-w-sm text-left transition hover:opacity-95"
-    >
-      <Image
-        src={src}
-        alt={alt}
-        width={1024}
-        height={1021}
-        className="h-auto w-full max-w-[220px] rounded-xl shadow-md shadow-nv-navy/10"
-        sizes="220px"
-      />
-      <span className="mt-2 block text-xs font-semibold text-nv-blue group-hover:underline">Enlarge image</span>
-    </button>
-  );
-}
-
 export default function FounderAboutSection({ founder }: { founder: FounderPublicContent }) {
   const [lightbox, setLightbox] = useState<string | null>(null);
   const close = useCallback(() => setLightbox(null), []);
@@ -95,16 +67,11 @@ export default function FounderAboutSection({ founder }: { founder: FounderPubli
       <section id="noochie-varner" className="scroll-mt-28 border-t border-nv-navy/8 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
-            <div className="mx-auto flex w-full max-w-sm flex-col gap-4 lg:mx-0">
+            <div className="mx-auto w-full max-w-sm lg:mx-0">
               <FounderMainGraphic
                 src={founder.mainImageUrl}
                 alt="Noochie Varner — founder and professional baseball career highlights"
                 onEnlarge={() => setLightbox(founder.mainImageUrl)}
-              />
-              <FounderFlyerGraphic
-                src={founder.testimonialsFlyerUrl}
-                alt="Testimonials from Brad Shelton and Mac Whitaker"
-                onEnlarge={() => setLightbox(founder.testimonialsFlyerUrl)}
               />
             </div>
             <div>

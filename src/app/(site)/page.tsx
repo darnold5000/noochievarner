@@ -1,6 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import HomeFounderSection from "@/components/HomeFounderSection";
+import HomeTestimonialsSection from "@/components/HomeTestimonialsSection";
 import HomeNvStarsFeature from "@/components/HomeNvStarsFeature";
 import HomeCampProgramCard from "@/components/HomeCampProgramCard";
 import Hero, { HOME_HERO_IMAGE, heroContentFromData } from "@/components/Hero";
@@ -72,6 +73,7 @@ export default async function HomePage() {
       <QuickActions />
 
       <HomeFounderSection founder={founder} />
+      <HomeTestimonialsSection founder={founder} />
 
       <section className="bg-white py-8 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
