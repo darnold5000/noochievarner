@@ -50,39 +50,43 @@ export default function HomeTestimonialsSection({ founder }: { founder: FounderP
             title="Respected by those who know the game"
             description="College and high school coaches who have worked with Noochie share what they saw in his game and his ability to teach."
           />
-          <div className="mt-8 grid items-start gap-10 lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)] lg:gap-12">
-            <button
-              type="button"
-              onClick={() => setLightboxOpen(true)}
-              className="group mx-auto block text-left lg:mx-0"
-            >
-              <Image
-                src={founder.testimonialsFlyerUrl}
-                alt={flyerAlt}
-                width={1024}
-                height={1021}
-                className="h-auto w-full max-w-[260px] rounded-xl shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10 transition group-hover:ring-nv-blue/40 sm:max-w-[280px]"
-                sizes="280px"
-              />
-              <span className="mt-2 block text-center text-xs font-semibold text-nv-blue group-hover:underline lg:text-left">
-                Enlarge image
-              </span>
-            </button>
-            <ul className="space-y-6">
+          <div className="mt-8 grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(300px,420px)] lg:items-stretch lg:gap-10 xl:grid-cols-[minmax(0,1fr)_440px]">
+            <ul className="flex h-full min-h-0 flex-col gap-4 lg:gap-5">
               {founder.testimonials.map((item) => (
-                <li key={item.name} className="rounded-2xl border border-nv-navy/10 bg-nv-ice/50 p-5 sm:p-6">
-                  <blockquote className="text-sm leading-relaxed text-zinc-700 sm:text-base">
+                <li
+                  key={item.name}
+                  className="flex min-h-0 flex-1 flex-col rounded-2xl border border-nv-navy/10 bg-nv-ice/50 p-5 sm:p-6"
+                >
+                  <blockquote className="flex-1 text-sm leading-relaxed text-zinc-700 sm:text-base">
                     <span className="text-nv-blue">&ldquo;</span>
                     {item.quote}
                     <span className="text-nv-blue">&rdquo;</span>
                   </blockquote>
-                  <footer className="mt-4 border-t border-nv-navy/10 pt-4">
+                  <footer className="mt-4 shrink-0 border-t border-nv-navy/10 pt-4">
                     <p className="font-display text-lg font-bold tracking-wide text-nv-navy">{item.name}</p>
                     <p className="mt-1 text-sm text-zinc-600">{item.title}</p>
                   </footer>
                 </li>
               ))}
             </ul>
+            <button
+              type="button"
+              onClick={() => setLightboxOpen(true)}
+              className="group flex h-full min-h-0 flex-col text-left lg:max-h-none"
+            >
+              <span className="relative block min-h-[280px] flex-1 overflow-hidden rounded-2xl bg-nv-ice/30 shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10 transition group-hover:ring-nv-blue/40 sm:min-h-[320px] lg:min-h-full">
+                <Image
+                  src={founder.testimonialsFlyerUrl}
+                  alt={flyerAlt}
+                  fill
+                  className="object-contain object-center p-2 sm:p-3"
+                  sizes="(max-width: 1024px) 100vw, 440px"
+                />
+              </span>
+              <span className="mt-2 shrink-0 text-center text-xs font-semibold text-nv-blue group-hover:underline lg:text-right">
+                Enlarge image
+              </span>
+            </button>
           </div>
         </div>
       </section>
