@@ -25,6 +25,7 @@ import {
   getPublicContentState,
   getPublishedSingleton,
   resolveCmsMediaUrl,
+  resolveCmsUrlWithDefault,
   type ContentItem,
 } from "@/lib/nvba-cms";
 
@@ -488,7 +489,7 @@ export async function getPublicAboutContent(): Promise<PublicAboutContent | null
       : [dataString(data, "story"), dataString(data, "mission"), dataString(data, "ownerBio")].filter(Boolean),
     mainImageUrl: resolveCmsMediaUrl(data, "mainImageUrl", "/images/facility/facility.jpg"),
     secondaryImageUrl: resolveCmsMediaUrl(data, "secondaryImageUrl", "/images/facility/about-2.jpg"),
-    facilityVideoUrl: dataString(data, "facilityVideoUrl") || SITE.facilityVideo,
+    facilityVideoUrl: resolveCmsUrlWithDefault(data, "facilityVideoUrl", SITE.facilityVideo),
     facilityDescription: dataString(data, "facilityDescription") || SITE.facility,
     features: featuresState.published.map((item) => ({
       label: dataString(item.data, "label") || item.title,

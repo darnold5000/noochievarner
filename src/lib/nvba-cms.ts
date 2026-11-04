@@ -111,6 +111,13 @@ export function resolveCmsMediaUrl(data: Record<string, unknown>, key: string, f
   return dataString(data, key);
 }
 
+/** CMS URL field: empty string falls back to default (e.g. facility video). */
+export function resolveCmsUrlWithDefault(data: Record<string, unknown>, key: string, fallback: string) {
+  if (!(key in data)) return fallback;
+  const value = dataString(data, key);
+  return value || fallback;
+}
+
 export function dataBoolean(data: Record<string, unknown>, key: string) {
   return data[key] === true;
 }
