@@ -53,7 +53,7 @@ export default function HomeFeaturedLessonCard({
         <p className="text-[0.65rem] font-bold uppercase tracking-[0.14em] text-nv-blue sm:text-xs">{lesson.role}</p>
         <h3 className="mt-0.5 font-display text-lg font-bold tracking-wide text-nv-navy sm:text-xl">{lesson.name}</h3>
         <p className="mt-0.5 text-xs font-semibold text-zinc-800 sm:text-sm">{lesson.coach}</p>
-        <p className="mt-1.5 line-clamp-2 text-xs leading-relaxed text-zinc-600 sm:text-sm">{lesson.bio}</p>
+        <p className="mt-1.5 text-xs leading-relaxed text-zinc-600 sm:text-sm">{lesson.bio}</p>
         <Link
           href={detailsHref}
           className="mt-2 inline-block text-xs font-semibold text-nv-blue hover:text-nv-royal hover:underline sm:text-sm"

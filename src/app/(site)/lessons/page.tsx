@@ -5,7 +5,7 @@ import SiteLink from "@/components/SiteLink";
 import { bookTrainingHref } from "@/config/booking";
 import { LESSON_BOOKING_HREFS } from "@/config/schedule";
 import { BULK_PACKAGES, LESSON_RATES } from "@/content/site";
-import { getLessonsPageCoaches } from "@/lib/nvba-public-content";
+import { getLessonsPageCoaches, getPublicLessons } from "@/lib/nvba-public-content";
 import { createPageMetadata } from "@/lib/seo";
 import { btnOnDark, btnPrimary } from "@/lib/styles";
 
@@ -19,7 +19,8 @@ export const metadata = createPageMetadata({
 export const revalidate = 60;
 
 export default async function LessonsPage() {
-  const coaches = await getLessonsPageCoaches();
+  const [coaches, lessons] = await Promise.all([getLessonsPageCoaches(), getPublicLessons()]);
+  const lessonBioBySlug = new Map(lessons.map((lesson) => [lesson.slug, lesson.bio]));
 
   return (
     <>
@@ -60,7 +61,9 @@ export default async function LessonsPage() {
                 <h2 className="mt-1 font-display text-2xl font-bold tracking-wide text-nv-navy sm:text-3xl">
                   {coach.name}
                 </h2>
-                <p className="mt-2 text-sm leading-relaxed text-zinc-600">{coach.shortBio}</p>
+                <p className="mt-2 text-sm leading-relaxed text-zinc-600">
+                  {lessonBioBySlug.get(coach.services[0]) ?? coach.shortBio}
+                </p>
                 <p className="mt-2 text-sm text-zinc-500">{coach.tags.join(" · ")}</p>
                 <p className="mt-1 break-words text-sm text-zinc-700">{coach.contact.join(" · ")}</p>
               </div>
