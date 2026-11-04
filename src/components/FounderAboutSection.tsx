@@ -35,6 +35,29 @@ function FounderLightbox({ src, alt, onClose }: { src: string; alt: string; onCl
   );
 }
 
+function FounderGraphic({
+  src,
+  alt,
+  onEnlarge,
+}: {
+  src: string;
+  alt: string;
+  onEnlarge: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onEnlarge}
+      className="block w-full max-w-sm overflow-hidden rounded-2xl bg-nv-navy ring-1 ring-nv-navy/10 transition hover:ring-nv-blue/40"
+    >
+      <span className="relative block aspect-[2/3]">
+        <Image src={src} alt={alt} fill className="object-contain object-center" sizes="420px" />
+      </span>
+      <span className="block px-3 py-2 text-center text-xs font-semibold text-nv-blue">Enlarge image</span>
+    </button>
+  );
+}
+
 export default function FounderAboutSection({ founder }: { founder: FounderPublicContent }) {
   const [lightbox, setLightbox] = useState<string | null>(null);
   const close = useCallback(() => setLightbox(null), []);
@@ -44,23 +67,17 @@ export default function FounderAboutSection({ founder }: { founder: FounderPubli
       <section id="noochie-varner" className="scroll-mt-28 border-t border-nv-navy/8 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-10 sm:px-6 sm:py-12">
           <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(0,2fr)] lg:gap-12">
-            <div>
-              <button
-                type="button"
-                onClick={() => setLightbox(founder.mainImageUrl)}
-                className="block w-full max-w-md overflow-hidden rounded-2xl bg-nv-navy ring-1 ring-nv-navy/10 transition hover:ring-nv-blue/40 lg:max-w-sm"
-              >
-                <span className="relative block aspect-[2/3]">
-                  <Image
-                    src={founder.mainImageUrl}
-                    alt="Noochie Varner — founder and professional baseball career highlights"
-                    fill
-                    className="object-contain object-center"
-                    sizes="(max-width: 1024px) 100vw, 420px"
-                  />
-                </span>
-                <span className="block px-3 py-2 text-center text-xs font-semibold text-nv-blue">Enlarge image</span>
-              </button>
+            <div className="mx-auto flex w-full max-w-sm flex-col gap-4 lg:mx-0">
+              <FounderGraphic
+                src={founder.mainImageUrl}
+                alt="Noochie Varner — founder and professional baseball career highlights"
+                onEnlarge={() => setLightbox(founder.mainImageUrl)}
+              />
+              <FounderGraphic
+                src={founder.testimonialsFlyerUrl}
+                alt="Testimonials from Brad Shelton and Mac Whitaker"
+                onEnlarge={() => setLightbox(founder.testimonialsFlyerUrl)}
+              />
             </div>
             <div>
               <p className="text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">Founder biography</p>
@@ -94,30 +111,6 @@ export default function FounderAboutSection({ founder }: { founder: FounderPubli
                 ))}
               </div>
             </div>
-          </div>
-
-          <div className="mt-12 border-t border-nv-navy/8 pt-10">
-            <h3 className="font-display text-2xl font-bold tracking-wide text-nv-navy sm:text-3xl">
-              Respected by those who know the game
-            </h3>
-            <div className="mt-6 grid gap-4 md:grid-cols-2">
-              {founder.testimonials.map((item) => (
-                <figure key={item.name} className="rounded-xl border border-nv-navy/10 bg-nv-ice/40 p-5">
-                  <blockquote className="text-sm leading-relaxed text-zinc-700">&ldquo;{item.quote}&rdquo;</blockquote>
-                  <figcaption className="mt-4 text-sm font-semibold text-nv-navy">
-                    {item.name}
-                    <span className="mt-0.5 block text-xs font-normal text-zinc-600">{item.title}</span>
-                  </figcaption>
-                </figure>
-              ))}
-            </div>
-            <button
-              type="button"
-              onClick={() => setLightbox(founder.testimonialsFlyerUrl)}
-              className="mt-4 text-sm font-semibold text-nv-blue hover:text-nv-royal hover:underline"
-            >
-              View original testimonial graphic
-            </button>
           </div>
         </div>
       </section>
