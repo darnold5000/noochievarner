@@ -10,13 +10,14 @@ import SponsorCard from "@/components/SponsorCard";
 import { LESSON_BOOKING_HREFS } from "@/config/schedule";
 import { SITE } from "@/content/site";
 import { sortCampsByStartDate } from "@/lib/camp-sort";
-import { dataString } from "@/lib/nvba-cms";
+import { dataString, resolveCmsMediaUrl } from "@/lib/nvba-cms";
 import {
   getFeaturedHomeCamps,
   getFeaturedHomeLessons,
   getFeaturedHomeSponsors,
   getFeaturedNvStarsHomePhotos,
   getHomepageContent,
+  getNvStarsMainImage,
   getPublicMembership,
 } from "@/lib/nvba-public-content";
 import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
@@ -24,13 +25,15 @@ import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [homepageData, camps, featuredLessons, membership, sponsors, nvStarsFeatured] = await Promise.all([
+  const [homepageData, camps, featuredLessons, membership, sponsors, nvStarsFeatured, nvStarsMainImage] =
+    await Promise.all([
     getHomepageContent(),
     getFeaturedHomeCamps(),
     getFeaturedHomeLessons(),
     getPublicMembership(),
     getFeaturedHomeSponsors(),
     getFeaturedNvStarsHomePhotos(),
+    getNvStarsMainImage(),
   ]);
 
   const sortedCamps = sortCampsByStartDate(camps);
@@ -41,7 +44,9 @@ export default async function HomePage() {
   const lessonsEyebrow = homepageData ? dataString(homepageData, "lessonsSectionEyebrow") : "";
   const lessonsTitle = homepageData ? dataString(homepageData, "lessonsSectionTitle") : "";
   const lessonsDescription = homepageData ? dataString(homepageData, "lessonsSectionDescription") : "";
-  const facilityImage = homepageData ? dataString(homepageData, "facilitySectionImageUrl") : "/images/facility/about-3.jpg";
+  const facilityImage = homepageData
+    ? resolveCmsMediaUrl(homepageData, "facilitySectionImageUrl", "/images/facility/about-3.jpg")
+    : "/images/facility/about-3.jpg";
   const facilityTitle = homepageData ? dataString(homepageData, "facilitySectionTitle") : "16,000 sq. ft. built for development.";
   const facilityDescription =
     homepageData ? dataString(homepageData, "facilitySectionDescription") : "Train year-round in our indoor baseball and softball facility in Georgetown, Kentucky.";
@@ -110,17 +115,19 @@ export default async function HomePage() {
 
       <section className="bg-gradient-to-b from-nv-ice to-white py-10 sm:py-14">
         <div className="mx-auto grid max-w-7xl items-center gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:gap-12">
-          <div className="relative overflow-hidden rounded-2xl shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10">
-            <div className="relative aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/5]">
-              <Image
-                src={facilityImage}
-                alt="Instructor working with a young player at the academy"
-                fill
-                className="object-cover object-center"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+          {facilityImage ? (
+            <div className="relative overflow-hidden rounded-2xl shadow-lg shadow-nv-navy/10 ring-1 ring-nv-navy/10">
+              <div className="relative aspect-[4/5] sm:aspect-[3/4] lg:aspect-[4/5]">
+                <Image
+                  src={facilityImage}
+                  alt="Instructor working with a young player at the academy"
+                  fill
+                  className="object-cover object-center"
+                  sizes="(max-width: 1024px) 100vw, 50vw"
+                />
+              </div>
             </div>
-          </div>
+          ) : null}
           <div>
             <p className="text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">The facility</p>
             <h2 className="mt-2 font-display text-3xl font-bold tracking-wide text-nv-navy sm:text-4xl">{facilityTitle}</h2>
@@ -166,7 +173,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <HomeNvStarsFeature photos={nvStarsFeatured} />
+      <HomeNvStarsFeature photos={nvStarsFeatured} mainImage={nvStarsMainImage} />
 
       <section className="mx-auto max-w-7xl px-4 py-8 sm:px-6 sm:py-10">
         <p className="text-center text-xs font-bold uppercase tracking-[0.18em] text-nv-blue">Our sponsors</p>

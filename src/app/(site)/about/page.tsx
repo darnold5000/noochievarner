@@ -30,8 +30,8 @@ export default async function AboutPage() {
     cms?.introText ??
     "The focus at NVBA is on the individual. Instructors evaluate each player's swing and build on what that player already does well.";
   const paragraphs = cms?.storyParagraphs.length ? cms.storyParagraphs : FALLBACK_PARAGRAPHS;
-  const mainImage = cms?.mainImageUrl ?? "/images/facility/facility.jpg";
-  const secondaryImage = cms?.secondaryImageUrl ?? "/images/facility/about-2.jpg";
+  const mainImage = cms?.mainImageUrl ?? (cms ? "" : "/images/facility/facility.jpg");
+  const secondaryImage = cms?.secondaryImageUrl ?? (cms ? "" : "/images/facility/about-2.jpg");
   const facilityVideo = cms?.facilityVideoUrl ?? SITE.facilityVideo;
 
   return (
@@ -58,20 +58,24 @@ export default async function AboutPage() {
           ) : null}
         </div>
         <div className="grid gap-4">
-          <Image
-            src={mainImage}
-            alt="Noochie Varner inside the indoor facility"
-            width={1600}
-            height={900}
-            className="h-auto w-full rounded-2xl"
-          />
-          <Image
-            src={secondaryImage}
-            alt="Ribbon cutting at the academy, with framed Varner jerseys"
-            width={1024}
-            height={576}
-            className="h-auto w-full rounded-2xl"
-          />
+          {mainImage ? (
+            <Image
+              src={mainImage}
+              alt="Noochie Varner inside the indoor facility"
+              width={1600}
+              height={900}
+              className="h-auto w-full rounded-2xl"
+            />
+          ) : null}
+          {secondaryImage ? (
+            <Image
+              src={secondaryImage}
+              alt="Ribbon cutting at the academy, with framed Varner jerseys"
+              width={1024}
+              height={576}
+              className="h-auto w-full rounded-2xl"
+            />
+          ) : null}
         </div>
       </section>
       <section className="mx-auto max-w-7xl px-4 pb-12 sm:px-6">
@@ -80,7 +84,7 @@ export default async function AboutPage() {
           className="mt-4 w-full rounded-2xl bg-black"
           controls
           playsInline
-          poster={mainImage}
+          poster={mainImage || undefined}
           preload="none"
         >
           <source src={facilityVideo} type="video/mp4" />

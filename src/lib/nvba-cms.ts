@@ -105,6 +105,12 @@ export function dataString(data: Record<string, unknown>, key: string) {
   return typeof value === "string" ? value : "";
 }
 
+/** CMS media URL: use fallback only when the field was never set; empty string means owner removed the upload. */
+export function resolveCmsMediaUrl(data: Record<string, unknown>, key: string, fallback: string) {
+  if (!(key in data)) return fallback;
+  return dataString(data, key);
+}
+
 export function dataBoolean(data: Record<string, unknown>, key: string) {
   return data[key] === true;
 }

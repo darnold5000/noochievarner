@@ -24,6 +24,7 @@ import {
   dataStringList,
   getPublicContentState,
   getPublishedSingleton,
+  resolveCmsMediaUrl,
   type ContentItem,
 } from "@/lib/nvba-cms";
 
@@ -340,7 +341,7 @@ export async function getPublicServicesIntro() {
     return {
       intro: dataString(introItem.data, "servicesIntro"),
       image: {
-        src: dataString(introItem.data, "facilityImageUrl") || SERVICES_FACILITY_IMAGE.src,
+        src: resolveCmsMediaUrl(introItem.data, "facilityImageUrl", SERVICES_FACILITY_IMAGE.src),
         alt: dataString(introItem.data, "facilityImageAlt") || SERVICES_FACILITY_IMAGE.alt,
       },
     };
@@ -485,8 +486,8 @@ export async function getPublicAboutContent(): Promise<PublicAboutContent | null
     storyParagraphs: storyParagraphs.length
       ? storyParagraphs
       : [dataString(data, "story"), dataString(data, "mission"), dataString(data, "ownerBio")].filter(Boolean),
-    mainImageUrl: dataString(data, "mainImageUrl") || "/images/facility/facility.jpg",
-    secondaryImageUrl: dataString(data, "secondaryImageUrl") || "/images/facility/about-2.jpg",
+    mainImageUrl: resolveCmsMediaUrl(data, "mainImageUrl", "/images/facility/facility.jpg"),
+    secondaryImageUrl: resolveCmsMediaUrl(data, "secondaryImageUrl", "/images/facility/about-2.jpg"),
     facilityVideoUrl: dataString(data, "facilityVideoUrl") || SITE.facilityVideo,
     facilityDescription: dataString(data, "facilityDescription") || SITE.facility,
     features: featuresState.published.map((item) => ({
@@ -543,6 +544,19 @@ export async function getPublicNewsArticles() {
     image: dataString(item.data, "featuredImageUrl") || "/images/brand/college-alumni.png",
     publicationDate: dataString(item.data, "publicationDate"),
   }));
+}
+
+/** Same featured image as the Academy → News page (hero on /nv-stars and homepage NV Stars block). */
+export async function getNvStarsMainImage(): Promise<{ src: string; alt: string }> {
+  const articles = await getPublicNewsArticles();
+  const article = articles[0];
+  if (article) {
+    return { src: article.image, alt: article.headline };
+  }
+  return {
+    src: "/images/brand/college-alumni.png",
+    alt: "Former NV Stars players playing college baseball",
+  };
 }
 
 export async function getFeaturedHomeSponsors(): Promise<Sponsor[]> {
