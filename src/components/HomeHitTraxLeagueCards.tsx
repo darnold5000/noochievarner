@@ -91,7 +91,7 @@ function FlyerPreview({
   const layoutClass =
     layout === "mobile"
       ? "flex min-h-0 flex-1 flex-col p-1 md:hidden"
-      : "hidden min-h-0 w-[46%] max-w-[15.5rem] shrink-0 self-stretch flex-col border-l border-nv-navy/10 bg-nv-ice/40 p-0.5 md:flex";
+      : "hidden min-h-0 w-[46%] max-w-[15.5rem] shrink-0 self-stretch flex-col bg-white p-0.5 md:flex";
 
   return (
     <button
