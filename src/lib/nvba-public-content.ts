@@ -33,6 +33,7 @@ import {
   FOUNDER_TESTIMONIALS,
   FOUNDER_TESTIMONIALS_FLYER,
 } from "@/content/founder";
+import { isNvbaCmsConfigured } from "@/lib/nvba-config";
 import {
   dataString,
   dataStringList,
@@ -704,7 +705,7 @@ export async function getPublicHitTraxLeagues(): Promise<HitTraxLeague[]> {
   );
   const cmsItems = state.published.map(hittraxLeagueFromItem).sort((a, b) => sortHittraxLeagues(a, b, orderBySlug));
 
-  if (state.cmsManaged) return cmsItems;
+  if (state.cmsManaged || isNvbaCmsConfigured()) return cmsItems;
 
   const managed = new Set(state.managedSlugs);
   const fallback = FALLBACK_HITTRAX_LEAGUES.filter((league) => !managed.has(league.id));

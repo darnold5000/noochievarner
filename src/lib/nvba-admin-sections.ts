@@ -174,7 +174,8 @@ export const adminSections: Record<string, AdminSection> = {
     allowDuplicate: true,
     description:
       "Leagues featured on the homepage. Set the EZFacility registration URL, schedule, and flyer. Publish to show on the site; delete to remove.",
-    emptyText: "No HitTrax leagues yet. Add your first league when registration opens.",
+    emptyText:
+      "No leagues in the database yet. Use + Add League to create homepage leagues you can edit, unpublish, or delete. Built-in demo leagues from code are not listed here and cannot be removed from this screen.",
     fields: [
       { key: "eyebrow", label: "Category / eyebrow", placeholder: "HitTrax · Coach pitch" },
       { key: "ages", label: "Age group", placeholder: "Ages 7U–8U" },

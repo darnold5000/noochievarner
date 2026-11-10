@@ -311,12 +311,19 @@ export default async function AdminSectionPage({ params, searchParams }: { param
         <Link href={sectionViewPageHref(section)} target="_blank" className="text-sm font-semibold text-nv-blue hover:underline">View public page →</Link>
       </div>
       {section === "hittrax-leagues" ? (
-        <div className="mt-5 text-sm text-zinc-600">
-          Homepage section headline and intro copy:{" "}
-          <Link href="/admin/homepage" className="font-semibold text-nv-blue hover:underline">
-            Homepage → HitTrax section fields
-          </Link>
-          .
+        <div className="mt-5 space-y-2 text-sm text-zinc-600">
+          <p>
+            Only leagues saved here control the homepage. Add each league once (or run{" "}
+            <code className="rounded bg-zinc-100 px-1 py-0.5 text-xs">npm run db:seed-cms</code> to insert the
+            current defaults), then edit, unpublish, or delete as needed.
+          </p>
+          <p>
+            Homepage section headline and intro copy:{" "}
+            <Link href="/admin/homepage" className="font-semibold text-nv-blue hover:underline">
+              Homepage → HitTrax section fields
+            </Link>
+            .
+          </p>
         </div>
       ) : null}
       {section === "lessons" ? (
