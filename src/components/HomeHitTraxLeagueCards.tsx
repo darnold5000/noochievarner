@@ -73,7 +73,7 @@ function HitTraxLeagueCard({
                 onClick={() => onViewFlyer(league)}
                 className={`${btnOutline} min-h-10 w-auto px-3 py-2 text-[0.65rem] sm:text-xs`}
               >
-                Full flyer
+                Enlarge
               </button>
             ) : null}
           </div>
@@ -84,18 +84,17 @@ function HitTraxLeagueCard({
         <button
           type="button"
           onClick={() => onViewFlyer(league)}
-          className="relative w-[6.75rem] shrink-0 self-stretch border-l border-nv-navy/10 bg-nv-navy/5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-nv-blue sm:w-[7.75rem]"
-          aria-label={`View full flyer for ${league.title}`}
+          className="flex w-[9rem] shrink-0 flex-col self-stretch border-l border-nv-navy/10 bg-nv-ice/60 p-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-nv-blue sm:w-[10.5rem] sm:p-2.5"
+          aria-label={`View full-size flyer for ${league.title}`}
         >
-          <Image
-            src={league.flyerSrc}
-            alt=""
-            fill
-            className="object-cover object-top transition duration-300 group-hover:brightness-105"
-            sizes="124px"
-          />
-          <span className="pointer-events-none absolute inset-x-0 bottom-0 bg-gradient-to-t from-nv-navy/70 to-transparent px-1.5 pb-1.5 pt-6 text-[0.6rem] font-bold uppercase tracking-wide text-white">
-            Tap to enlarge
+          <span className="relative min-h-0 w-full flex-1">
+            <Image
+              src={league.flyerSrc}
+              alt=""
+              fill
+              className="object-contain object-center transition duration-300 group-hover:opacity-95"
+              sizes="(max-width: 640px) 144px, 168px"
+            />
           </span>
         </button>
       ) : null}
