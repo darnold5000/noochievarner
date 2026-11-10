@@ -11,6 +11,7 @@ export const contentTypes = [
   "business_staff",
   "training_offering",
   "program",
+  "hittrax_league",
   "facility_section",
   "facility_stat",
   "homepage",

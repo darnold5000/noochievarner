@@ -2,6 +2,11 @@ import type { BookingKey } from "@/config/booking";
 import { bookingUrl } from "@/config/booking";
 import { COACHES, type Coach } from "@/config/schedule";
 import {
+  DEFAULT_HITTRAX_LEAGUES_FORMAT,
+  FALLBACK_HITTRAX_LEAGUES,
+  type HitTraxLeague,
+} from "@/content/hittrax-leagues";
+import {
   CAMPS,
   CONTACT_TOPICS,
   GALLERY,
@@ -664,4 +669,84 @@ export async function getFeaturedHomeSponsors(): Promise<Sponsor[]> {
 export function resolveBookingHref(key?: BookingKey) {
   if (!key) return bookingUrl("noochieHitting");
   return bookingUrl(key);
+}
+
+function hittraxLeagueFromItem(item: ContentItem): HitTraxLeague {
+  const data = item.data;
+  return {
+    id: item.slug,
+    eyebrow: dataString(data, "eyebrow") || "HitTrax",
+    title: item.title,
+    ages: dataString(data, "ages"),
+    startDate: dataString(data, "startDate"),
+    schedule: dataString(data, "schedule"),
+    price: dataString(data, "price"),
+    registrationDeadline: dataString(data, "registrationDeadline"),
+    registerUrl: dataString(data, "registerUrl"),
+    flyerSrc: resolveCmsMediaUrl(data, "flyerUrl", ""),
+    flyerAlt: dataString(data, "flyerAlt") || `${item.title} — Noochie Varner Baseball Academy`,
+  };
+}
+
+function sortHittraxLeagues(a: HitTraxLeague, b: HitTraxLeague, orderBySlug: Map<string, number>) {
+  const orderA = orderBySlug.get(a.id) ?? 999;
+  const orderB = orderBySlug.get(b.id) ?? 999;
+  return orderA - orderB || a.title.localeCompare(b.title);
+}
+
+export async function getPublicHitTraxLeagues(): Promise<HitTraxLeague[]> {
+  const state = await getPublicContentState("hittrax_league");
+  const orderBySlug = new Map(
+    state.published.map((item) => [
+      item.slug,
+      Number(dataString(item.data, "sortOrderDisplay")) || item.sort_order,
+    ]),
+  );
+  const cmsItems = state.published.map(hittraxLeagueFromItem).sort((a, b) => sortHittraxLeagues(a, b, orderBySlug));
+
+  if (state.cmsManaged) return cmsItems;
+
+  const managed = new Set(state.managedSlugs);
+  const fallback = FALLBACK_HITTRAX_LEAGUES.filter((league) => !managed.has(league.id));
+  return [...cmsItems, ...fallback].sort((a, b) => sortHittraxLeagues(a, b, orderBySlug));
+}
+
+export async function getFeaturedHomeHitTraxLeagues(): Promise<HitTraxLeague[]> {
+  const leagues = await getPublicHitTraxLeagues();
+  const state = await getPublicContentState("hittrax_league");
+  const featuredSlugs = new Set(
+    state.published
+      .filter((item) => dataString(item.data, "featuredOnHomepage") !== "no")
+      .map((item) => item.slug),
+  );
+
+  if (state.published.length && featuredSlugs.size) {
+    return leagues.filter((league) => featuredSlugs.has(league.id));
+  }
+
+  return leagues;
+}
+
+export type HitTraxLeaguesSectionCopy = {
+  eyebrow: string;
+  title: string;
+  description: string;
+};
+
+export async function getHitTraxLeaguesSectionCopy(
+  homepageData: Record<string, unknown> | null | undefined,
+): Promise<HitTraxLeaguesSectionCopy> {
+  return {
+    eyebrow: homepageData ? dataString(homepageData, "hittraxSectionEyebrow") : "",
+    title: homepageData ? dataString(homepageData, "hittraxSectionTitle") : "",
+    description: homepageData ? dataString(homepageData, "hittraxSectionDescription") : "",
+  };
+}
+
+export function resolveHitTraxLeaguesSectionCopy(copy: HitTraxLeaguesSectionCopy): Required<HitTraxLeaguesSectionCopy> {
+  return {
+    eyebrow: copy.eyebrow || "Now registering",
+    title: copy.title || "Upcoming HitTrax Leagues",
+    description: copy.description || DEFAULT_HITTRAX_LEAGUES_FORMAT,
+  };
 }

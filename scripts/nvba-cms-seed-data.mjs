@@ -29,6 +29,37 @@ export const SITE = {
   },
 };
 
+export const HITTRAX_LEAGUES = [
+  {
+    slug: "7u-8u",
+    title: "7U–8U Coach Pitch League",
+    eyebrow: "HitTrax · Coach pitch",
+    ages: "Ages 7U–8U",
+    startDate: "November 20, 2026",
+    schedule: "Fridays 7:00–9:00 PM · Saturdays 3:00–5:00 PM if necessary",
+    price: "$85 per player",
+    registrationDeadline: "Nov. 18",
+    registerUrl:
+      "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4141789",
+    flyerUrl: "/images/leagues/hittrax-7u-8u-coach-pitch.jpg",
+    flyerAlt: "HitTrax 7U–8U Coach Pitch League flyer — Noochie Varner Baseball Academy",
+  },
+  {
+    slug: "9u-10u",
+    title: "9U–10U Baseball League",
+    eyebrow: "HitTrax · Baseball",
+    ages: "Ages 9U–10U",
+    startDate: "November 21, 2026",
+    schedule: "Saturdays 5:30–8:30 PM",
+    price: "$85 per player",
+    registrationDeadline: "Nov. 18",
+    registerUrl:
+      "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4141853",
+    flyerUrl: "/images/leagues/hittrax-9u-10u-baseball.jpg",
+    flyerAlt: "HitTrax 9U–10U Baseball League flyer — Noochie Varner Baseball Academy",
+  },
+];
+
 export const CAMPS = [
   {
     slug: "advanced-pitching-clinic",

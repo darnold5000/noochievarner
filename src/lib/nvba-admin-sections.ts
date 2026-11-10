@@ -57,6 +57,7 @@ const galleryCategoryOptions = [
 export const websiteContentNav = [
   ["homepage", "Homepage"],
   ["camps", "Camps & Clinics"],
+  ["hittrax-leagues", "HitTrax Leagues"],
   ["lessons-instructors", "Lessons — Instructors"],
   ["lessons", "Lessons — Offerings"],
   ["memberships", "Memberships"],
@@ -93,6 +94,14 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "campsSectionEyebrow", label: "Camps section eyebrow", placeholder: "Now registering" },
       { key: "campsSectionTitle", label: "Camps section title" },
       { key: "campsSectionDescription", label: "Camps section description", kind: "textarea" },
+      { key: "hittraxSectionEyebrow", label: "HitTrax section eyebrow", placeholder: "Now registering" },
+      { key: "hittraxSectionTitle", label: "HitTrax section title", placeholder: "Upcoming HitTrax Leagues" },
+      {
+        key: "hittraxSectionDescription",
+        label: "HitTrax section description",
+        kind: "textarea",
+        placeholder: "Each league runs four weeks, followed by a single-elimination tournament.",
+      },
       { key: "lessonsSectionEyebrow", label: "Lessons section eyebrow" },
       { key: "lessonsSectionTitle", label: "Lessons section title" },
       { key: "lessonsSectionDescription", label: "Lessons section description", kind: "textarea" },
@@ -155,6 +164,45 @@ export const adminSections: Record<string, AdminSection> = {
         { label: "No", value: "no" },
         { label: "Yes — has registrations", value: "yes" },
       ] },
+    ],
+  },
+  "hittrax-leagues": {
+    type: "hittrax_league",
+    title: "HitTrax Leagues",
+    singular: "League",
+    titleLabel: "League name",
+    allowDuplicate: true,
+    description:
+      "Leagues featured on the homepage. Set the EZFacility registration URL, schedule, and flyer. Publish to show on the site; delete to remove.",
+    emptyText: "No HitTrax leagues yet. Add your first league when registration opens.",
+    fields: [
+      { key: "eyebrow", label: "Category / eyebrow", placeholder: "HitTrax · Coach pitch" },
+      { key: "ages", label: "Age group", placeholder: "Ages 7U–8U" },
+      { key: "startDate", label: "Start date (display text)", placeholder: "November 20, 2026" },
+      { key: "schedule", label: "Schedule", placeholder: "Fridays 7:00–9:00 PM · Saturdays 3:00–5:00 PM if necessary" },
+      { key: "price", label: "Price", placeholder: "$85 per player" },
+      { key: "registrationDeadline", label: "Registration deadline (display)", placeholder: "Nov. 18" },
+      {
+        key: "registerUrl",
+        label: "Registration URL",
+        kind: "url",
+        help: "Full EZFacility online registration link (includes CompanyID and GroupID).",
+        placeholder:
+          "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=...",
+      },
+      { key: "flyerFile", targetKey: "flyerUrl", label: "Promotional flyer", kind: "file", accept: "image/jpeg,image/png,image/webp" },
+      { key: "flyerAlt", label: "Flyer image description (accessibility)", placeholder: "HitTrax league flyer" },
+      {
+        key: "featuredOnHomepage",
+        label: "Featured on homepage",
+        kind: "select",
+        options: [
+          { label: "Yes", value: "yes" },
+          { label: "No", value: "no" },
+        ],
+      },
+      { key: "sortOrderDisplay", label: "Display order", kind: "number", help: "Lower numbers appear first." },
+      { key: "flyerUrl", label: "External flyer URL", kind: "url", advanced: true },
     ],
   },
   "lessons-instructors": {
@@ -458,6 +506,7 @@ export function publicPathsForSection(section: string) {
   const map: Record<string, string[]> = {
     homepage: ["/"],
     camps: ["/camps", "/"],
+    "hittrax-leagues": ["/"],
     "lessons-instructors": ["/lessons", "/"],
     lessons: ["/lessons", "/"],
     memberships: ["/memberships", "/"],

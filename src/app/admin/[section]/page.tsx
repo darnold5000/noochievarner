@@ -63,6 +63,13 @@ function itemDetails(item: ContentItem) {
   if (item.content_type === "program") {
     return [dataString(data, "eyebrow"), dataString(data, "dates"), dataString(data, "price")].filter(Boolean);
   }
+  if (item.content_type === "hittrax_league") {
+    return [
+      dataString(data, "ages"),
+      dataString(data, "startDate"),
+      dataString(data, "registerUrl") ? "Registration link set" : "No registration link",
+    ].filter(Boolean);
+  }
   if (item.content_type === "instructor") return [dataString(data, "title"), dataString(data, "shortBio")].filter(Boolean);
   if (item.content_type === "lesson") return [dataString(data, "instructorName"), dataString(data, "category")].filter(Boolean);
   if (item.content_type === "homepage") return [dataString(data, "headlinePrimary"), dataString(data, "heroDescription")].filter(Boolean);
@@ -303,6 +310,15 @@ export default async function AdminSectionPage({ params, searchParams }: { param
         {canAdd ? <Link href={`/admin/${section}?mode=add`} className="inline-flex min-h-11 items-center justify-center bg-nv-blue px-5 py-3 text-sm font-bold tracking-[.08em] text-white uppercase">{addLabel}</Link> : null}
         <Link href={sectionViewPageHref(section)} target="_blank" className="text-sm font-semibold text-nv-blue hover:underline">View public page →</Link>
       </div>
+      {section === "hittrax-leagues" ? (
+        <div className="mt-5 text-sm text-zinc-600">
+          Homepage section headline and intro copy:{" "}
+          <Link href="/admin/homepage" className="font-semibold text-nv-blue hover:underline">
+            Homepage → HitTrax section fields
+          </Link>
+          .
+        </div>
+      ) : null}
       {section === "lessons" ? (
         <div className="mt-5 text-sm text-zinc-600">
           Instructor profiles are managed separately in{" "}

@@ -12,10 +12,11 @@ export type HitTraxLeague = {
   flyerAlt: string;
 };
 
-export const HITTRAX_LEAGUES_FORMAT =
+export const DEFAULT_HITTRAX_LEAGUES_FORMAT =
   "Each league runs four weeks, followed by a single-elimination tournament.";
 
-export const HITTRAX_LEAGUES: HitTraxLeague[] = [
+/** Shown when CMS is not configured or no published leagues exist yet. */
+export const FALLBACK_HITTRAX_LEAGUES: HitTraxLeague[] = [
   {
     id: "7u-8u",
     eyebrow: "HitTrax · Coach pitch",

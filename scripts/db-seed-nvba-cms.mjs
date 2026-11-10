@@ -15,6 +15,7 @@ import {
   SITE,
   SPONSORS,
   SPONSORS_INTRO,
+  HITTRAX_LEAGUES,
   NV_STARS_GALLERY,
   slugify,
 } from "./nvba-cms-seed-data.mjs";
@@ -92,6 +93,10 @@ const rows = [
       campsSectionTitle: "Camps & Clinics",
       campsSectionDescription:
         "Develop your skills with camps, clinics, and programs designed for every level.",
+      hittraxSectionEyebrow: "Now registering",
+      hittraxSectionTitle: "Upcoming HitTrax Leagues",
+      hittraxSectionDescription:
+        "Each league runs four weeks, followed by a single-elimination tournament.",
       lessonsSectionEyebrow: "Private instruction",
       lessonsSectionTitle: "Train with experienced coaches",
       lessonsSectionDescription:
@@ -107,6 +112,27 @@ const rows = [
         "Train year-round with HitTrax lessons, daily cage access, gym access, and priority scheduling. Choose a one-time payment or monthly installments — see membership details for full pricing.",
     },
     0,
+  ),
+  ...HITTRAX_LEAGUES.map((league, index) =>
+    item(
+      "hittrax_league",
+      league.slug,
+      league.title,
+      {
+        eyebrow: league.eyebrow,
+        ages: league.ages,
+        startDate: league.startDate.replace(/^League begins /i, ""),
+        schedule: league.schedule,
+        price: league.price,
+        registrationDeadline: league.registrationDeadline.replace(/^Registration deadline: /i, ""),
+        registerUrl: league.registerUrl,
+        flyerUrl: league.flyerUrl,
+        flyerAlt: league.flyerAlt,
+        featuredOnHomepage: "yes",
+        sortOrderDisplay: String(index + 1),
+      },
+      index + 1,
+    ),
   ),
   ...CAMPS.map((camp, index) =>
     item(

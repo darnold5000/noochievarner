@@ -41,6 +41,7 @@ alter table public.tenant_content_items add constraint tenant_content_items_cont
     'business_staff',
     'training_offering',
     'program',
+    'hittrax_league',
     'facility_section',
     'facility_stat',
     'homepage',

@@ -16,8 +16,10 @@ import { sortCampsByStartDate } from "@/lib/camp-sort";
 import { dataString, resolveCmsMediaUrl } from "@/lib/nvba-cms";
 import {
   getFeaturedHomeCamps,
+  getFeaturedHomeHitTraxLeagues,
   getFeaturedHomeLessons,
   getFeaturedHomeSponsors,
+  getHitTraxLeaguesSectionCopy,
   getFeaturedNvStarsHomePhotos,
   getHomepageContent,
   getNvStarsMainImage,
@@ -29,10 +31,11 @@ import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [homepageData, camps, featuredLessons, membership, sponsors, nvStarsFeatured, nvStarsMainImage, founder] =
+  const [homepageData, camps, hittraxLeagues, featuredLessons, membership, sponsors, nvStarsFeatured, nvStarsMainImage, founder] =
     await Promise.all([
     getHomepageContent(),
     getFeaturedHomeCamps(),
+    getFeaturedHomeHitTraxLeagues(),
     getFeaturedHomeLessons(),
     getPublicMembership(),
     getFeaturedHomeSponsors(),
@@ -60,6 +63,7 @@ export default async function HomePage() {
   const membershipTitle = homepageData ? dataString(homepageData, "membershipSectionTitle") : membership.name;
   const membershipDescription =
     homepageData ? dataString(homepageData, "membershipSectionDescription") : "Train year-round with HitTrax lessons, daily cage access, gym access, and priority scheduling. Choose a one-time payment or monthly installments — see membership details for full pricing.";
+  const hittraxSectionCopy = await getHitTraxLeaguesSectionCopy(homepageData ?? undefined);
 
   const homepageSponsors = sponsors;
 
@@ -94,7 +98,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <HomeHitTraxLeaguesSection />
+      <HomeHitTraxLeaguesSection leagues={hittraxLeagues} sectionCopy={hittraxSectionCopy} />
 
       <section className="border-t border-nv-navy/8 bg-white py-8 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
