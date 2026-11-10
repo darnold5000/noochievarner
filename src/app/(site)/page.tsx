@@ -6,6 +6,7 @@ import HomeNvStarsFeature from "@/components/HomeNvStarsFeature";
 import HomeCampProgramCard from "@/components/HomeCampProgramCard";
 import Hero, { HOME_HERO_IMAGE, heroContentFromData } from "@/components/Hero";
 import HomeFeaturedLessonCard from "@/components/HomeFeaturedLessonCard";
+import HomeHitTraxLeaguesSection from "@/components/HomeHitTraxLeaguesSection";
 import HomeSectionHeader from "@/components/HomeSectionHeader";
 import QuickActions from "@/components/QuickActions";
 import SponsorCard from "@/components/SponsorCard";
@@ -93,7 +94,9 @@ export default async function HomePage() {
         </div>
       </section>
 
-      <section className="border-t border-nv-navy/8 bg-nv-ice/80 py-8 sm:py-10">
+      <HomeHitTraxLeaguesSection />
+
+      <section className="border-t border-nv-navy/8 bg-white py-8 sm:py-10">
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <HomeSectionHeader
             eyebrow={lessonsEyebrow || "Private instruction"}
