@@ -70,10 +70,10 @@ export const FALLBACK_HITTRAX_LEAGUES: HitTraxLeague[] = [
     registrationDeadline: "",
     registerUrl:
       "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4143499",
-    registerCtaLabel: "Monthly payment",
+    registerCtaLabel: "Monthly payment option",
     secondaryRegisterUrl:
       "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4143496",
-    secondaryRegisterCtaLabel: "Full payment",
+    secondaryRegisterCtaLabel: "Full payment option",
     flyerSrc: "/images/leagues/homeschool-training.jpg",
     flyerAlt: "Homeschool Training with Noochie Varner — Noochie Varner Baseball Academy",
   },

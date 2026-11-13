@@ -724,17 +724,16 @@ export async function getPublicHitTraxLeagues(): Promise<HitTraxLeague[]> {
 export async function getFeaturedHomeHitTraxLeagues(): Promise<HitTraxLeague[]> {
   const leagues = await getPublicHitTraxLeagues();
   const state = await getPublicContentState("hittrax_league");
+  const managedSlugs = new Set(state.managedSlugs);
   const featuredSlugs = new Set(
     state.published
       .filter((item) => dataString(item.data, "featuredOnHomepage") !== "no")
       .map((item) => item.slug),
   );
 
-  if (state.published.length && featuredSlugs.size) {
-    return leagues.filter((league) => featuredSlugs.has(league.id));
-  }
+  if (!state.published.length || featuredSlugs.size === 0) return leagues;
 
-  return leagues;
+  return leagues.filter((league) => !managedSlugs.has(league.id) || featuredSlugs.has(league.id));
 }
 
 export type HitTraxLeaguesSectionCopy = {
