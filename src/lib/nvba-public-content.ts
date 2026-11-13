@@ -33,7 +33,6 @@ import {
   FOUNDER_TESTIMONIALS,
   FOUNDER_TESTIMONIALS_FLYER,
 } from "@/content/founder";
-import { isNvbaCmsConfigured } from "@/lib/nvba-config";
 import {
   dataString,
   dataStringList,
@@ -693,9 +692,13 @@ function hittraxLeagueFromItem(item: ContentItem): HitTraxLeague {
   };
 }
 
+const FALLBACK_REGISTRATION_ORDER = new Map(
+  FALLBACK_HITTRAX_LEAGUES.map((league, index) => [league.id, index + 1]),
+);
+
 function sortHittraxLeagues(a: HitTraxLeague, b: HitTraxLeague, orderBySlug: Map<string, number>) {
-  const orderA = orderBySlug.get(a.id) ?? 999;
-  const orderB = orderBySlug.get(b.id) ?? 999;
+  const orderA = orderBySlug.get(a.id) ?? FALLBACK_REGISTRATION_ORDER.get(a.id) ?? 999;
+  const orderB = orderBySlug.get(b.id) ?? FALLBACK_REGISTRATION_ORDER.get(b.id) ?? 999;
   return orderA - orderB || a.title.localeCompare(b.title);
 }
 
@@ -707,9 +710,11 @@ export async function getPublicHitTraxLeagues(): Promise<HitTraxLeague[]> {
       Number(dataString(item.data, "sortOrderDisplay")) || item.sort_order,
     ]),
   );
-  const cmsItems = state.published.map(hittraxLeagueFromItem).sort((a, b) => sortHittraxLeagues(a, b, orderBySlug));
+  const cmsItems = state.published.map(hittraxLeagueFromItem);
 
-  if (state.cmsManaged || isNvbaCmsConfigured()) return cmsItems;
+  if (state.cmsManaged) {
+    return cmsItems.sort((a, b) => sortHittraxLeagues(a, b, orderBySlug));
+  }
 
   const managed = new Set(state.managedSlugs);
   const fallback = FALLBACK_HITTRAX_LEAGUES.filter((league) => !managed.has(league.id));

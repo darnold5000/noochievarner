@@ -147,13 +147,47 @@ function HitTraxLeagueCard({
   compact?: boolean;
 }) {
   const hasFlyer = Boolean(league.flyerSrc);
-  const textColumnClass = compact
-    ? "flex min-h-0 min-w-0 flex-1 flex-col px-3 pb-3 pt-3 xl:max-w-[56%] xl:py-3 xl:pl-3 xl:pr-2"
-    : "flex min-h-0 min-w-0 flex-1 flex-col px-4 pt-4 md:max-w-[54%] md:py-4";
+
+  if (compact) {
+    return (
+      <article className="group flex h-full flex-col overflow-hidden rounded-xl border border-nv-navy/10 bg-white shadow-sm transition hover:-translate-y-0.5 hover:border-nv-blue/35 hover:shadow-md hover:shadow-nv-navy/10">
+        {hasFlyer ? (
+          <button
+            type="button"
+            onClick={() => onViewFlyer(league)}
+            className="w-full border-b border-nv-navy/8 p-1.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-nv-blue"
+            aria-label={`View full-size flyer for ${league.title}`}
+          >
+            <span className="relative mx-auto block aspect-[5/7] w-full max-h-[11.5rem] min-h-[9rem]">
+              <Image
+                src={league.flyerSrc}
+                alt=""
+                fill
+                className="object-contain object-center"
+                sizes="(max-width: 1024px) 50vw, 33vw"
+              />
+            </span>
+          </button>
+        ) : null}
+
+        <div className="flex flex-1 flex-col px-3 pb-3 pt-2.5">
+          <p className="text-[10px] font-bold uppercase tracking-[0.14em] text-nv-blue">{league.eyebrow}</p>
+          <h3 className="mt-0.5 font-display text-sm font-bold leading-tight tracking-wide text-nv-navy">
+            {league.title}
+          </h3>
+          {league.ages ? <p className="mt-0.5 text-[0.7rem] font-semibold text-zinc-600">{league.ages}</p> : null}
+          <LeagueDetails league={league} />
+          <div className="mt-auto">
+            <CardActions league={league} hasFlyer={hasFlyer} onViewFlyer={onViewFlyer} compact />
+          </div>
+        </div>
+      </article>
+    );
+  }
 
   return (
     <article className={cardShell}>
-      <div className={textColumnClass}>
+      <div className="flex min-h-0 min-w-0 flex-1 flex-col px-4 pt-4 md:max-w-[54%] md:py-4">
         <span className="inline-flex h-8 w-8 items-center justify-center rounded-lg bg-nv-blue/10 text-nv-blue">
           <Trophy className="h-3.5 w-3.5" strokeWidth={2} aria-hidden />
         </span>
@@ -167,15 +201,15 @@ function HitTraxLeagueCard({
         <LeagueDetails league={league} />
 
         <div className="mt-auto hidden xl:block">
-          <CardActions league={league} hasFlyer={hasFlyer} onViewFlyer={onViewFlyer} compact={compact} />
+          <CardActions league={league} hasFlyer={hasFlyer} onViewFlyer={onViewFlyer} />
         </div>
       </div>
 
-      <FlyerPreview league={league} onViewFlyer={onViewFlyer} layout="mobile" compact={compact} />
-      <FlyerPreview league={league} onViewFlyer={onViewFlyer} layout="desktop" compact={compact} />
+      <FlyerPreview league={league} onViewFlyer={onViewFlyer} layout="mobile" />
+      <FlyerPreview league={league} onViewFlyer={onViewFlyer} layout="desktop" />
 
       <div className="mt-auto px-3 pb-3 xl:hidden">
-        <CardActions league={league} hasFlyer={hasFlyer} onViewFlyer={onViewFlyer} compact={compact} />
+        <CardActions league={league} hasFlyer={hasFlyer} onViewFlyer={onViewFlyer} />
       </div>
     </article>
   );
@@ -220,7 +254,7 @@ export default function HomeHitTraxLeagueCards({ leagues }: { leagues: HitTraxLe
 
   return (
     <>
-      <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:gap-4 md:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-6 grid grid-cols-1 items-stretch gap-3 sm:gap-4 md:grid-cols-2 lg:grid-cols-3">
         {leagues.map((league) => (
           <HitTraxLeagueCard key={league.id} league={league} onViewFlyer={setFlyerLeague} compact={compact} />
         ))}
