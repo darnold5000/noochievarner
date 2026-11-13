@@ -313,14 +313,14 @@ export default async function AdminSectionPage({ params, searchParams }: { param
       {section === "hittrax-leagues" ? (
         <div className="mt-5 space-y-2 text-sm text-zinc-600">
           <p>
-            Only leagues saved here control the homepage. Add each league once (or run{" "}
-            <code className="rounded bg-zinc-100 px-1 py-0.5 text-xs">npm run db:seed-cms</code> to insert the
-            current defaults), then edit, unpublish, or delete as needed.
+            Cards saved here appear in the homepage Now Registering section. Run{" "}
+            <code className="rounded bg-zinc-100 px-1 py-0.5 text-xs">npm run db:seed-cms</code> to insert defaults,
+            or use + Add. Use a secondary registration URL for two payment options (e.g. monthly and full).
           </p>
           <p>
-            Homepage section headline and intro copy:{" "}
+            Section headline and intro:{" "}
             <Link href="/admin/homepage" className="font-semibold text-nv-blue hover:underline">
-              Homepage → HitTrax section fields
+              Homepage → Now registering fields
             </Link>
             .
           </p>

@@ -3,7 +3,6 @@ import Link from "next/link";
 import HomeFounderSection from "@/components/HomeFounderSection";
 import HomeTestimonialsSection from "@/components/HomeTestimonialsSection";
 import HomeNvStarsFeature from "@/components/HomeNvStarsFeature";
-import HomeCampProgramCard from "@/components/HomeCampProgramCard";
 import Hero, { HOME_HERO_IMAGE, heroContentFromData } from "@/components/Hero";
 import HomeFeaturedLessonCard from "@/components/HomeFeaturedLessonCard";
 import HomeHitTraxLeaguesSection from "@/components/HomeHitTraxLeaguesSection";
@@ -12,10 +11,8 @@ import QuickActions from "@/components/QuickActions";
 import SponsorCard from "@/components/SponsorCard";
 import { LESSON_BOOKING_HREFS } from "@/config/schedule";
 import { SITE } from "@/content/site";
-import { sortCampsByStartDate } from "@/lib/camp-sort";
 import { dataString, resolveCmsMediaUrl } from "@/lib/nvba-cms";
 import {
-  getFeaturedHomeCamps,
   getFeaturedHomeHitTraxLeagues,
   getFeaturedHomeLessons,
   getFeaturedHomeSponsors,
@@ -31,10 +28,9 @@ import { btnOnDark, btnOutline, btnPrimary } from "@/lib/styles";
 export const revalidate = 60;
 
 export default async function HomePage() {
-  const [homepageData, camps, hittraxLeagues, featuredLessons, membership, sponsors, nvStarsFeatured, nvStarsMainImage, founder] =
+  const [homepageData, hittraxLeagues, featuredLessons, membership, sponsors, nvStarsFeatured, nvStarsMainImage, founder] =
     await Promise.all([
     getHomepageContent(),
-    getFeaturedHomeCamps(),
     getFeaturedHomeHitTraxLeagues(),
     getFeaturedHomeLessons(),
     getPublicMembership(),
@@ -44,11 +40,7 @@ export default async function HomePage() {
     getPublicFounderContent(),
   ]);
 
-  const sortedCamps = sortCampsByStartDate(camps);
   const heroContent = heroContentFromData(homepageData ?? undefined);
-  const campsEyebrow = homepageData ? dataString(homepageData, "campsSectionEyebrow") : "";
-  const campsTitle = homepageData ? dataString(homepageData, "campsSectionTitle") : "";
-  const campsDescription = homepageData ? dataString(homepageData, "campsSectionDescription") : "";
   const lessonsEyebrow = homepageData ? dataString(homepageData, "lessonsSectionEyebrow") : "";
   const lessonsTitle = homepageData ? dataString(homepageData, "lessonsSectionTitle") : "";
   const lessonsDescription = homepageData ? dataString(homepageData, "lessonsSectionDescription") : "";
@@ -79,24 +71,6 @@ export default async function HomePage() {
 
       <HomeFounderSection founder={founder} />
       <HomeTestimonialsSection founder={founder} />
-
-      <section className="bg-white py-8 sm:py-10">
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
-          <HomeSectionHeader
-            eyebrow={campsEyebrow || "Now registering"}
-            title={campsTitle || "Camps & Clinics"}
-            description={
-              campsDescription || "Develop your skills with camps, clinics, and programs designed for every level."
-            }
-            actionHref="/camps"
-          />
-          <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-4">
-            {sortedCamps.map((camp) => (
-              <HomeCampProgramCard key={camp.slug} offering={camp} href={`/camps/${camp.slug}`} />
-            ))}
-          </div>
-        </div>
-      </section>
 
       <HomeHitTraxLeaguesSection leagues={hittraxLeagues} sectionCopy={hittraxSectionCopy} />
 

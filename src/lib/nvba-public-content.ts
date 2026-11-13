@@ -2,7 +2,7 @@ import type { BookingKey } from "@/config/booking";
 import { bookingUrl } from "@/config/booking";
 import { COACHES, type Coach } from "@/config/schedule";
 import {
-  DEFAULT_HITTRAX_LEAGUES_FORMAT,
+  DEFAULT_REGISTRATIONS_SECTION_DESCRIPTION,
   FALLBACK_HITTRAX_LEAGUES,
   type HitTraxLeague,
 } from "@/content/hittrax-leagues";
@@ -676,14 +676,18 @@ function hittraxLeagueFromItem(item: ContentItem): HitTraxLeague {
   const data = item.data;
   return {
     id: item.slug,
-    eyebrow: dataString(data, "eyebrow") || "HitTrax",
+    eyebrow: dataString(data, "eyebrow") || "Registration",
     title: item.title,
     ages: dataString(data, "ages"),
     startDate: dataString(data, "startDate"),
     schedule: dataString(data, "schedule"),
     price: dataString(data, "price"),
+    secondaryPrice: dataString(data, "secondaryPrice"),
     registrationDeadline: dataString(data, "registrationDeadline"),
     registerUrl: dataString(data, "registerUrl"),
+    registerCtaLabel: dataString(data, "registerCtaLabel") || "Register now",
+    secondaryRegisterUrl: dataString(data, "secondaryRegisterUrl"),
+    secondaryRegisterCtaLabel: dataString(data, "secondaryRegisterCtaLabel") || "Full payment",
     flyerSrc: resolveCmsMediaUrl(data, "flyerUrl", ""),
     flyerAlt: dataString(data, "flyerAlt") || `${item.title} — Noochie Varner Baseball Academy`,
   };
@@ -747,7 +751,7 @@ export async function getHitTraxLeaguesSectionCopy(
 export function resolveHitTraxLeaguesSectionCopy(copy: HitTraxLeaguesSectionCopy): Required<HitTraxLeaguesSectionCopy> {
   return {
     eyebrow: copy.eyebrow || "Now registering",
-    title: copy.title || "Upcoming HitTrax Leagues",
-    description: copy.description || DEFAULT_HITTRAX_LEAGUES_FORMAT,
+    title: copy.title || "Now Registering",
+    description: copy.description || DEFAULT_REGISTRATIONS_SECTION_DESCRIPTION,
   };
 }

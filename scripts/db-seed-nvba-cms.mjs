@@ -94,9 +94,9 @@ const rows = [
       campsSectionDescription:
         "Develop your skills with camps, clinics, and programs designed for every level.",
       hittraxSectionEyebrow: "Now registering",
-      hittraxSectionTitle: "Upcoming HitTrax Leagues",
+      hittraxSectionTitle: "Now Registering",
       hittraxSectionDescription:
-        "Each league runs four weeks, followed by a single-elimination tournament.",
+        "Programs and leagues open for registration through EZFacility.",
       lessonsSectionEyebrow: "Private instruction",
       lessonsSectionTitle: "Train with experienced coaches",
       lessonsSectionDescription:
@@ -124,8 +124,12 @@ const rows = [
         startDate: league.startDate.replace(/^League begins /i, ""),
         schedule: league.schedule,
         price: league.price,
-        registrationDeadline: league.registrationDeadline.replace(/^Registration deadline: /i, ""),
+        secondaryPrice: league.secondaryPrice ?? "",
+        registrationDeadline: (league.registrationDeadline ?? "").replace(/^Registration deadline: /i, ""),
         registerUrl: league.registerUrl,
+        registerCtaLabel: league.registerCtaLabel ?? "Register now",
+        secondaryRegisterUrl: league.secondaryRegisterUrl ?? "",
+        secondaryRegisterCtaLabel: league.secondaryRegisterCtaLabel ?? "",
         flyerUrl: league.flyerUrl,
         flyerAlt: league.flyerAlt,
         featuredOnHomepage: "yes",

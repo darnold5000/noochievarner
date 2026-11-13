@@ -41,6 +41,7 @@ export const HITTRAX_LEAGUES = [
     registrationDeadline: "Nov. 18",
     registerUrl:
       "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4141789",
+    registerCtaLabel: "Register now",
     flyerUrl: "/images/leagues/hittrax-7u-8u-coach-pitch.jpg",
     flyerAlt: "HitTrax 7U–8U Coach Pitch League flyer — Noochie Varner Baseball Academy",
   },
@@ -55,8 +56,29 @@ export const HITTRAX_LEAGUES = [
     registrationDeadline: "Nov. 18",
     registerUrl:
       "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4141853",
+    registerCtaLabel: "Register now",
     flyerUrl: "/images/leagues/hittrax-9u-10u-baseball.jpg",
     flyerAlt: "HitTrax 9U–10U Baseball League flyer — Noochie Varner Baseball Academy",
+    registerCtaLabel: "Register now",
+  },
+  {
+    slug: "homeschool-training",
+    title: "Homeschool Training with Noochie Varner",
+    eyebrow: "Homeschool training",
+    ages: "Only the first 6 to sign up",
+    startDate: "November 30, 2026 – February 25, 2027",
+    schedule: "Mon., Wed. & Thu. · 10:00 a.m.–2:00 p.m. (no training Thu., Dec. 24)",
+    price: "$899 per month",
+    secondaryPrice: "$2,100 full program (38 days)",
+    registrationDeadline: "",
+    registerUrl:
+      "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4143499",
+    registerCtaLabel: "Monthly payment",
+    secondaryRegisterUrl:
+      "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4143496",
+    secondaryRegisterCtaLabel: "Full payment",
+    flyerUrl: "/images/leagues/homeschool-training.jpg",
+    flyerAlt: "Homeschool Training with Noochie Varner — Noochie Varner Baseball Academy",
   },
 ];
 
