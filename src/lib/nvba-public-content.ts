@@ -711,11 +711,6 @@ export async function getPublicHitTraxLeagues(): Promise<HitTraxLeague[]> {
     ]),
   );
   const cmsItems = state.published.map(hittraxLeagueFromItem);
-
-  if (state.cmsManaged) {
-    return cmsItems.sort((a, b) => sortHittraxLeagues(a, b, orderBySlug));
-  }
-
   const managed = new Set(state.managedSlugs);
   const fallback = FALLBACK_HITTRAX_LEAGUES.filter((league) => !managed.has(league.id));
   return [...cmsItems, ...fallback].sort((a, b) => sortHittraxLeagues(a, b, orderBySlug));
