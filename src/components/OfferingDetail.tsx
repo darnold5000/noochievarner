@@ -2,7 +2,7 @@ import Image from "next/image";
 import Link from "next/link";
 import PageIntro from "@/components/PageIntro";
 import SiteLink from "@/components/SiteLink";
-import { campRegisterHref } from "@/config/schedule";
+import { offeringRegisterHref } from "@/config/schedule";
 import type { Offering } from "@/content/site";
 import { btnOutline, btnPrimary } from "@/lib/styles";
 
@@ -15,7 +15,7 @@ export default function OfferingDetail({
   backHref: string;
   backLabel: string;
 }) {
-  const registerHref = campRegisterHref(offering.bookingKey);
+  const registerHref = offeringRegisterHref(offering);
   const facts = [
     ["Ages", offering.ages],
     ["Dates", offering.dates],

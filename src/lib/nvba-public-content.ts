@@ -1,6 +1,6 @@
 import type { BookingKey } from "@/config/booking";
 import { bookingUrl } from "@/config/booking";
-import { COACHES, type Coach } from "@/config/schedule";
+import { campRegisterHref, COACHES, type Coach } from "@/config/schedule";
 import {
   DEFAULT_REGISTRATIONS_SECTION_DESCRIPTION,
   FALLBACK_HITTRAX_LEAGUES,
@@ -47,6 +47,7 @@ function programToOffering(item: ContentItem): Offering {
   const data = item.data;
   const bookingKey = dataString(data, "bookingKey") as BookingKey;
   const registrationEnabled = dataString(data, "registrationEnabled") !== "no";
+  const registerUrlFromCms = dataString(data, "registerUrl");
   let sections: Offering["sections"];
   const sectionsJson = dataString(data, "sectionsJson");
   if (sectionsJson) {
@@ -71,6 +72,12 @@ function programToOffering(item: ContentItem): Offering {
     limit: dataString(data, "capacity") || undefined,
     details: dataStringList(data, "details").length ? dataStringList(data, "details") : dataStringList(data, "trainingTopics"),
     sections,
+    registerUrl:
+      registrationEnabled && registerUrlFromCms
+        ? registerUrlFromCms
+        : registrationEnabled && bookingKey
+          ? campRegisterHref(bookingKey) ?? undefined
+          : undefined,
     bookingKey: registrationEnabled && bookingKey ? bookingKey : undefined,
     cta: dataString(data, "cta") || "Register",
     image: dataString(data, "flyerUrl") || undefined,

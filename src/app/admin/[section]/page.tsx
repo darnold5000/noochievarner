@@ -61,7 +61,12 @@ function itemImage(item: ContentItem) {
 function itemDetails(item: ContentItem) {
   const data = item.data;
   if (item.content_type === "program") {
-    return [dataString(data, "eyebrow"), dataString(data, "dates"), dataString(data, "price")].filter(Boolean);
+    return [
+      dataString(data, "eyebrow"),
+      dataString(data, "dates"),
+      dataString(data, "price"),
+      dataString(data, "registerUrl") ? "Registration link set" : "No registration link",
+    ].filter(Boolean);
   }
   if (item.content_type === "hittrax_league") {
     return [
@@ -436,24 +441,15 @@ function friendlyError(code: string) {
 }
 
 function AdminForm({ action, definition, item, cancelHref }: { action: (formData: FormData) => void | Promise<void>; definition: (typeof adminSections)[string]; item?: ContentItem; cancelHref: string }) {
-  const normalFields = definition.fields.filter((field) => !field.advanced);
-  const advancedFields = definition.fields.filter((field) => field.advanced);
   return (
     <AdminFormShell action={action}>
       <input type="hidden" name="id" value={item?.id ?? ""} />
       {!definition.singleton && !definition.deriveTitleFrom ? <FieldLabel label={`${definition.titleLabel} *`}><input required name="title" defaultValue={item?.title ?? ""} className="admin-input" /></FieldLabel> : null}
-      {normalFields.map((field) => <AdminFieldControl key={field.key} field={field} data={item?.data ?? {}} />)}
+      {definition.fields.map((field) => <AdminFieldControl key={field.key} field={field} data={item?.data ?? {}} />)}
       <div className="flex items-center justify-between gap-4 border border-gunmetal bg-barn-sand p-4">
         <span><span className="block font-semibold text-barn-navy">Show on Website</span><span className="mt-1 block text-xs text-stone">{item?.published === false ? "Hidden from public website" : "Visible on website"}</span></span>
         <VisibilityToggle defaultChecked={item?.published ?? true} />
       </div>
-      {advancedFields.length ? (
-        <details className="border border-gunmetal bg-barn-sand p-4">
-          <summary className="cursor-pointer font-semibold text-barn-navy">Advanced Settings</summary>
-          <p className="mt-2 text-xs text-stone">Most staff members will not need these fields.</p>
-          <div className="mt-5 space-y-5">{advancedFields.map((field) => <AdminFieldControl key={field.key} field={field} data={item?.data ?? {}} />)}</div>
-        </details>
-      ) : null}
       <div className="flex flex-col-reverse gap-3 border-t border-gunmetal pt-5 sm:flex-row sm:justify-end">
         <Link href={cancelHref} className="inline-flex min-h-11 items-center justify-center border border-gunmetal px-5 py-3 text-sm font-semibold text-barn-navy hover:border-gold">Cancel</Link>
         <AdminSubmitButton />

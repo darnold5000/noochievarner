@@ -294,6 +294,13 @@ export function campRegisterHref(bookingKey?: string) {
   return null;
 }
 
+/** Register link for a camp/clinic — prefers CMS URL, then legacy booking key. */
+export function offeringRegisterHref(offering: { registerUrl?: string; bookingKey?: string }) {
+  const url = offering.registerUrl?.trim();
+  if (url) return url;
+  return campRegisterHref(offering.bookingKey) ?? null;
+}
+
 function weeklyDates(start: string, end: string, weekday: number) {
   const dates: string[] = [];
   const cursor = parseISODate(start);

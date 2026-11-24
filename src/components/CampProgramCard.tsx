@@ -1,12 +1,12 @@
 import Link from "next/link";
 import SiteLink from "@/components/SiteLink";
-import { campRegisterHref } from "@/config/schedule";
+import { offeringRegisterHref } from "@/config/schedule";
 import type { Offering } from "@/content/site";
 import { btnOutline, btnPrimary } from "@/lib/styles";
 
 /** Text-focused program card for the /camps catalog (no flyer images). */
 export default function CampProgramCard({ offering, href }: { offering: Offering; href: string }) {
-  const registerHref = campRegisterHref(offering.bookingKey);
+  const registerHref = offeringRegisterHref(offering);
 
   return (
     <article className="flex h-full flex-col rounded-2xl border border-nv-navy/10 bg-white p-5 shadow-md shadow-nv-navy/5 sm:p-6">

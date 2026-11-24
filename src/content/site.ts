@@ -94,6 +94,8 @@ export type Offering = {
   limit?: string;
   details: string[];
   sections?: { title: string; items: string[] }[];
+  /** EZFacility (or other) registration URL from CMS. */
+  registerUrl?: string;
   bookingKey?: BookingKey;
   cta: string;
   image?: string;

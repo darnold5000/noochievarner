@@ -113,7 +113,8 @@ export const CAMPS = [
         ],
       },
     ],
-    bookingKey: "pitchingClinic",
+    registerUrl:
+      "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=3990935",
     cta: "Register",
     image: "/images/flyers/pitching-clinic.jpg",
   },
@@ -136,7 +137,8 @@ export const CAMPS = [
       "HitTrax metrics tracked through the clinic: exit velocity, launch angle, distance, point of impact, and projected play outcomes.",
       "The academy states this annual clinic has helped players increase exit velocity over the past five years.",
     ],
-    bookingKey: "batSpeed",
+    registerUrl:
+      "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4111214",
     cta: "Register",
     image: "/images/flyers/batspeed.jpg",
   },
@@ -187,7 +189,8 @@ export const CAMPS = [
         ],
       },
     ],
-    bookingKey: "rookie",
+    registerUrl:
+      "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4112505",
     cta: "Register",
     image: "/images/flyers/rookie.jpg",
   },
@@ -209,7 +212,8 @@ export const CAMPS = [
       "Every player is a winner. The league is also a chance to make friends.",
       "Season contact: DJ Lemons, (859) 588-9521.",
     ],
-    bookingKey: "teeBall",
+    registerUrl:
+      "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=4115723",
     cta: "Register",
     image: "/images/flyers/teeball.jpg",
   },

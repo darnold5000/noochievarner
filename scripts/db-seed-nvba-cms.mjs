@@ -155,7 +155,7 @@ const rows = [
         price: camp.price,
         capacity: camp.limit,
         instructor: camp.instructor,
-        bookingKey: camp.bookingKey,
+        registerUrl: camp.registerUrl,
         cta: camp.cta,
         registrationEnabled: "yes",
         featuredOnHomepage: "yes",

@@ -10,7 +10,6 @@ export type AdminField = {
   help?: string;
   accept?: string;
   targetKey?: string;
-  advanced?: boolean;
   options?: readonly AdminOption[];
 };
 
@@ -112,8 +111,6 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "membershipSectionEyebrow", label: "Membership section eyebrow" },
       { key: "membershipSectionTitle", label: "Membership section title" },
       { key: "membershipSectionDescription", label: "Membership section description", kind: "textarea" },
-      { key: "heroImageUrl", label: "External hero image URL", kind: "url", advanced: true },
-      { key: "facilitySectionImageUrl", label: "External facility image URL", kind: "url", advanced: true },
     ],
   },
   camps: {
@@ -122,7 +119,7 @@ export const adminSections: Record<string, AdminSection> = {
     singular: "Program",
     titleLabel: "Program name",
     allowDuplicate: true,
-    description: "Add, edit, duplicate, hide, or archive camps and clinics. Registration links stay connected to EZFacility.",
+    description: "Add, edit, duplicate, hide, or archive camps and clinics. Paste the EZFacility registration link for the Register button.",
     emptyText: "No programs yet. Add your first camp or clinic.",
     fields: [
       { key: "eyebrow", label: "Category / eyebrow", placeholder: "Pitching clinic" },
@@ -142,11 +139,12 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "includedBenefits", label: "Included benefits", kind: "string-list" },
       { key: "flyerFile", targetKey: "flyerUrl", label: "Promotional flyer", kind: "file", accept: "image/jpeg,image/png,image/webp" },
       {
-        key: "bookingKey",
-        label: "Registration destination",
-        kind: "select",
-        options: bookingKeyOptions,
-        help: "Connects the Register button to the existing EZFacility registration URL.",
+        key: "registerUrl",
+        label: "Registration link (Register button)",
+        kind: "url",
+        help: "Full EZFacility online registration link from TMS (CompanyID and GroupID in the URL).",
+        placeholder:
+          "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=...",
       },
       { key: "cta", label: "Button label", placeholder: "Register" },
       { key: "registrationEnabled", label: "Registration enabled", kind: "select", options: [
@@ -158,12 +156,6 @@ export const adminSections: Record<string, AdminSection> = {
         { label: "No", value: "no" },
       ] },
       { key: "sortOrderDisplay", label: "Display order", kind: "number", help: "Lower numbers appear first." },
-      { key: "flyerUrl", label: "External flyer URL", kind: "url", advanced: true },
-      { key: "sectionsJson", label: "Structured sections (JSON)", kind: "textarea", advanced: true, help: "Optional JSON array for program detail sections." },
-      { key: "archiveOnly", label: "Archive only (block delete)", kind: "select", advanced: true, options: [
-        { label: "No", value: "no" },
-        { label: "Yes — has registrations", value: "yes" },
-      ] },
     ],
   },
   "hittrax-leagues": {
@@ -213,7 +205,6 @@ export const adminSections: Record<string, AdminSection> = {
         ],
       },
       { key: "sortOrderDisplay", label: "Display order", kind: "number", help: "Lower numbers appear first." },
-      { key: "flyerUrl", label: "External flyer URL", kind: "url", advanced: true },
     ],
   },
   "lessons-instructors": {
@@ -241,7 +232,6 @@ export const adminSections: Record<string, AdminSection> = {
         { label: "No", value: "no" },
       ] },
       { key: "sortOrderDisplay", label: "Display order", kind: "number" },
-      { key: "photoUrl", label: "External photo URL", kind: "url", advanced: true },
     ],
   },
   lessons: {
@@ -267,7 +257,6 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "focusAreas", label: "Focus areas", kind: "string-list" },
       { key: "imageFile", targetKey: "imageUrl", label: "Photo", kind: "file", accept: "image/jpeg,image/png,image/webp" },
       { key: "sortOrderDisplay", label: "Display order", kind: "number" },
-      { key: "imageUrl", label: "External image URL", kind: "url", advanced: true },
     ],
   },
   memberships: {
@@ -292,7 +281,6 @@ export const adminSections: Record<string, AdminSection> = {
         { label: "No", value: "no" },
       ] },
       { key: "enrollmentNote", label: "Enrollment availability note", kind: "textarea" },
-      { key: "imageUrl", label: "External image URL", kind: "url", advanced: true },
     ],
   },
   services: {
@@ -316,7 +304,6 @@ export const adminSections: Record<string, AdminSection> = {
         { label: "Yes", value: "yes" },
       ] },
       { key: "sortOrderDisplay", label: "Display order", kind: "number" },
-      { key: "imageUrl", label: "External image URL", kind: "url", advanced: true },
     ],
   },
   "services-intro": {
@@ -331,7 +318,6 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "servicesIntro", label: "Introductory text", kind: "textarea" },
       { key: "facilityImageFile", targetKey: "facilityImageUrl", label: "Facility image", kind: "file", accept: "image/jpeg,image/png,image/webp" },
       { key: "facilityImageAlt", label: "Facility image alt text" },
-      { key: "facilityImageUrl", label: "External image URL", kind: "url", advanced: true },
     ],
   },
   "about-facility": {
@@ -347,12 +333,9 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "introTitle", label: "Page title", placeholder: "About the Academy" },
       { key: "introText", label: "Introduction", kind: "textarea" },
       { key: "storyParagraphs", label: "About page paragraphs", kind: "string-list", help: "One paragraph per line." },
-      { key: "story", label: "Academy story (legacy single field)", kind: "textarea", advanced: true },
       { key: "mission", label: "Mission", kind: "textarea" },
-      { key: "ownerBio", label: "Owner biography (legacy)", kind: "textarea", advanced: true },
       { key: "founderHomeSummary", label: "Founder homepage summary", kind: "textarea", help: "About 80 words for the homepage Meet Noochie section." },
       { key: "founderCareerPosterFile", targetKey: "founderCareerPosterUrl", label: "Founder main image (homepage & about bio)", kind: "file", accept: "image/jpeg,image/png,image/webp" },
-      { key: "founderPhotoFile", targetKey: "founderPhotoUrl", label: "Optional portrait photo (not used on homepage)", kind: "file", accept: "image/jpeg,image/png,image/webp", advanced: true },
       { key: "founderTestimonialsFlyerFile", targetKey: "founderTestimonialsFlyerUrl", label: "Testimonials flyer (lightbox)", kind: "file", accept: "image/jpeg,image/png,image/webp" },
       { key: "testimonialBradQuote", label: "Testimonial — Brad Shelton quote", kind: "textarea" },
       { key: "testimonialBradName", label: "Testimonial — Brad Shelton name", placeholder: "Brad Shelton" },
@@ -360,9 +343,6 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "testimonialMacQuote", label: "Testimonial — Mac Whitaker quote", kind: "textarea" },
       { key: "testimonialMacName", label: "Testimonial — Mac Whitaker name", placeholder: "Mac Whitaker" },
       { key: "testimonialMacTitle", label: "Testimonial — Mac Whitaker title", kind: "textarea" },
-      { key: "founderPhotoUrl", label: "External founder photo URL", kind: "url", advanced: true },
-      { key: "founderCareerPosterUrl", label: "External career poster URL", kind: "url", advanced: true },
-      { key: "founderTestimonialsFlyerUrl", label: "External testimonials flyer URL", kind: "url", advanced: true },
       { key: "facilityDescription", label: "Facility description", kind: "textarea" },
       { key: "squareFootage", label: "Square footage", placeholder: "16,000 sq. ft." },
       { key: "infieldArea", label: "Infield / training area note" },
@@ -373,8 +353,6 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "mainImageFile", targetKey: "mainImageUrl", label: "Main facility image", kind: "file", accept: "image/jpeg,image/png,image/webp" },
       { key: "secondaryImageFile", targetKey: "secondaryImageUrl", label: "Secondary facility image", kind: "file", accept: "image/jpeg,image/png,image/webp" },
       { key: "facilityVideoUrl", label: "Facility video URL", kind: "url" },
-      { key: "mainImageUrl", label: "External main image URL", kind: "url", advanced: true },
-      { key: "secondaryImageUrl", label: "External secondary image URL", kind: "url", advanced: true },
     ],
   },
   "facility-features": {
@@ -446,7 +424,6 @@ export const adminSections: Record<string, AdminSection> = {
         { label: "Yes", value: "yes" },
       ], help: "Shows on homepage NV Stars feature when category is NV Stars — Team photo." },
       { key: "sortOrderDisplay", label: "Display order", kind: "number" },
-      { key: "photoUrl", label: "External photo URL", kind: "url", advanced: true },
     ],
   },
   news: {
@@ -462,7 +439,6 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "publicationDate", label: "Publication date", kind: "date" },
       { key: "featuredImageFile", targetKey: "featuredImageUrl", label: "Featured image", kind: "file", accept: "image/jpeg,image/png,image/webp" },
       { key: "sortOrderDisplay", label: "Display order", kind: "number" },
-      { key: "featuredImageUrl", label: "External image URL", kind: "url", advanced: true },
     ],
   },
   sponsors: {
@@ -482,7 +458,6 @@ export const adminSections: Record<string, AdminSection> = {
         { label: "No", value: "no" },
       ] },
       { key: "sortOrderDisplay", label: "Display order", kind: "number" },
-      { key: "logoUrl", label: "External logo URL", kind: "url", advanced: true },
     ],
   },
   settings: {
@@ -508,7 +483,6 @@ export const adminSections: Record<string, AdminSection> = {
       { key: "youtube", label: "YouTube", kind: "url" },
       { key: "x", label: "X", kind: "url" },
       { key: "logoFile", targetKey: "logoUrl", label: "Logo image", kind: "file", accept: "image/jpeg,image/png,image/webp" },
-      { key: "logoUrl", label: "External logo URL", kind: "url", advanced: true },
     ],
   },
 };
