@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useId, useRef, useState } from "react";
-import { bookTrainingHref, bookingUrl } from "@/config/booking";
+import { bookTrainingHref } from "@/config/booking";
 import SiteLink from "@/components/SiteLink";
 import {
   ACADEMY_LINKS,
@@ -208,12 +208,6 @@ export default function Header({ branding }: { branding?: SiteBranding }) {
         </nav>
 
         <div className="ml-auto flex shrink-0 items-center gap-2 xl:ml-3">
-          <a
-            href={bookingUrl("login")}
-            className="hidden text-xs font-bold uppercase tracking-wide text-nv-silver transition hover:text-white sm:inline xl:text-sm"
-          >
-            Sign In
-          </a>
           <SiteLink href={bookTrainingHref()} className={`${btnOnDark} px-3 py-2 text-xs sm:px-4 sm:py-2.5 sm:text-sm`}>
             Book Now
           </SiteLink>
@@ -269,13 +263,6 @@ export default function Header({ branding }: { branding?: SiteBranding }) {
             <SiteLink href={bookTrainingHref()} onClick={close} className={btnOnDark}>
               Book Now
             </SiteLink>
-            <a
-              href={bookingUrl("login")}
-              onClick={close}
-              className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/20 text-sm font-bold uppercase tracking-wide text-nv-silver hover:text-white"
-            >
-              Sign In
-            </a>
           </div>
           <p className="mt-4 px-1 text-xs text-nv-silver">{addressLine}</p>
         </nav>

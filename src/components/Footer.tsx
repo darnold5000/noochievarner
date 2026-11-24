@@ -1,6 +1,6 @@
 import Link from "next/link";
 import SiteLink from "@/components/SiteLink";
-import { bookTrainingHref, bookingUrl } from "@/config/booking";
+import { bookTrainingHref } from "@/config/booking";
 import { FOOTER_MORE_LINKS, NAV, SITE } from "@/content/site";
 import type { SiteBranding } from "@/lib/nvba-public-content";
 
@@ -62,11 +62,6 @@ export default function Footer({ branding }: { branding?: SiteBranding }) {
               <SiteLink className="hover:text-white" href={bookTrainingHref()}>
                 Book Now
               </SiteLink>
-            </li>
-            <li>
-              <a className="hover:text-white" href={bookingUrl("login")}>
-                Sign In
-              </a>
             </li>
             <li>
               <Link className="hover:text-white" href="/login">

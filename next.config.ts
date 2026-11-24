@@ -12,6 +12,10 @@ function supabaseStorageImagePatterns(): NonNullable<NextConfig["images"]>["remo
 }
 
 const nextConfig: NextConfig = {
+  experimental: {
+    // Camp/gallery flyers upload via Server Actions; app allows up to 10 MB per file.
+    serverActions: { bodySizeLimit: "11mb" },
+  },
   images: {
     remotePatterns: supabaseStorageImagePatterns(),
   },
