@@ -142,7 +142,6 @@ export const adminSections: Record<string, AdminSection> = {
         key: "registerUrl",
         label: "Registration link (Register button)",
         kind: "url",
-        help: "Full EZFacility online registration link from TMS (CompanyID and GroupID in the URL).",
         placeholder:
           "https://tms.ezfacility.com/OnlineRegistrations/Register.aspx?CompanyID=5559&GroupID=...",
       },
